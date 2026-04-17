@@ -50,7 +50,7 @@ function NewsArticle() {
       </h1>
 
       <div className="mt-6 space-y-4 leading-relaxed text-foreground/90">
-        {item.body.split(". ").filter(Boolean).map((p, i) => (
+        {item.body.split(". ").filter(Boolean).map((p: string, i: number) => (
           <p key={i} className="text-base">{p.trim()}{p.endsWith(".") ? "" : "."}</p>
         ))}
       </div>
