@@ -68,14 +68,6 @@
   --color-gray-700: var(--gray-700);
   --color-gray-900: var(--gray-900);
 
-  /* Aliases */
-  --color-gold: var(--warning-500);
-  --color-gold-foreground: var(--gray-900);
-  --color-cyan: var(--brand-500);
-  --color-magenta: var(--brand-600);
-  --color-navy: var(--indigo-900);
-  --color-ink: var(--gray-900);
-
   --color-success-500: var(--success-500);
   --color-success-600: var(--success-600);
   --color-warning-500: var(--warning-500);

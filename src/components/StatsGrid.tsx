@@ -93,7 +93,7 @@ function HistoricalCompare() {
             <div key={h.name}>
               <div className="mb-1.5 flex items-baseline justify-between">
                 <span className="font-mono text-xs font-semibold text-foreground">{h.name}</span>
-                <span className={`tabular-nums font-display text-2xl ${positive ? "text-cyan" : "text-primary"}`}>
+                <span className={`tabular-nums font-display text-2xl ${positive ? "text-success-600" : "text-brand-600"}`}>
                   {positive ? "+" : ""}{delta.toFixed(1)}
                 </span>
               </div>
