@@ -17,7 +17,7 @@ export function MicroNews({ limit = 4 }: { limit?: number }) {
             key={n.id}
             to="/haberler/$id"
             params={{ id: n.id }}
-            className="group shadow-card rounded-lg border border-border bg-card p-4 transition-all hover:border-accent/50 hover:shadow-card-lg"
+            className="group rounded-lg border border-border bg-card p-4 transition-all hover:border-accent/50 hover:shadow-card-lg"
           >
             <div className="mb-2 flex items-center gap-2 text-xs font-semibold text-muted-foreground">
               <span className="rounded-md bg-primary/10 px-2 py-0.5 uppercase tracking-wider text-primary">

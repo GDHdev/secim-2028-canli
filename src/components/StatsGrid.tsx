@@ -14,7 +14,7 @@ export function StatsGrid() {
 function TopCities() {
   const candColor = (id: "yilmaz" | "kaya" | "demir") => CANDIDATES.find((c) => c.id === id)!.color;
   return (
-    <div className="shadow-card rounded-lg border border-border bg-card p-5">
+    <div className="rounded-lg border border-border bg-card p-5">
       <h3 className="mb-4 font-display text-xl tracking-wider text-foreground">EN BÜYÜK 5 İL</h3>
       <div className="space-y-4">
         {TOP_CITIES.map((city, i) => {
@@ -54,7 +54,7 @@ function TopCities() {
 function TurnoutChart() {
   const max = Math.max(...TURNOUT_BY_REGION.map((r) => r.turnout));
   return (
-    <div className="shadow-card rounded-lg border border-border bg-card p-5">
+    <div className="rounded-lg border border-border bg-card p-5">
       <h3 className="mb-4 font-display text-xl tracking-wider text-foreground">BÖLGESEL KATILIM</h3>
       <div className="space-y-3">
         {TURNOUT_BY_REGION.map((r, i) => (
@@ -80,7 +80,7 @@ function TurnoutChart() {
 
 function HistoricalCompare() {
   return (
-    <div className="shadow-card rounded-lg border border-border bg-card p-5">
+    <div className="rounded-lg border border-border bg-card p-5">
       <h3 className="mb-4 font-display text-xl tracking-wider text-foreground">2023 → 2028</h3>
       <div className="space-y-3">
         {HISTORICAL.map((h, i) => {

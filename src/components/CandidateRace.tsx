@@ -35,7 +35,7 @@ function CandidateBar({
   const isLeader = index === 0;
   return (
     <div
-      className={`shadow-card flex items-center gap-4 rounded-lg border bg-card transition-all hover:shadow-card-lg ${
+      className={`flex items-center gap-4 rounded-lg border bg-card transition-all hover:${
         isLeader ? "p-5 ring-1 md:p-6" : "border-border p-4"
       }`}
       style={
