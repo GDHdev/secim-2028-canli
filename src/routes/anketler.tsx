@@ -21,7 +21,7 @@ function AnketlerPage() {
 
   return (
     <div className="bg-background">
-      <section className="border-b border-border px-4 pt-10 pb-6 md:px-8 lg:px-12">
+      <section className="site-container border-b border-border pt-10 pb-6">
         <span className="eyebrow-accent">Ekim 2026 — Mart 2028 · 18 Ay</span>
         <h1 className="display-xl mt-2 text-foreground">ANKETLER TARİHÇESİ</h1>
         <p className="mt-3 max-w-2xl font-serif text-base text-muted-foreground">
@@ -30,7 +30,7 @@ function AnketlerPage() {
         </p>
       </section>
 
-      <section className="px-4 py-8 md:px-8 lg:px-12">
+      <section className="site-container py-8">
         <div className="panel p-4 md:p-6">
           <div className="mb-4 flex items-baseline justify-between border-b border-border pb-2">
             <h2 className="display-lg text-foreground">OY ORANI TRENDİ</h2>
@@ -64,7 +64,7 @@ function AnketlerPage() {
         </div>
       </section>
 
-      <section className="px-4 pb-10 md:px-8 lg:px-12">
+      <section className="site-container pb-10">
         <div className="border border-border">
           <div className="flex items-center justify-between border-b border-border bg-surface-1 px-5 py-3">
             <h2 className="display-lg text-foreground">SON ANKETLER</h2>

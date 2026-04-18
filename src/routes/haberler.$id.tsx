@@ -21,7 +21,7 @@ export const Route = createFileRoute("/haberler/$id")({
   }),
   component: NewsArticle,
   notFoundComponent: () => (
-    <div className="px-4 py-12 text-center md:px-8">
+    <div className="site-container py-12 text-center">
       <h1 className="display-xl text-foreground">HABER BULUNAMADI</h1>
       <Link to="/haberler" className="mt-4 inline-block font-mono text-sm text-accent hover:underline">
         ← Tüm haberler
@@ -35,7 +35,7 @@ function NewsArticle() {
   return (
     <article className="bg-background">
       {/* Article header */}
-      <header className="border-b border-border px-4 pt-8 pb-10 md:px-8 lg:px-12">
+      <header className="site-container border-b border-border pt-8 pb-10">
         <div className="mx-auto max-w-4xl">
           <Link to="/haberler" className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground">
             <ArrowLeft size={12} /> Tüm haberler
@@ -55,7 +55,7 @@ function NewsArticle() {
       </header>
 
       {/* Body */}
-      <section className="px-4 py-10 md:px-8 lg:px-12">
+      <section className="site-container py-10">
         <div className="mx-auto max-w-3xl space-y-5 font-serif text-lg leading-relaxed text-foreground/90">
           {item.body.split(". ").filter(Boolean).map((p: string, i: number) => (
             <p key={i}>{p.trim()}{p.endsWith(".") ? "" : "."}</p>

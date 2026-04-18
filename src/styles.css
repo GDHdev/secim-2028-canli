@@ -209,6 +209,22 @@
 }
 
 @layer utilities {
+  /* Site-wide container — max 1600px, responsive padding */
+  .site-container {
+    width: 100%;
+    max-width: 1600px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+  @media (min-width: 768px) {
+    .site-container { padding-left: 2rem; padding-right: 2rem; }
+  }
+  @media (min-width: 1024px) {
+    .site-container { padding-left: 3rem; padding-right: 3rem; }
+  }
+
   .font-display {
     font-family: var(--font-display);
     letter-spacing: -0.02em;

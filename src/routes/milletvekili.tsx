@@ -32,7 +32,7 @@ function MilletvekiliPage() {
   return (
     <div className="bg-background">
       {/* HERO */}
-      <section className="border-b border-border px-4 py-8 md:px-8 md:py-10 lg:px-12">
+      <section className="site-container border-b border-border py-8 md:py-10">
         <span className="eyebrow-accent">Milletvekili Seçimleri</span>
         <h1 className="display-mega mt-2 text-foreground">
           600 Sandalye, <span className="text-primary">7 Parti</span>
@@ -44,12 +44,12 @@ function MilletvekiliPage() {
       </section>
 
       {/* PARLIAMENT */}
-      <section className="px-4 py-8 md:px-8 lg:px-12">
+      <section className="site-container py-8">
         <Parliament />
       </section>
 
       {/* THRESHOLD STATUS */}
-      <section className="border-y border-border bg-surface-1 px-4 py-8 md:px-8 lg:px-12">
+      <section className="site-container border-y border-border bg-surface-1 py-8">
         <div className="mb-5 flex items-baseline justify-between border-b-2 border-foreground pb-2">
           <h2 className="display-lg text-foreground">Baraj Durumu</h2>
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
@@ -60,7 +60,7 @@ function MilletvekiliPage() {
       </section>
 
       {/* COALITION CALCULATOR */}
-      <section className="px-4 py-10 md:px-8 lg:px-12">
+      <section className="site-container py-10">
         <div className="mb-5 flex items-baseline justify-between border-b-2 border-foreground pb-2">
           <h2 className="display-lg text-foreground">Koalisyon Hesaplayıcı</h2>
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
@@ -71,7 +71,7 @@ function MilletvekiliPage() {
       </section>
 
       {/* PROVINCE LEADERS */}
-      <section className="border-t border-border px-4 py-10 md:px-8 lg:px-12">
+      <section className="site-container border-t border-border py-10">
         <div className="mb-5 flex items-baseline justify-between border-b-2 border-foreground pb-2">
           <h2 className="display-lg text-foreground">İl Bazında Birincilik</h2>
           <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">

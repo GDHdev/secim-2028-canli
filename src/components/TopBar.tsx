@@ -58,7 +58,7 @@ export function TopBar() {
       <BreakingTicker />
 
       {/* Row 1 — masthead */}
-      <div className="flex items-center gap-6 px-4 py-3 md:px-8 lg:px-12">
+      <div className="site-container flex items-center gap-6 py-3">
         <Link to="/" className="flex items-center gap-3">
           <img
             src={gdhLogo}
@@ -107,7 +107,7 @@ export function TopBar() {
       </div>
 
       {/* Row 2 — nav */}
-      <nav className="flex items-stretch gap-0 overflow-x-auto border-t border-gray-200 px-4 md:px-8 lg:px-12">
+      <nav className="flex items-stretch gap-0 overflow-x-auto border-t border-gray-200 site-container">
         {NAV.map((n) => (
           <Link
             key={n.to}
@@ -123,8 +123,8 @@ export function TopBar() {
       </nav>
 
       {/* Row 3 — Untitled UI metric cards */}
-      <div className="border-t border-gray-200 bg-gray-50 px-3 py-3 md:px-6 md:py-4">
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-6">
+      <div className="border-t border-gray-200 bg-gray-50 py-3 md:py-4">
+        <div className="site-container grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-6">
           {MEGA_STATS.map((s, i) => {
             const Icon = s.icon ? ICONS[s.icon] : Vote;
             const tone = toneAccent[s.tone ?? "default"];
