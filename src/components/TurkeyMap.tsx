@@ -80,9 +80,6 @@ export function TurkeyMap({
 
   const [hover, setHover] = useState<Province | null>(null);
   const [tipPos, setTipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [center, setCenter] = useState<[number, number]>([35.2, 39]);
-  const [revealedCount, setRevealedCount] = useState(81);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const provinceById = useMemo(() => {
@@ -90,25 +87,6 @@ export function TurkeyMap({
     PROVINCES.forEach((p) => m.set(p.id, p));
     return m;
   }, []);
-
-  // "Color bleed" reveal animation
-  useEffect(() => {
-    let raf = 0;
-    const start = performance.now();
-    const total = 81;
-    const duration = 1600;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 2);
-      setRevealedCount(Math.floor(eased * total));
-      if (t < 1) raf = requestAnimationFrame(tick);
-      else setRevealedCount(total);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  const showLabels = zoom >= LABEL_ZOOM_THRESHOLD;
 
   return (
     <div className="relative">
