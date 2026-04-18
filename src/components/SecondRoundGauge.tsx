@@ -31,7 +31,7 @@ export function SecondRoundGauge() {
         <span className="font-display text-sm tracking-wider text-muted-foreground">
           2. TUR İHTİMALİ
         </span>
-        <span className="font-mono text-[10px] text-muted-foreground">PROJEKSİYON</span>
+        <span className="font-mono text-xs text-muted-foreground">PROJEKSİYON</span>
       </div>
 
       <svg width={size} height={size * 0.55} viewBox={`0 0 ${size} ${size * 0.95}`}>

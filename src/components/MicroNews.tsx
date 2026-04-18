@@ -19,12 +19,12 @@ export function MicroNews({ limit = 4 }: { limit?: number }) {
             params={{ id: n.id }}
             className="group rounded-sm border border-border bg-surface-1 p-3 transition-colors hover:border-accent/50 hover:bg-surface-2"
           >
-            <div className="mb-1.5 flex items-center gap-2 font-mono text-[10px] text-muted-foreground">
+            <div className="mb-1.5 flex items-center gap-2 font-mono text-xs text-muted-foreground">
               <span className="rounded-sm bg-primary/10 px-1.5 py-0.5 text-primary">{n.category.toUpperCase()}</span>
               <span>{n.time}</span>
             </div>
             <h3 className="text-balance text-sm font-medium text-foreground group-hover:text-accent">{n.title}</h3>
-            <p className="mt-2 font-mono text-[10px] text-muted-foreground">— {n.source}</p>
+            <p className="mt-2 font-mono text-xs text-muted-foreground">— {n.source}</p>
           </Link>
         ))}
       </div>

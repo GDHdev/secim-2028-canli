@@ -30,7 +30,7 @@ function HaritaPage() {
             <h1 className="font-display text-2xl tracking-wider text-foreground md:text-3xl">
               TÜRKİYE HARİTASI
             </h1>
-            <p className="font-mono text-[10px] text-muted-foreground">
+            <p className="font-mono text-xs text-muted-foreground">
               <span className="live-pulse mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-primary align-middle" />
               SONUÇLAR GÜNCELLENİYOR · 22:18:42
             </p>
@@ -109,7 +109,7 @@ function Legend() {
             className="inline-block h-3 w-3 rounded-sm"
             style={{ backgroundColor: c.color }}
           />
-          <span className="font-mono text-[10px] text-muted-foreground">
+          <span className="font-mono text-xs text-muted-foreground">
             {c.name.split(" ")[1].toUpperCase()}
           </span>
         </div>

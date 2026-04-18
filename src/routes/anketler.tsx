@@ -61,7 +61,7 @@ function AnketlerPage() {
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-surface-2">
-              <tr className="text-left font-mono text-[10px] text-muted-foreground">
+              <tr className="text-left font-mono text-xs text-muted-foreground">
                 <th className="px-4 py-2">ŞİRKET</th>
                 <th className="px-4 py-2">TARİH</th>
                 <th className="px-4 py-2 text-right">YILMAZ</th>

@@ -84,7 +84,7 @@ function CandidateBar({
           )}
         </div>
         {isLeader && (
-          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-full bg-accent px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-wider text-accent-foreground shadow-sm">
+          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-full bg-accent px-2 py-0.5 font-mono text-xs font-bold uppercase tracking-wider text-accent-foreground shadow-sm">
             Önde
           </span>
         )}

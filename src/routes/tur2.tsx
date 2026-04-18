@@ -140,7 +140,7 @@ function Tur2Page() {
         </div>
       </motion.div>
 
-      <p className="mt-4 text-center font-mono text-[10px] text-muted-foreground">
+      <p className="mt-4 text-center font-mono text-xs text-muted-foreground">
         BU BİR SİMÜLASYONDUR · GERÇEK SONUÇLARI TEMSİL ETMEZ
       </p>
     </div>
@@ -155,7 +155,7 @@ function CandCard({ candidate, percent, winner, side }: {
       <div className={`flex items-baseline justify-between ${side === "right" ? "flex-row-reverse" : ""}`}>
         <div>
           {winner && (
-            <span className="rounded-sm bg-accent px-1.5 py-0.5 font-display text-[10px] tracking-wider text-accent-foreground">
+            <span className="rounded-sm bg-accent px-1.5 py-0.5 font-display text-xs tracking-wider text-accent-foreground">
               KAZANIYOR
             </span>
           )}

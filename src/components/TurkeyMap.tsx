@@ -112,7 +112,7 @@ export function TurkeyMap({
         <div className="mb-3 flex items-center justify-between">
           <div>
             <h2 className="font-display text-2xl tracking-wider text-foreground">TÜRKİYE HARİTASI</h2>
-            <p className="font-mono text-[10px] text-muted-foreground">
+            <p className="font-mono text-xs text-muted-foreground">
               81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME
             </p>
           </div>
@@ -152,7 +152,7 @@ export function TurkeyMap({
 
         {/* Zoom hint */}
         {!showLabels && (
-          <div className="pointer-events-none absolute bottom-2 left-2 z-10 rounded-sm bg-card/80 px-2 py-1 font-mono text-[10px] text-muted-foreground backdrop-blur-sm">
+          <div className="pointer-events-none absolute bottom-2 left-2 z-10 rounded-sm bg-card/80 px-2 py-1 font-mono text-xs text-muted-foreground backdrop-blur-sm">
             İl isimleri için yakınlaştır →
           </div>
         )}
@@ -291,7 +291,7 @@ export function TurkeyMap({
               Önde: <span className="font-medium text-foreground">{candName(hover.leader)}</span>{" "}
               <span className="font-mono text-accent">%{hover.results[hover.leader]}</span>
             </div>
-            <div className="font-mono text-[10px] text-muted-foreground">Sayım: %{hover.counted}</div>
+            <div className="font-mono text-xs text-muted-foreground">Sayım: %{hover.counted}</div>
           </div>
         )}
       </div>
@@ -371,20 +371,20 @@ export function ProvincePanelBody({ province, onClose }: { province: Province; o
 
       <div className="mt-6 grid grid-cols-2 gap-3">
         <div className="rounded-sm border border-border bg-surface-1 p-3">
-          <p className="font-mono text-[10px] text-muted-foreground">KATILIM 2028</p>
+          <p className="font-mono text-xs text-muted-foreground">KATILIM 2028</p>
           <p className="font-display text-3xl text-foreground">%{province.turnout}</p>
         </div>
         <div className="rounded-sm border border-border bg-surface-1 p-3">
-          <p className="font-mono text-[10px] text-muted-foreground">KATILIM 2023</p>
+          <p className="font-mono text-xs text-muted-foreground">KATILIM 2023</p>
           <p className="font-display text-3xl text-muted-foreground">%{province.turnout2023}</p>
         </div>
       </div>
 
       <div className="mt-6">
-        <p className="font-mono text-[10px] text-muted-foreground">İLÇE BAZINDA (ÖRNEK)</p>
+        <p className="font-mono text-xs text-muted-foreground">İLÇE BAZINDA (ÖRNEK)</p>
         <table className="mt-2 w-full text-sm">
           <thead>
-            <tr className="border-b border-border text-left font-mono text-[10px] text-muted-foreground">
+            <tr className="border-b border-border text-left font-mono text-xs text-muted-foreground">
               <th className="py-2">İLÇE</th>
               <th>YIL.</th>
               <th>KAYA</th>
@@ -420,7 +420,7 @@ function Legend() {
       {CANDIDATES.slice(0, 3).map((c) => (
         <div key={c.id} className="flex items-center gap-1.5">
           <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: c.color }} />
-          <span className="font-mono text-[10px] text-muted-foreground">{c.name.split(" ")[1].toUpperCase()}</span>
+          <span className="font-mono text-xs text-muted-foreground">{c.name.split(" ")[1].toUpperCase()}</span>
         </div>
       ))}
     </div>

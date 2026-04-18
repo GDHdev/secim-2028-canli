@@ -47,7 +47,7 @@ function HaberlerPage() {
             params={{ id: n.id }}
             className="block px-4 py-3 transition-colors hover:bg-surface-2"
           >
-            <div className="flex items-center gap-2 font-mono text-[10px] text-muted-foreground">
+            <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
               <span className="rounded-sm bg-primary/10 px-1.5 py-0.5 text-primary">{n.category.toUpperCase()}</span>
               <span>{n.source}</span>
               <span>·</span>
