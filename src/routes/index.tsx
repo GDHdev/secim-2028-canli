@@ -27,8 +27,8 @@ function Index() {
         <SecondRoundGauge />
       </section>
 
-      {/* MAP — extends beyond container to viewport edges */}
-      <section className="relative left-1/2 right-1/2 mt-8 -ml-[50vw] -mr-[50vw] w-screen">
+      {/* MAP — edge-to-edge, ignores page padding */}
+      <section className="-mx-4 mt-8 md:-mx-8 lg:-mx-12">
         <TurkeyMap className="h-[720px]" />
       </section>
 
