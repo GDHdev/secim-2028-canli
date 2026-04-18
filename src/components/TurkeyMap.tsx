@@ -391,10 +391,9 @@ function fakeDistricts(p: Province) {
 
 /** Project [lon, lat] to SVG coords matching ComposableMap's default projection. */
 function projectPoint([lon, lat]: [number, number]): string {
-  // Recreate the same Mercator transform used by ComposableMap above
-  const scale = 2400;
-  const cx = 35.2, cy = 39;
-  const w = 900, h = 420;
+  const scale = MAP_SCALE;
+  const [cx, cy] = MAP_CENTER;
+  const w = MAP_W, h = MAP_H;
   const lonRad = ((lon - cx) * Math.PI) / 180;
   const latRad = (lat * Math.PI) / 180;
   const cyRad = (cy * Math.PI) / 180;
