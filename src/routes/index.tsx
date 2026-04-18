@@ -98,26 +98,37 @@ function Index() {
         <Parliament />
       </section>
 
-      {/* LIVE FEED + STATS */}
-      <section className="px-4 py-10 md:px-8 lg:px-12">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[380px_1fr]">
+      {/* SWING PROVINCES + LIVE */}
+      <section className="border-t border-border px-4 py-10 md:px-8 lg:px-12">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
           <div>
             <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-              <h2 className="display-lg text-foreground">CANLI</h2>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary">● AKTİF</span>
+              <h2 className="display-lg text-foreground">Swing — Değişim</h2>
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                2023 → 2028
+              </span>
+            </div>
+            <SwingProvinces />
+          </div>
+          <div>
+            <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
+              <h2 className="display-lg text-foreground">Canlı Akış</h2>
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">● AKTİF</span>
             </div>
             <LiveFeed />
           </div>
-          <div>
-            <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-              <h2 className="display-lg text-foreground">İSTATİSTİKLER</h2>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-                Veri özeti
-              </span>
-            </div>
-            <StatsGrid />
-          </div>
         </div>
+      </section>
+
+      {/* STATS */}
+      <section className="border-t border-border px-4 py-10 md:px-8 lg:px-12">
+        <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
+          <h2 className="display-lg text-foreground">İstatistikler</h2>
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            Veri özeti
+          </span>
+        </div>
+        <StatsGrid />
       </section>
 
       {/* NEWS */}
