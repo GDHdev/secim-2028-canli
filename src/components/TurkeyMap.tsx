@@ -235,19 +235,42 @@ export function TurkeyMap({
             className="pointer-events-none fixed z-40 rounded-sm border border-border bg-popover px-3 py-2 text-xs shadow-lg"
             style={{ left: tipPos.x + 14, top: tipPos.y + 14 }}
           >
-            <div className="font-display text-base tracking-wider text-popover-foreground">{hover.name}</div>
-            <div className="text-muted-foreground">
-              Önde: <span className="font-medium text-foreground">{candName(hover.leader)}</span>{" "}
-              <span className="font-mono text-accent">%{hover.results[hover.leader]}</span>
+            <div className="mb-1 font-display text-base tracking-wider text-popover-foreground">
+              {hover.name}
             </div>
-            <div className="font-mono text-xs text-muted-foreground">Sayım: %{hover.counted}</div>
+            <div className="space-y-1">
+              {(["yilmaz", "kaya", "demir", "other"] as const).map((cid) => {
+                const c = CANDIDATES.find((x) => x.id === cid)!;
+                const v = hover.results[cid];
+                const isLead = cid === hover.leader;
+                return (
+                  <div key={cid} className="flex items-center gap-2">
+                    <span
+                      className="inline-block h-2 w-2 rounded-full"
+                      style={{ backgroundColor: c.color }}
+                    />
+                    <span className={`flex-1 ${isLead ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                      {c.name}
+                    </span>
+                    <span
+                      className="font-mono font-semibold"
+                      style={{ color: isLead ? c.color : undefined }}
+                    >
+                      %{v}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-2 border-t border-border pt-1 font-mono text-[10px] text-muted-foreground">
+              Sayım: %{hover.counted}
+            </div>
           </div>
         )}
       </div>
 
       {!hideHeader && (
-        <div className="mt-3 flex flex-col items-center gap-2">
-          <Legend />
+        <div className="mt-3 flex justify-center">
           <p className="font-mono text-xs text-muted-foreground">
             81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME
           </p>
