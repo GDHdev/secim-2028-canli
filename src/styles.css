@@ -2,24 +2,25 @@
 @source "../src";
 @import "tw-animate-css";
 
-@import url("https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@500;700;900&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Seçim 2028 — Light editorial design system (NYT-style warm cream).
- * Base #FAF7F2, ink navy text, red #E63946, gold #B8741A. Newsroom aesthetic.
+ * Seçim 2028 — Crisp white American election aesthetic.
+ * Pure white base, vibrant red/blue/teal, Roboto Condensed display + Inter body.
+ * Inspired by AP, NYT, CNN, NBC election night graphics.
  */
 
 @theme inline {
-  --font-display: "Bebas Neue", sans-serif;
-  --font-sans: "DM Sans", system-ui, sans-serif;
+  --font-display: "Roboto Condensed", "Arial Narrow", sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
-  --radius-sm: 2px;
-  --radius-md: 4px;
-  --radius-lg: 4px;
-  --radius-xl: 6px;
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
 
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -59,38 +60,44 @@
 }
 
 :root {
-  --radius: 0.25rem;
+  --radius: 0.625rem;
 
-  /* Light editorial — warm cream NYT-style */
-  --background: oklch(0.975 0.008 80);          /* #FAF7F2 warm cream */
-  --foreground: oklch(0.18 0.025 260);          /* deep ink navy */
-  --card: oklch(0.995 0.004 80);                /* near white card */
-  --card-foreground: oklch(0.18 0.025 260);
-  --popover: oklch(0.995 0.004 80);
-  --popover-foreground: oklch(0.18 0.025 260);
-  --primary: oklch(0.58 0.21 25);               /* #E63946 red */
-  --primary-foreground: oklch(0.99 0 0);
-  --secondary: oklch(0.94 0.008 80);
-  --secondary-foreground: oklch(0.18 0.025 260);
-  --muted: oklch(0.93 0.008 80);
-  --muted-foreground: oklch(0.45 0.018 260);
-  --accent: oklch(0.55 0.13 60);                /* deeper gold for light bg #B8741A */
-  --accent-foreground: oklch(0.99 0 0);
-  --destructive: oklch(0.58 0.21 25);
-  --destructive-foreground: oklch(0.99 0 0);
-  --border: oklch(0.86 0.012 80);
-  --input: oklch(0.86 0.012 80);
-  --ring: oklch(0.58 0.21 25);
+  /* Pure white American election aesthetic */
+  --background: oklch(1 0 0);                   /* pure white */
+  --foreground: oklch(0.16 0.025 260);          /* deep ink navy */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.16 0.025 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.16 0.025 260);
 
-  --gold: oklch(0.55 0.13 60);                  /* deeper gold for legibility */
-  --gold-foreground: oklch(0.99 0 0);
-  --cand-yilmaz: oklch(0.5 0.2 27);             /* deep red #B91C1C */
-  --cand-kaya: oklch(0.45 0.21 265);            /* deep blue #1D4ED8 */
-  --cand-demir: oklch(0.48 0.1 195);            /* deep teal #0F766E */
-  --cand-other: oklch(0.6 0.018 260);           /* gray */
-  --surface-1: oklch(0.955 0.008 80);           /* slightly off-cream */
-  --surface-2: oklch(0.92 0.01 80);             /* deeper cream */
-  --grid: oklch(0.86 0.012 80);
+  /* Vibrant election red — AP/NBC red */
+  --primary: oklch(0.56 0.24 27);               /* #DC2626 */
+  --primary-foreground: oklch(1 0 0);
+
+  --secondary: oklch(0.97 0.005 260);
+  --secondary-foreground: oklch(0.16 0.025 260);
+  --muted: oklch(0.96 0.005 260);
+  --muted-foreground: oklch(0.42 0.02 260);     /* darker for legibility */
+  --accent: oklch(0.62 0.18 50);                /* vibrant amber #E07B00 */
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.56 0.24 27);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.9 0.006 260);
+  --input: oklch(0.9 0.006 260);
+  --ring: oklch(0.56 0.24 27);
+
+  --gold: oklch(0.62 0.18 50);
+  --gold-foreground: oklch(1 0 0);
+
+  /* Vibrant candidate colors — high saturation, accessible contrast */
+  --cand-yilmaz: oklch(0.56 0.24 27);           /* vivid red #DC2626 */
+  --cand-kaya: oklch(0.5 0.24 265);             /* vivid blue #1E40AF */
+  --cand-demir: oklch(0.58 0.14 195);           /* vivid teal #0891B2 */
+  --cand-other: oklch(0.55 0.02 260);           /* gray */
+
+  --surface-1: oklch(0.985 0.003 260);          /* very subtle gray */
+  --surface-2: oklch(0.96 0.005 260);           /* light gray */
+  --grid: oklch(0.9 0.006 260);
 
   --sidebar: var(--surface-1);
   --sidebar-foreground: var(--foreground);
@@ -112,6 +119,7 @@
     color: var(--color-foreground);
     font-family: var(--font-sans);
     -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
   }
 
   ::selection {
@@ -121,24 +129,31 @@
 
   /* Custom scrollbar */
   ::-webkit-scrollbar { width: 10px; height: 10px; }
-  ::-webkit-scrollbar-track { background: var(--color-background); }
-  ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 2px; }
+  ::-webkit-scrollbar-track { background: var(--color-surface-1); }
+  ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 5px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--color-muted-foreground); }
 }
 
 @layer utilities {
   .font-display {
     font-family: var(--font-display);
-    letter-spacing: 0.02em;
+    letter-spacing: 0.005em;
+    font-weight: 700;
   }
   .font-mono {
     font-family: var(--font-mono);
+    font-feature-settings: "tnum" 1, "ss01" 1;
+  }
+
+  /* Tabular nums for data — keeps numbers aligned */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
   }
 
   /* Pulsing live dot */
   @keyframes live-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 oklch(0.58 0.21 25 / 0.6); }
-    50% { opacity: 0.85; transform: scale(1.08); box-shadow: 0 0 0 8px oklch(0.58 0.21 25 / 0); }
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 oklch(0.56 0.24 27 / 0.6); }
+    50% { opacity: 0.85; transform: scale(1.08); box-shadow: 0 0 0 8px oklch(0.56 0.24 27 / 0); }
   }
   .live-pulse { animation: live-pulse 1.4s ease-in-out infinite; }
 
@@ -151,8 +166,8 @@
 
   /* Gold banner pulse */
   @keyframes gold-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 oklch(0.55 0.13 60 / 0.45); }
-    50% { box-shadow: 0 0 24px 4px oklch(0.55 0.13 60 / 0.35); }
+    0%, 100% { box-shadow: 0 0 0 0 oklch(0.62 0.18 50 / 0.45); }
+    50% { box-shadow: 0 0 24px 4px oklch(0.62 0.18 50 / 0.35); }
   }
   .gold-pulse { animation: gold-pulse 2s ease-in-out infinite; }
 
@@ -164,4 +179,12 @@
   }
 
   .text-balance { text-wrap: balance; }
+
+  /* Subtle elevation for cards */
+  .shadow-card {
+    box-shadow: 0 1px 2px oklch(0.16 0.025 260 / 0.04), 0 1px 3px oklch(0.16 0.025 260 / 0.06);
+  }
+  .shadow-card-lg {
+    box-shadow: 0 4px 6px oklch(0.16 0.025 260 / 0.05), 0 10px 20px oklch(0.16 0.025 260 / 0.08);
+  }
 }
