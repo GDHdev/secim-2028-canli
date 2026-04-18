@@ -1,14 +1,19 @@
 // Mock election data for Seçim 2028
 // Presidential + Parliamentary, 81 provinces, live feed, polls, news
 
+import yilmazPhoto from "@/assets/cand-yilmaz.jpg";
+import kayaPhoto from "@/assets/cand-kaya.jpg";
+import demirPhoto from "@/assets/cand-demir.jpg";
+
 export type Candidate = {
   id: "yilmaz" | "kaya" | "demir" | "other";
   name: string;
   party: string;
-  color: string; // hex for charts
-  cssVar: string; // tailwind token
+  color: string;
+  cssVar: string;
   percent: number;
   votes: number;
+  photo?: string;
 };
 
 export const TOTAL_VOTERS = 64_100_000;
@@ -16,9 +21,9 @@ export const COUNTED_VOTES = 47_800_000;
 export const COUNT_PERCENT = (COUNTED_VOTES / TOTAL_VOTERS) * 100; // ~74.6
 
 export const CANDIDATES: Candidate[] = [
-  { id: "yilmaz", name: "Mehmet Yılmaz", party: "MTP", color: "#B91C1C", cssVar: "cand-yilmaz", percent: 38.2, votes: Math.round(COUNTED_VOTES * 0.382) },
-  { id: "kaya",   name: "Ayşe Kaya",     party: "DCP", color: "#1D4ED8", cssVar: "cand-kaya",   percent: 31.7, votes: Math.round(COUNTED_VOTES * 0.317) },
-  { id: "demir",  name: "Can Demir",     party: "YHP", color: "#0F766E", cssVar: "cand-demir",  percent: 22.4, votes: Math.round(COUNTED_VOTES * 0.224) },
+  { id: "yilmaz", name: "Mehmet Yılmaz", party: "MTP", color: "#DC2626", cssVar: "cand-yilmaz", percent: 38.2, votes: Math.round(COUNTED_VOTES * 0.382), photo: yilmazPhoto },
+  { id: "kaya",   name: "Ayşe Kaya",     party: "DCP", color: "#1E40AF", cssVar: "cand-kaya",   percent: 31.7, votes: Math.round(COUNTED_VOTES * 0.317), photo: kayaPhoto },
+  { id: "demir",  name: "Can Demir",     party: "YHP", color: "#0891B2", cssVar: "cand-demir",  percent: 22.4, votes: Math.round(COUNTED_VOTES * 0.224), photo: demirPhoto },
   { id: "other",  name: "Diğer",         party: "—",   color: "#6B7280", cssVar: "cand-other",  percent: 7.7,  votes: Math.round(COUNTED_VOTES * 0.077) },
 ];
 
