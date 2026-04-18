@@ -91,14 +91,8 @@ export function TurkeyMap({
   return (
     <div className="relative">
       {!hideHeader && (
-        <div className="mb-3 flex items-center justify-between">
-          <div>
-            <h2 className="font-display text-2xl tracking-wider text-foreground">TÜRKİYE HARİTASI</h2>
-            <p className="font-mono text-xs text-muted-foreground">
-              81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME
-            </p>
-          </div>
-          <Legend />
+        <div className="mb-3">
+          <h2 className="font-display text-2xl tracking-wider text-foreground">TÜRKİYE HARİTASI</h2>
         </div>
       )}
 
