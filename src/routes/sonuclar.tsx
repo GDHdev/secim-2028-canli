@@ -91,7 +91,7 @@ function SonuclarPage() {
           <thead className="border-b border-border bg-surface-2">
             <tr className="text-left">
               <Th label="İL" k="name" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} />
-              <th className="px-3 py-2 text-left font-mono text-[10px] text-muted-foreground">BÖLGE</th>
+              <th className="px-3 py-2 text-left font-mono text-xs text-muted-foreground">BÖLGE</th>
               <Th label="YILMAZ" k="yilmaz" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
               <Th label="KAYA" k="kaya" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
               <Th label="DEMİR" k="demir" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
@@ -123,7 +123,7 @@ function SonuclarPage() {
         </table>
       </div>
 
-      <p className="mt-3 font-mono text-[10px] text-muted-foreground">{filtered.length} İL GÖSTERİLİYOR</p>
+      <p className="mt-3 font-mono text-xs text-muted-foreground">{filtered.length} İL GÖSTERİLİYOR</p>
     </div>
   );
 }
@@ -133,7 +133,7 @@ function Th({ label, k, sortKey, sortDir, onSort, align = "left" }: {
 }) {
   const active = sortKey === k;
   return (
-    <th className={`px-3 py-2 font-mono text-[10px] text-muted-foreground ${align === "right" ? "text-right" : "text-left"}`}>
+    <th className={`px-3 py-2 font-mono text-xs text-muted-foreground ${align === "right" ? "text-right" : "text-left"}`}>
       <button
         onClick={() => onSort(k)}
         className={`inline-flex items-center gap-1 hover:text-foreground ${active ? "text-foreground" : ""}`}

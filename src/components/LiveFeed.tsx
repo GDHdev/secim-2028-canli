@@ -25,13 +25,15 @@ export function LiveFeed() {
   }, []);
 
   return (
-    <div className="flex h-full flex-col rounded-sm border border-border bg-surface-1">
-      <div className="flex items-center justify-between border-b border-border px-4 py-3">
-        <div className="flex items-center gap-2">
-          <span className="live-pulse inline-block h-2 w-2 rounded-full bg-primary" />
-          <h2 className="font-display text-xl tracking-wider text-foreground">CANLI AKIŞ</h2>
+    <div className="shadow-card flex h-full flex-col rounded-lg border border-border bg-card">
+      <div className="flex items-center justify-between border-b border-border px-5 py-4">
+        <div className="flex items-center gap-2.5">
+          <span className="live-pulse inline-block h-2.5 w-2.5 rounded-full bg-primary" />
+          <h2 className="font-display text-xl tracking-wider text-foreground md:text-2xl">CANLI AKIŞ</h2>
         </div>
-        <span className="font-mono text-[10px] text-muted-foreground">{items.length} GÜNCELLEME</span>
+        <span className="tabular-nums font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+          {items.length} güncelleme
+        </span>
       </div>
       <div className="max-h-[600px] overflow-y-auto p-2">
         <AnimatePresence initial={false}>
@@ -43,10 +45,12 @@ export function LiveFeed() {
               animate={{ opacity: 1, y: 0, height: "auto" }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className={`mb-1 flex items-start gap-3 rounded-sm border-l-2 px-3 py-2 text-sm hover:bg-surface-2 ${kindStyle(item.kind)}`}
+              className={`mb-1 flex items-start gap-3 rounded-md border-l-[3px] px-3 py-2.5 text-sm transition-colors hover:bg-surface-1 ${kindStyle(item.kind)}`}
             >
-              <span className="mt-0.5 font-mono text-[11px] text-muted-foreground">{item.time}</span>
-              <span className="flex-1 text-foreground">{item.text}</span>
+              <span className="tabular-nums mt-0.5 font-mono text-xs font-semibold text-muted-foreground">
+                {item.time}
+              </span>
+              <span className="flex-1 leading-relaxed text-foreground">{item.text}</span>
             </motion.div>
           ))}
         </AnimatePresence>

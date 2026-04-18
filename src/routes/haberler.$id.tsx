@@ -38,7 +38,7 @@ function NewsArticle() {
         <ArrowLeft size={12} /> Tüm haberler
       </Link>
 
-      <div className="mt-6 flex items-center gap-2 font-mono text-[10px] text-muted-foreground">
+      <div className="mt-6 flex items-center gap-2 font-mono text-xs text-muted-foreground">
         <span className="rounded-sm bg-primary/10 px-1.5 py-0.5 text-primary">{item.category.toUpperCase()}</span>
         <span>{item.source}</span>
         <span>·</span>
