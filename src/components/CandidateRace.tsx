@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { CANDIDATES, SECOND_ROUND_TRIGGERED } from "@/lib/mock-data";
+import { CANDIDATES } from "@/lib/mock-data";
 import { CountUp } from "./CountUp";
 
 export function CandidateRace() {
@@ -21,26 +21,6 @@ export function CandidateRace() {
         <OtherBar />
       </div>
 
-      {SECOND_ROUND_TRIGGERED && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-          className="gold-pulse mt-4 flex items-center justify-between rounded-lg border border-accent/40 bg-accent/10 px-5 py-4"
-        >
-          <div className="flex items-center gap-3">
-            <span className="font-display text-2xl tracking-wider text-accent md:text-3xl">
-              2. TUR KESİNLEŞTİ
-            </span>
-            <span className="hidden text-sm text-muted-foreground sm:inline">
-              Hiçbir aday %50 barajını geçemedi
-            </span>
-          </div>
-          <span className="font-mono text-xs font-semibold uppercase tracking-wider text-accent">
-            14 Nisan 2028
-          </span>
-        </motion.div>
-      )}
     </div>
   );
 }

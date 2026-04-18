@@ -78,7 +78,7 @@ export function TurkeyMap({
   const [tipPos, setTipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [center, setCenter] = useState<[number, number]>([35.2, 39]);
-  const [revealedCount, setRevealedCount] = useState(0);
+  const [revealedCount, setRevealedCount] = useState(81);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const provinceById = useMemo(() => {
