@@ -65,7 +65,7 @@ const mk = (
 
 export const PROVINCES: Province[] = [
   // Marmara
-  mk("istanbul", "İstanbul", "Marmara", 15840000, 32, 42, 19, 80, 84, 86),
+  mk("istanbul", "İstanbul", "Marmara", 15840000, 44, 32, 17, 80, 84, 86),
   mk("bursa", "Bursa", "Marmara", 3194000, 41, 30, 22, 78, 86, 87),
   mk("kocaeli", "Kocaeli", "Marmara", 2079000, 39, 33, 21, 76, 85, 86),
   mk("tekirdag", "Tekirdağ", "Marmara", 1142000, 35, 38, 20, 72, 83, 85),
@@ -78,7 +78,7 @@ export const PROVINCES: Province[] = [
   mk("bilecik", "Bilecik", "Marmara", 228000, 42, 30, 20, 73, 84, 85),
 
   // İç Anadolu
-  mk("ankara", "Ankara", "İç Anadolu", 5747000, 34, 38, 22, 100, 87, 88),
+  mk("ankara", "Ankara", "İç Anadolu", 5747000, 43, 30, 21, 100, 87, 88),
   mk("konya", "Konya", "İç Anadolu", 2310000, 56, 18, 19, 75, 84, 85),
   mk("kayseri", "Kayseri", "İç Anadolu", 1442000, 51, 22, 20, 76, 85, 86),
   mk("eskisehir", "Eskişehir", "İç Anadolu", 906000, 28, 44, 22, 78, 86, 87),
