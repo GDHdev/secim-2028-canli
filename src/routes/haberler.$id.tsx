@@ -21,8 +21,8 @@ export const Route = createFileRoute("/haberler/$id")({
   }),
   component: NewsArticle,
   notFoundComponent: () => (
-    <div className="w-full px-4 py-12 text-center md:px-8 lg:px-12">
-      <h1 className="font-display text-4xl text-foreground">HABER BULUNAMADI</h1>
+    <div className="px-4 py-12 text-center md:px-8">
+      <h1 className="display-xl text-foreground">HABER BULUNAMADI</h1>
       <Link to="/haberler" className="mt-4 inline-block font-mono text-sm text-accent hover:underline">
         ← Tüm haberler
       </Link>
@@ -33,33 +33,41 @@ export const Route = createFileRoute("/haberler/$id")({
 function NewsArticle() {
   const { item } = Route.useLoaderData();
   return (
-    <article className="w-full px-4 py-8 md:px-8 lg:px-12">
-      <Link to="/haberler" className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground">
-        <ArrowLeft size={12} /> Tüm haberler
-      </Link>
+    <article className="bg-background">
+      {/* Article header */}
+      <header className="border-b border-border px-4 pt-8 pb-10 md:px-8 lg:px-12">
+        <div className="mx-auto max-w-4xl">
+          <Link to="/haberler" className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground">
+            <ArrowLeft size={12} /> Tüm haberler
+          </Link>
 
-      <div className="mt-6 flex items-center gap-2 font-mono text-xs text-muted-foreground">
-        <span className="rounded-sm bg-primary/10 px-1.5 py-0.5 text-primary">{item.category.toUpperCase()}</span>
-        <span>{item.source}</span>
-        <span>·</span>
-        <span>{item.time}</span>
-      </div>
+          <div className="mt-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em]">
+            <span className="bg-primary px-2 py-0.5 font-bold text-primary-foreground">{item.category}</span>
+            <span className="text-muted-foreground">{item.source}</span>
+            <span className="text-muted-foreground">·</span>
+            <span className="text-muted-foreground">{item.time}</span>
+          </div>
 
-      <h1 className="mt-3 text-balance font-display text-4xl tracking-wide text-foreground md:text-5xl">
-        {item.title}
-      </h1>
+          <h1 className="font-serif mt-5 text-balance text-4xl font-bold leading-[1.05] text-foreground md:text-5xl lg:text-6xl">
+            {item.title}
+          </h1>
+        </div>
+      </header>
 
-      <div className="mt-6 space-y-4 leading-relaxed text-foreground/90">
-        {item.body.split(". ").filter(Boolean).map((p: string, i: number) => (
-          <p key={i} className="text-base">{p.trim()}{p.endsWith(".") ? "" : "."}</p>
-        ))}
-      </div>
+      {/* Body */}
+      <section className="px-4 py-10 md:px-8 lg:px-12">
+        <div className="mx-auto max-w-3xl space-y-5 font-serif text-lg leading-relaxed text-foreground/90">
+          {item.body.split(". ").filter(Boolean).map((p: string, i: number) => (
+            <p key={i}>{p.trim()}{p.endsWith(".") ? "" : "."}</p>
+          ))}
+        </div>
 
-      <div className="mt-12 border-t border-border pt-6">
-        <Link to="/haberler" className="font-mono text-xs text-accent hover:underline">
-          ← Tüm haberlere dön
-        </Link>
-      </div>
+        <div className="mx-auto mt-12 max-w-3xl border-t border-border pt-6">
+          <Link to="/haberler" className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-accent hover:underline">
+            ← Tüm haberlere dön
+          </Link>
+        </div>
+      </section>
     </article>
   );
 }

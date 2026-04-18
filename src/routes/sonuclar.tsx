@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { PROVINCES, REGIONS, CANDIDATES } from "@/lib/mock-data";
-import { Search, Download, ChevronUp, ChevronDown } from "lucide-react";
+import { Search, ChevronUp, ChevronDown } from "lucide-react";
 
 export const Route = createFileRoute("/sonuclar")({
   head: () => ({
@@ -52,78 +52,88 @@ function SonuclarPage() {
   const candColor = (id: "yilmaz" | "kaya" | "demir") => CANDIDATES.find((c) => c.id === id)!.color;
 
   return (
-    <div className="w-full px-4 py-6 md:px-8 lg:px-12">
-      <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div>
-          <h1 className="font-display text-4xl tracking-wider text-foreground">SONUÇLAR TABLOSU</h1>
-          <p className="font-mono text-xs text-muted-foreground">81 İL · CUMHURBAŞKANLIĞI 1. TUR</p>
-        </div>
+    <div className="bg-background">
+      {/* Header band */}
+      <section className="border-b border-border px-4 pt-10 pb-6 md:px-8 lg:px-12">
+        <span className="eyebrow-accent">81 İl · Cumhurbaşkanlığı 1. Tur</span>
+        <h1 className="display-xl mt-2 text-foreground">SONUÇLAR TABLOSU</h1>
+        <p className="mt-2 max-w-2xl font-serif text-base text-muted-foreground">
+          Sıralayın, filtreleyin, illere göre gezinin. Lider hücreler renklendirilmiştir.
+        </p>
+      </section>
 
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="relative">
-            <Search size={14} className="absolute left-2.5 top-1/2 -translate-y-1/2 text-muted-foreground" />
+      {/* Filter band */}
+      <section className="sticky top-[136px] z-10 border-b border-border bg-background/95 px-4 py-3 backdrop-blur-md md:px-8 lg:px-12">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative flex-1 max-w-xs">
+            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="İl ara..."
-              className="rounded-sm border border-border bg-surface-1 py-1.5 pl-8 pr-3 text-sm placeholder-muted-foreground focus:border-accent focus:outline-none"
+              className="w-full border border-border bg-surface-1 py-2 pl-9 pr-3 font-mono text-sm text-foreground placeholder-muted-foreground focus:border-accent focus:outline-none"
             />
           </div>
-          <select
-            value={region}
-            onChange={(e) => setRegion(e.target.value)}
-            className="rounded-sm border border-border bg-surface-1 px-3 py-1.5 text-sm focus:border-accent focus:outline-none"
-          >
-            <option>Tümü</option>
-            {REGIONS.map((r) => <option key={r}>{r}</option>)}
-          </select>
-          <button
-            onClick={() => alert("Görsel olarak dışa aktarma özelliği demo'dur.")}
-            className="inline-flex items-center gap-1.5 rounded-sm border border-border bg-surface-1 px-3 py-1.5 text-sm text-foreground hover:bg-surface-2"
-          >
-            <Download size={14} /> PNG
-          </button>
+          <div className="flex flex-wrap gap-1">
+            {(["Tümü", ...REGIONS] as const).map((r) => (
+              <button
+                key={r}
+                onClick={() => setRegion(r)}
+                className={`border px-3 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] transition-colors ${
+                  region === r
+                    ? "border-accent bg-accent text-accent-foreground"
+                    : "border-border bg-surface-1 text-muted-foreground hover:border-foreground hover:text-foreground"
+                }`}
+              >
+                {r}
+              </button>
+            ))}
+          </div>
+          <span className="ml-auto font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
+            {filtered.length} il
+          </span>
         </div>
-      </div>
+      </section>
 
-      <div className="overflow-x-auto rounded-sm border border-border bg-surface-1">
-        <table className="w-full text-sm">
-          <thead className="border-b border-border bg-surface-2">
-            <tr className="text-left">
-              <Th label="İL" k="name" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} />
-              <th className="px-3 py-2 text-left font-mono text-xs text-muted-foreground">BÖLGE</th>
-              <Th label="YILMAZ" k="yilmaz" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
-              <Th label="KAYA" k="kaya" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
-              <Th label="DEMİR" k="demir" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
-              <Th label="SAYIM" k="counted" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
-              <Th label="KATILIM" k="turnout" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
-            </tr>
-          </thead>
-          <tbody>
-            {filtered.map((p) => {
-              const leaderColor = candColor(p.leader);
-              return (
-                <tr key={p.id} className="border-b border-border/40 hover:bg-surface-2">
-                  <td className="px-3 py-2">
-                    <div className="flex items-center gap-2">
-                      <span className="inline-block h-2 w-2 rounded-sm" style={{ backgroundColor: leaderColor }} />
-                      <span className="font-medium text-foreground">{p.name}</span>
-                    </div>
-                  </td>
-                  <td className="px-3 py-2 text-muted-foreground">{p.region}</td>
-                  <Cell value={p.results.yilmaz} highlight={p.leader === "yilmaz"} color="cand-yilmaz" />
-                  <Cell value={p.results.kaya} highlight={p.leader === "kaya"} color="cand-kaya" />
-                  <Cell value={p.results.demir} highlight={p.leader === "demir"} color="cand-demir" />
-                  <td className="px-3 py-2 text-right font-mono">%{p.counted}</td>
-                  <td className="px-3 py-2 text-right font-mono text-accent">%{p.turnout}</td>
-                </tr>
-              );
-            })}
-          </tbody>
-        </table>
-      </div>
-
-      <p className="mt-3 font-mono text-xs text-muted-foreground">{filtered.length} İL GÖSTERİLİYOR</p>
+      {/* Table */}
+      <section className="px-4 py-6 md:px-8 lg:px-12">
+        <div className="overflow-x-auto border border-border">
+          <table className="w-full text-sm">
+            <thead className="border-b border-border bg-surface-1">
+              <tr className="text-left">
+                <Th label="İL" k="name" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} />
+                <th className="px-3 py-3 text-left font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-muted-foreground">BÖLGE</th>
+                <Th label="YILMAZ" k="yilmaz" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
+                <Th label="KAYA" k="kaya" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
+                <Th label="DEMİR" k="demir" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
+                <Th label="SAYIM" k="counted" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
+                <Th label="KATILIM" k="turnout" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
+              </tr>
+            </thead>
+            <tbody>
+              {filtered.map((p) => {
+                const leaderColor = candColor(p.leader);
+                return (
+                  <tr key={p.id} className="border-b border-border/40 transition-colors hover:bg-surface-1">
+                    <td className="px-3 py-2.5">
+                      <div className="flex items-center gap-2">
+                        <span className="inline-block h-2.5 w-1" style={{ backgroundColor: leaderColor }} />
+                        <span className="font-mono text-sm font-semibold text-foreground">{p.name}</span>
+                      </div>
+                    </td>
+                    <td className="px-3 py-2.5 font-mono text-xs text-muted-foreground">{p.region}</td>
+                    <Cell value={p.results.yilmaz} highlight={p.leader === "yilmaz"} color={candColor("yilmaz")} />
+                    <Cell value={p.results.kaya} highlight={p.leader === "kaya"} color={candColor("kaya")} />
+                    <Cell value={p.results.demir} highlight={p.leader === "demir"} color={candColor("demir")} />
+                    <td className="px-3 py-2.5 text-right tabular-nums font-mono text-xs">%{p.counted}</td>
+                    <td className="px-3 py-2.5 text-right tabular-nums font-mono text-xs text-accent">%{p.turnout}</td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
   );
 }
@@ -133,10 +143,10 @@ function Th({ label, k, sortKey, sortDir, onSort, align = "left" }: {
 }) {
   const active = sortKey === k;
   return (
-    <th className={`px-3 py-2 font-mono text-xs text-muted-foreground ${align === "right" ? "text-right" : "text-left"}`}>
+    <th className={`px-3 py-3 font-mono text-[10px] font-bold uppercase tracking-[0.16em] ${align === "right" ? "text-right" : "text-left"}`}>
       <button
         onClick={() => onSort(k)}
-        className={`inline-flex items-center gap-1 hover:text-foreground ${active ? "text-foreground" : ""}`}
+        className={`inline-flex items-center gap-1 transition-colors hover:text-foreground ${active ? "text-foreground" : "text-muted-foreground"}`}
       >
         {label}
         {active && (sortDir === "asc" ? <ChevronUp size={10} /> : <ChevronDown size={10} />)}
@@ -147,10 +157,10 @@ function Th({ label, k, sortKey, sortDir, onSort, align = "left" }: {
 
 function Cell({ value, highlight, color }: { value: number; highlight: boolean; color: string }) {
   return (
-    <td className="px-3 py-2 text-right">
+    <td className="px-3 py-2.5 text-right">
       <span
-        className={`inline-block min-w-[50px] rounded-sm px-2 py-0.5 font-mono ${highlight ? "font-semibold text-foreground" : "text-muted-foreground"}`}
-        style={highlight ? { backgroundColor: `var(--color-${color})`, color: "white" } : {}}
+        className={`inline-block min-w-[52px] px-2 py-0.5 tabular-nums font-mono text-xs ${highlight ? "font-bold" : "text-muted-foreground"}`}
+        style={highlight ? { backgroundColor: color, color: "#0A0E1A" } : {}}
       >
         %{value}
       </span>
