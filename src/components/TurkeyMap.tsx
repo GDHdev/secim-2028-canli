@@ -2,11 +2,11 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
 import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
+import { geoCentroid } from "d3-geo";
 import { PROVINCES, type Province, CANDIDATES } from "@/lib/mock-data";
 import { X, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
 
 // GeoJSON property name → mock province id
-// (GeoJSON name uses Turkish characters; "Afyon" maps to "afyonkarahisar")
 const NAME_TO_ID: Record<string, string> = {
   "Adana": "adana", "Adıyaman": "adiyaman", "Afyon": "afyonkarahisar",
   "Aksaray": "aksaray", "Amasya": "amasya", "Ankara": "ankara",
@@ -41,9 +41,39 @@ const candidateColor = (id: "yilmaz" | "kaya" | "demir") =>
   CANDIDATES.find((c) => c.id === id)!.color;
 
 const GEO_URL = "/geo/tr-provinces.json";
+const LABEL_ZOOM_THRESHOLD = 2.5;
 
-export function TurkeyMap({ inline = false }: { inline?: boolean }) {
-  const [selected, setSelected] = useState<Province | null>(null);
+export type TurkeyMapProps = {
+  /** Hide built-in modal side panel; emit selection upward instead. */
+  embedded?: boolean;
+  /** Controlled selection (when embedded). */
+  selectedId?: string | null;
+  onSelect?: (p: Province | null) => void;
+  /** Override the wrapper aspect / height. */
+  className?: string;
+  /** Hide title row above map. */
+  hideHeader?: boolean;
+  /** Show parliamentary mode (visual only — pattern overlay on top of leader). */
+  mode?: "baskan" | "vekil";
+};
+
+export function TurkeyMap({
+  embedded = false,
+  selectedId,
+  onSelect,
+  className,
+  hideHeader = false,
+  mode = "baskan",
+}: TurkeyMapProps) {
+  const [internalSelected, setInternalSelected] = useState<Province | null>(null);
+  const selected = embedded
+    ? (selectedId ? PROVINCES.find((p) => p.id === selectedId) ?? null : null)
+    : internalSelected;
+  const setSelected = (p: Province | null) => {
+    if (embedded) onSelect?.(p);
+    else setInternalSelected(p);
+  };
+
   const [hover, setHover] = useState<Province | null>(null);
   const [tipPos, setTipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
@@ -57,7 +87,7 @@ export function TurkeyMap({ inline = false }: { inline?: boolean }) {
     return m;
   }, []);
 
-  // "Color bleed" reveal animation: provinces fill in over ~1.6s
+  // "Color bleed" reveal animation
   useEffect(() => {
     let raf = 0;
     const start = performance.now();
@@ -74,19 +104,25 @@ export function TurkeyMap({ inline = false }: { inline?: boolean }) {
     return () => cancelAnimationFrame(raf);
   }, []);
 
+  const showLabels = zoom >= LABEL_ZOOM_THRESHOLD;
+
   return (
     <div className="relative">
-      <div className="mb-3 flex items-center justify-between">
-        <div>
-          <h2 className="font-display text-2xl tracking-wider text-foreground">TÜRKİYE HARİTASI</h2>
-          <p className="font-mono text-[10px] text-muted-foreground">81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME</p>
+      {!hideHeader && (
+        <div className="mb-3 flex items-center justify-between">
+          <div>
+            <h2 className="font-display text-2xl tracking-wider text-foreground">TÜRKİYE HARİTASI</h2>
+            <p className="font-mono text-[10px] text-muted-foreground">
+              81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME
+            </p>
+          </div>
+          <Legend />
         </div>
-        <Legend />
-      </div>
+      )}
 
       <div
         ref={containerRef}
-        className="relative overflow-hidden rounded-sm border border-border bg-surface-1"
+        className={`relative overflow-hidden rounded-sm border border-border bg-surface-1 ${className ?? ""}`}
         onMouseLeave={() => setHover(null)}
       >
         {/* Zoom controls */}
@@ -114,13 +150,37 @@ export function TurkeyMap({ inline = false }: { inline?: boolean }) {
           </button>
         </div>
 
+        {/* Zoom hint */}
+        {!showLabels && (
+          <div className="pointer-events-none absolute bottom-2 left-2 z-10 rounded-sm bg-card/80 px-2 py-1 font-mono text-[10px] text-muted-foreground backdrop-blur-sm">
+            İl isimleri için yakınlaştır →
+          </div>
+        )}
+
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{ scale: 2400, center: [35.2, 39] }}
           width={900}
           height={420}
-          style={{ width: "100%", height: "auto", display: "block" }}
+          style={{ width: "100%", height: "100%", display: "block" }}
         >
+          {/* SVG patterns for parliamentary mode hatching + accessibility */}
+          <defs>
+            {(["yilmaz", "kaya", "demir"] as const).map((id) => (
+              <pattern
+                key={id}
+                id={`hatch-${id}`}
+                patternUnits="userSpaceOnUse"
+                width="6"
+                height="6"
+                patternTransform="rotate(45)"
+              >
+                <rect width="6" height="6" fill={candidateColor(id)} />
+                <line x1="0" y1="0" x2="0" y2="6" stroke="rgba(255,255,255,0.35)" strokeWidth="2" />
+              </pattern>
+            ))}
+          </defs>
+
           <ZoomableGroup
             zoom={zoom}
             center={center}
@@ -129,64 +189,99 @@ export function TurkeyMap({ inline = false }: { inline?: boolean }) {
             maxZoom={8}
           >
             <Geographies geography={GEO_URL}>
-              {({ geographies }) =>
-                geographies.map((geo, i) => {
-                  const name = geo.properties.name as string;
-                  const id = NAME_TO_ID[name];
-                  const province = id ? provinceById.get(id) : undefined;
-                  const isRevealed = i < revealedCount;
-                  const fill = province && isRevealed
-                    ? candidateColor(province.leader)
-                    : "var(--color-surface-2)";
-                  const isSelected = selected?.id === id;
-                  return (
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      onMouseEnter={(e) => {
-                        if (province) {
-                          setHover(province);
-                          setTipPos({ x: e.clientX, y: e.clientY });
-                        }
-                      }}
-                      onMouseMove={(e) => setTipPos({ x: e.clientX, y: e.clientY })}
-                      onMouseLeave={() => setHover(null)}
-                      onClick={() => province && setSelected(province)}
-                      style={{
-                        default: {
-                          fill,
-                          stroke: "var(--color-background)",
-                          strokeWidth: 0.6,
-                          outline: "none",
-                          transition: "fill 0.4s ease, opacity 0.3s ease",
-                          opacity: isRevealed ? (isSelected ? 1 : 0.92) : 0.5,
-                          cursor: "pointer",
-                        },
-                        hover: {
-                          fill,
-                          stroke: "var(--color-foreground)",
-                          strokeWidth: 1.2,
-                          outline: "none",
-                          opacity: 1,
-                          cursor: "pointer",
-                        },
-                        pressed: {
-                          fill,
-                          stroke: "var(--color-accent)",
-                          strokeWidth: 1.5,
-                          outline: "none",
-                        },
-                      }}
-                    />
-                  );
-                })
-              }
+              {({ geographies }) => (
+                <>
+                  {geographies.map((geo, i) => {
+                    const name = geo.properties.name as string;
+                    const id = NAME_TO_ID[name];
+                    const province = id ? provinceById.get(id) : undefined;
+                    const isRevealed = i < revealedCount;
+                    const baseFill = province && isRevealed
+                      ? (mode === "vekil"
+                          ? `url(#hatch-${province.leader})`
+                          : candidateColor(province.leader))
+                      : "var(--color-surface-2)";
+                    const isSelected = selected?.id === id;
+                    return (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        onMouseEnter={(e) => {
+                          if (province) {
+                            setHover(province);
+                            setTipPos({ x: e.clientX, y: e.clientY });
+                          }
+                        }}
+                        onMouseMove={(e) => setTipPos({ x: e.clientX, y: e.clientY })}
+                        onMouseLeave={() => setHover(null)}
+                        onClick={() => province && setSelected(province)}
+                        style={{
+                          default: {
+                            fill: baseFill,
+                            stroke: "var(--color-background)",
+                            strokeWidth: 0.6,
+                            outline: "none",
+                            transition: "fill 0.4s ease, opacity 0.3s ease",
+                            opacity: isRevealed ? (isSelected ? 1 : 0.92) : 0.5,
+                            cursor: "pointer",
+                          },
+                          hover: {
+                            fill: baseFill,
+                            stroke: "var(--color-foreground)",
+                            strokeWidth: 1.2,
+                            outline: "none",
+                            opacity: 1,
+                            cursor: "pointer",
+                          },
+                          pressed: {
+                            fill: baseFill,
+                            stroke: "var(--color-accent)",
+                            strokeWidth: 1.5,
+                            outline: "none",
+                          },
+                        }}
+                      />
+                    );
+                  })}
+
+                  {/* Province labels — only at high zoom */}
+                  {showLabels && geographies.map((geo) => {
+                    const name = geo.properties.name as string;
+                    const id = NAME_TO_ID[name];
+                    const province = id ? provinceById.get(id) : undefined;
+                    if (!province) return null;
+                    const centroid = geoCentroid(geo);
+                    if (!Number.isFinite(centroid[0]) || !Number.isFinite(centroid[1])) return null;
+                    // Scale font inversely so it doesn't grow beyond readable
+                    const fontSize = Math.max(2.2, 6 / zoom);
+                    return (
+                      <g key={`lbl-${geo.rsmKey}`} transform={`translate(${projectPoint(centroid)})`} pointerEvents="none">
+                        <text
+                          textAnchor="middle"
+                          y={0}
+                          style={{
+                            fontFamily: "var(--font-mono)",
+                            fontSize,
+                            fontWeight: 700,
+                            fill: "white",
+                            paintOrder: "stroke",
+                            stroke: "rgba(0,0,0,0.55)",
+                            strokeWidth: 0.6,
+                          }}
+                        >
+                          {province.name.toUpperCase()}
+                        </text>
+                      </g>
+                    );
+                  })}
+                </>
+              )}
             </Geographies>
           </ZoomableGroup>
         </ComposableMap>
 
         {/* Tooltip */}
-        {hover && !inline && (
+        {hover && (
           <div
             className="pointer-events-none fixed z-40 rounded-sm border border-border bg-popover px-3 py-2 text-xs shadow-lg"
             style={{ left: tipPos.x + 14, top: tipPos.y + 14 }}
@@ -201,9 +296,9 @@ export function TurkeyMap({ inline = false }: { inline?: boolean }) {
         )}
       </div>
 
-      {/* Side panel */}
+      {/* Modal side panel — only when not embedded */}
       <AnimatePresence>
-        {selected && (
+        {!embedded && selected && (
           <>
             <motion.div
               initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
@@ -215,96 +310,107 @@ export function TurkeyMap({ inline = false }: { inline?: boolean }) {
               transition={{ type: "spring", damping: 30, stiffness: 280 }}
               className="fixed inset-y-0 right-0 z-50 w-full max-w-md overflow-y-auto border-l border-border bg-card p-6 shadow-2xl"
             >
-              <div className="flex items-start justify-between">
-                <div>
-                  <p className="font-mono text-xs text-muted-foreground">{selected.region.toUpperCase()}</p>
-                  <h3 className="font-display text-4xl tracking-wider text-foreground">{selected.name.toUpperCase()}</h3>
-                  <p className="mt-1 font-mono text-xs text-muted-foreground">
-                    Nüfus: {selected.population.toLocaleString("tr-TR")} · Sayım: %{selected.counted}
-                  </p>
-                </div>
-                <button
-                  onClick={() => setSelected(null)}
-                  className="rounded-sm p-1 text-muted-foreground hover:bg-surface-2 hover:text-foreground"
-                  aria-label="Kapat"
-                >
-                  <X size={20} />
-                </button>
-              </div>
-
-              <div className="mt-6 space-y-3">
-                {(["yilmaz", "kaya", "demir", "other"] as const).map((id) => {
-                  const c = CANDIDATES.find((x) => x.id === id)!;
-                  const v = selected.results[id];
-                  const isLeader = id === selected.leader;
-                  return (
-                    <div key={id}>
-                      <div className="mb-1 flex items-baseline justify-between">
-                        <span className={`font-display text-lg tracking-wide ${isLeader ? "text-accent" : "text-foreground"}`}>
-                          {c.name.toUpperCase()}
-                        </span>
-                        <span className={`font-display text-2xl ${isLeader ? "text-accent" : "text-foreground"}`}>
-                          %{v}
-                        </span>
-                      </div>
-                      <div className="h-2 overflow-hidden rounded-sm bg-surface-2">
-                        <motion.div
-                          initial={{ width: 0 }} animate={{ width: `${v}%` }}
-                          transition={{ duration: 0.6 }}
-                          className="h-full" style={{ backgroundColor: c.color }}
-                        />
-                      </div>
-                    </div>
-                  );
-                })}
-              </div>
-
-              <div className="mt-6 grid grid-cols-2 gap-3">
-                <div className="rounded-sm border border-border bg-surface-1 p-3">
-                  <p className="font-mono text-[10px] text-muted-foreground">KATILIM 2028</p>
-                  <p className="font-display text-3xl text-foreground">%{selected.turnout}</p>
-                </div>
-                <div className="rounded-sm border border-border bg-surface-1 p-3">
-                  <p className="font-mono text-[10px] text-muted-foreground">KATILIM 2023</p>
-                  <p className="font-display text-3xl text-muted-foreground">%{selected.turnout2023}</p>
-                </div>
-              </div>
-
-              <div className="mt-6">
-                <p className="font-mono text-[10px] text-muted-foreground">İLÇE BAZINDA (ÖRNEK)</p>
-                <table className="mt-2 w-full text-sm">
-                  <thead>
-                    <tr className="border-b border-border text-left font-mono text-[10px] text-muted-foreground">
-                      <th className="py-2">İLÇE</th>
-                      <th>YIL.</th>
-                      <th>KAYA</th>
-                      <th>DEMİR</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {fakeDistricts(selected).map((d) => (
-                      <tr key={d.name} className="border-b border-border/40">
-                        <td className="py-1.5 text-foreground">{d.name}</td>
-                        <td className="font-mono text-foreground">%{d.y}</td>
-                        <td className="font-mono text-foreground">%{d.k}</td>
-                        <td className="font-mono text-foreground">%{d.de}</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-
-              <Link
-                to="/sonuclar"
-                className="mt-6 inline-block font-mono text-xs text-accent hover:underline"
-              >
-                Tüm sonuçlar tablosu →
-              </Link>
+              <ProvincePanelBody province={selected} onClose={() => setSelected(null)} />
             </motion.div>
           </>
         )}
       </AnimatePresence>
     </div>
+  );
+}
+
+/** Reusable province panel body — used in both modal and embedded layouts. */
+export function ProvincePanelBody({ province, onClose }: { province: Province; onClose?: () => void }) {
+  return (
+    <>
+      <div className="flex items-start justify-between">
+        <div>
+          <p className="font-mono text-xs text-muted-foreground">{province.region.toUpperCase()}</p>
+          <h3 className="font-display text-4xl tracking-wider text-foreground">{province.name.toUpperCase()}</h3>
+          <p className="mt-1 font-mono text-xs text-muted-foreground">
+            Nüfus: {province.population.toLocaleString("tr-TR")} · Sayım: %{province.counted}
+          </p>
+        </div>
+        {onClose && (
+          <button
+            onClick={onClose}
+            className="rounded-sm p-1 text-muted-foreground hover:bg-surface-2 hover:text-foreground"
+            aria-label="Kapat"
+          >
+            <X size={20} />
+          </button>
+        )}
+      </div>
+
+      <div className="mt-6 space-y-3">
+        {(["yilmaz", "kaya", "demir", "other"] as const).map((id) => {
+          const c = CANDIDATES.find((x) => x.id === id)!;
+          const v = province.results[id];
+          const isLeader = id === province.leader;
+          return (
+            <div key={id}>
+              <div className="mb-1 flex items-baseline justify-between">
+                <span className={`font-display text-lg tracking-wide ${isLeader ? "text-accent" : "text-foreground"}`}>
+                  {c.name.toUpperCase()}
+                </span>
+                <span className={`font-display text-2xl ${isLeader ? "text-accent" : "text-foreground"}`}>
+                  %{v}
+                </span>
+              </div>
+              <div className="h-2 overflow-hidden rounded-sm bg-surface-2">
+                <motion.div
+                  initial={{ width: 0 }} animate={{ width: `${v}%` }}
+                  transition={{ duration: 0.6 }}
+                  className="h-full" style={{ backgroundColor: c.color }}
+                />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div className="mt-6 grid grid-cols-2 gap-3">
+        <div className="rounded-sm border border-border bg-surface-1 p-3">
+          <p className="font-mono text-[10px] text-muted-foreground">KATILIM 2028</p>
+          <p className="font-display text-3xl text-foreground">%{province.turnout}</p>
+        </div>
+        <div className="rounded-sm border border-border bg-surface-1 p-3">
+          <p className="font-mono text-[10px] text-muted-foreground">KATILIM 2023</p>
+          <p className="font-display text-3xl text-muted-foreground">%{province.turnout2023}</p>
+        </div>
+      </div>
+
+      <div className="mt-6">
+        <p className="font-mono text-[10px] text-muted-foreground">İLÇE BAZINDA (ÖRNEK)</p>
+        <table className="mt-2 w-full text-sm">
+          <thead>
+            <tr className="border-b border-border text-left font-mono text-[10px] text-muted-foreground">
+              <th className="py-2">İLÇE</th>
+              <th>YIL.</th>
+              <th>KAYA</th>
+              <th>DEMİR</th>
+            </tr>
+          </thead>
+          <tbody>
+            {fakeDistricts(province).map((d) => (
+              <tr key={d.name} className="border-b border-border/40">
+                <td className="py-1.5 text-foreground">{d.name}</td>
+                <td className="font-mono text-foreground">%{d.y}</td>
+                <td className="font-mono text-foreground">%{d.k}</td>
+                <td className="font-mono text-foreground">%{d.de}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <Link
+        to="/sonuclar"
+        className="mt-6 inline-block font-mono text-xs text-accent hover:underline"
+      >
+        Tüm sonuçlar tablosu →
+      </Link>
+    </>
   );
 }
 
@@ -337,4 +443,20 @@ function fakeDistricts(p: Province) {
       de: Math.max(0, Math.round(base.demir + drift / 3)),
     };
   });
+}
+
+/** Project [lon, lat] to SVG coords matching ComposableMap's default projection. */
+function projectPoint([lon, lat]: [number, number]): string {
+  // Recreate the same Mercator transform used by ComposableMap above
+  const scale = 2400;
+  const cx = 35.2, cy = 39;
+  const w = 900, h = 420;
+  const lonRad = ((lon - cx) * Math.PI) / 180;
+  const latRad = (lat * Math.PI) / 180;
+  const cyRad = (cy * Math.PI) / 180;
+  const x = w / 2 + scale * lonRad;
+  const yMerc = Math.log(Math.tan(Math.PI / 4 + latRad / 2));
+  const yMercC = Math.log(Math.tan(Math.PI / 4 + cyRad / 2));
+  const y = h / 2 - scale * (yMerc - yMercC);
+  return `${x} ${y}`;
 }
