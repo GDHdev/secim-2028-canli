@@ -363,20 +363,27 @@ export const COALITIONS: Coalition[] = [
 export const MAJORITY_THRESHOLD = 301;
 
 // Key insights / mega numbers strip
+export type MegaStatTrend = "up" | "down" | "neutral";
+export type MegaStatIcon =
+  | "vote" | "leader" | "runoff" | "turnout" | "checked" | "parliament";
+
 export type MegaStat = {
   label: string;
   value: string;
   sub?: string;
   tone?: "default" | "primary" | "accent" | "cyan";
+  icon?: MegaStatIcon;
+  delta?: string;
+  trend?: MegaStatTrend;
 };
 
 export const MEGA_STATS: MegaStat[] = [
-  { label: "Sayım",            value: "%74.6",     sub: "47.8M / 64.1M oy", tone: "accent" },
-  { label: "Önde",             value: "YILMAZ",    sub: "%38.2 · 18.3M oy", tone: "default" },
-  { label: "2. Tur ihtimali",  value: "%73",       sub: "14 Nisan 2028",    tone: "primary" },
-  { label: "Katılım",          value: "%86.2",     sub: "+0.8 vs 2023",     tone: "cyan" },
-  { label: "Kesinleşen il",    value: "12 / 81",   sub: "%100 sayım",       tone: "default" },
-  { label: "Meclis lideri",    value: "UBP",       sub: "198 sandalye",     tone: "accent" },
+  { label: "Sayım",            value: "%74.6",   sub: "47.8M / 64.1M oy", tone: "accent",  icon: "vote",       delta: "+2.1 pt",   trend: "up" },
+  { label: "Önde",             value: "Yılmaz",  sub: "%38.2 · 18.3M oy", tone: "default", icon: "leader",     delta: "+6.5 pt",   trend: "up" },
+  { label: "2. Tur ihtimali",  value: "%73",     sub: "14 Nisan 2028",    tone: "primary", icon: "runoff",     delta: "+4.0 pt",   trend: "up" },
+  { label: "Katılım",          value: "%86.2",   sub: "vs 2023 %85.4",    tone: "cyan",    icon: "turnout",    delta: "+0.8 pt",   trend: "up" },
+  { label: "Kesinleşen il",    value: "12 / 81", sub: "%100 sayım",       tone: "default", icon: "checked",    delta: "+3 il",     trend: "up" },
+  { label: "Meclis lideri",    value: "UBP",     sub: "198 sandalye",     tone: "accent",  icon: "parliament", delta: "−4 vs 2023", trend: "down" },
 ];
 
 // Region snapshot — leader per region

@@ -1,7 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { COUNTED_VOTES, COUNT_PERCENT, TOTAL_VOTERS, fmtTR, LIVE_FEED, MEGA_STATS } from "@/lib/mock-data";
+import {
+  COUNTED_VOTES, COUNT_PERCENT, TOTAL_VOTERS, fmtTR, LIVE_FEED, MEGA_STATS,
+  type MegaStatIcon,
+} from "@/lib/mock-data";
+import {
+  ArrowUpRight, ArrowDownRight,
+  Vote, Trophy, Repeat, Users, CheckCircle2, Landmark,
+} from "lucide-react";
 
 const NAV = [
   { to: "/", label: "GENEL" },
@@ -13,11 +20,20 @@ const NAV = [
   { to: "/haberler", label: "HABERLER" },
 ] as const;
 
-const toneClass: Record<string, string> = {
-  default: "text-foreground",
-  primary: "text-primary",
-  accent: "text-accent",
-  cyan: "text-cyan",
+const ICONS: Record<MegaStatIcon, React.ComponentType<{ size?: number; className?: string }>> = {
+  vote: Vote,
+  leader: Trophy,
+  runoff: Repeat,
+  turnout: Users,
+  checked: CheckCircle2,
+  parliament: Landmark,
+};
+
+const toneAccent: Record<string, { bg: string; fg: string }> = {
+  default: { bg: "bg-gray-100", fg: "text-gray-700" },
+  primary: { bg: "bg-brand-50", fg: "text-brand-700" },
+  accent:  { bg: "bg-brand-50", fg: "text-brand-700" },
+  cyan:    { bg: "bg-gray-100", fg: "text-gray-700" },
 };
 
 export function TopBar() {
@@ -101,21 +117,52 @@ export function TopBar() {
         ))}
       </nav>
 
-      {/* Row 3 — mega stats strip */}
-      <div className="grid grid-cols-2 divide-x divide-border border-t border-border md:grid-cols-3 lg:grid-cols-6">
-        {MEGA_STATS.map((s, i) => (
-          <div key={i} className="flex flex-col gap-1 px-4 py-2.5 md:px-5 md:py-3">
-            <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
-              {s.label}
-            </span>
-            <span className={`font-display text-xl leading-none tracking-tight md:text-2xl ${toneClass[s.tone ?? "default"]}`}>
-              {s.value}
-            </span>
-            {s.sub && (
-              <span className="font-mono text-[10px] text-muted-foreground">{s.sub}</span>
-            )}
-          </div>
-        ))}
+      {/* Row 3 — Untitled UI metric cards */}
+      <div className="border-t border-gray-200 bg-gray-50 px-3 py-3 md:px-6 md:py-4">
+        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-6">
+          {MEGA_STATS.map((s, i) => {
+            const Icon = s.icon ? ICONS[s.icon] : Vote;
+            const tone = toneAccent[s.tone ?? "default"];
+            const trendUp = s.trend === "up";
+            const trendDown = s.trend === "down";
+            return (
+              <div
+                key={i}
+                className="group flex flex-col gap-2 rounded-xl border border-gray-200 bg-white p-3 shadow-xs transition-shadow hover:shadow-md md:p-3.5"
+              >
+                <div className="flex items-start justify-between gap-2">
+                  <div className={`flex h-8 w-8 items-center justify-center rounded-lg ${tone.bg}`}>
+                    <Icon size={16} className={tone.fg} />
+                  </div>
+                  {s.delta && (
+                    <span
+                      className={`inline-flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-[10px] font-medium tabular-nums ${
+                        trendUp
+                          ? "border-success-600/20 bg-success-500/10 text-success-600"
+                          : trendDown
+                          ? "border-error-600/20 bg-error-500/10 text-error-600"
+                          : "border-gray-200 bg-gray-50 text-gray-600"
+                      }`}
+                    >
+                      {trendUp && <ArrowUpRight size={10} strokeWidth={2.5} />}
+                      {trendDown && <ArrowDownRight size={10} strokeWidth={2.5} />}
+                      {s.delta}
+                    </span>
+                  )}
+                </div>
+                <div>
+                  <p className="text-[11px] font-medium text-gray-500">{s.label}</p>
+                  <p className="mt-0.5 text-lg font-semibold leading-tight tracking-tight text-gray-900 md:text-xl">
+                    {s.value}
+                  </p>
+                  {s.sub && (
+                    <p className="mt-0.5 text-[11px] text-gray-500">{s.sub}</p>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
 
       {/* Row 4 — breaking ticker */}
