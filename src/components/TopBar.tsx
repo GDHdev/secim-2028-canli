@@ -7,6 +7,7 @@ const NAV = [
   { to: "/", label: "GENEL" },
   { to: "/harita", label: "HARİTA" },
   { to: "/sonuclar", label: "SONUÇLAR" },
+  { to: "/milletvekili", label: "MİLLETVEKİLİ" },
   { to: "/tur2", label: "2. TUR" },
   { to: "/anketler", label: "ANKETLER" },
   { to: "/haberler", label: "HABERLER" },

@@ -11,6 +11,7 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as Tur2RouteImport } from './routes/tur2'
 import { Route as SonuclarRouteImport } from './routes/sonuclar'
+import { Route as MilletvekiliRouteImport } from './routes/milletvekili'
 import { Route as HaritaRouteImport } from './routes/harita'
 import { Route as AnketlerRouteImport } from './routes/anketler'
 import { Route as IndexRouteImport } from './routes/index'
@@ -25,6 +26,11 @@ const Tur2Route = Tur2RouteImport.update({
 const SonuclarRoute = SonuclarRouteImport.update({
   id: '/sonuclar',
   path: '/sonuclar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const MilletvekiliRoute = MilletvekiliRouteImport.update({
+  id: '/milletvekili',
+  path: '/milletvekili',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HaritaRoute = HaritaRouteImport.update({
@@ -57,6 +63,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/anketler': typeof AnketlerRoute
   '/harita': typeof HaritaRoute
+  '/milletvekili': typeof MilletvekiliRoute
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
   '/haberler/$id': typeof HaberlerIdRoute
@@ -66,6 +73,7 @@ export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/anketler': typeof AnketlerRoute
   '/harita': typeof HaritaRoute
+  '/milletvekili': typeof MilletvekiliRoute
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
   '/haberler/$id': typeof HaberlerIdRoute
@@ -76,6 +84,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/anketler': typeof AnketlerRoute
   '/harita': typeof HaritaRoute
+  '/milletvekili': typeof MilletvekiliRoute
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
   '/haberler/$id': typeof HaberlerIdRoute
@@ -87,6 +96,7 @@ export interface FileRouteTypes {
     | '/'
     | '/anketler'
     | '/harita'
+    | '/milletvekili'
     | '/sonuclar'
     | '/tur2'
     | '/haberler/$id'
@@ -96,6 +106,7 @@ export interface FileRouteTypes {
     | '/'
     | '/anketler'
     | '/harita'
+    | '/milletvekili'
     | '/sonuclar'
     | '/tur2'
     | '/haberler/$id'
@@ -105,6 +116,7 @@ export interface FileRouteTypes {
     | '/'
     | '/anketler'
     | '/harita'
+    | '/milletvekili'
     | '/sonuclar'
     | '/tur2'
     | '/haberler/$id'
@@ -115,6 +127,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AnketlerRoute: typeof AnketlerRoute
   HaritaRoute: typeof HaritaRoute
+  MilletvekiliRoute: typeof MilletvekiliRoute
   SonuclarRoute: typeof SonuclarRoute
   Tur2Route: typeof Tur2Route
   HaberlerIdRoute: typeof HaberlerIdRoute
@@ -135,6 +148,13 @@ declare module '@tanstack/react-router' {
       path: '/sonuclar'
       fullPath: '/sonuclar'
       preLoaderRoute: typeof SonuclarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/milletvekili': {
+      id: '/milletvekili'
+      path: '/milletvekili'
+      fullPath: '/milletvekili'
+      preLoaderRoute: typeof MilletvekiliRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/harita': {
@@ -179,6 +199,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AnketlerRoute: AnketlerRoute,
   HaritaRoute: HaritaRoute,
+  MilletvekiliRoute: MilletvekiliRoute,
   SonuclarRoute: SonuclarRoute,
   Tur2Route: Tur2Route,
   HaberlerIdRoute: HaberlerIdRoute,

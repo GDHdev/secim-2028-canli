@@ -8,6 +8,8 @@ import { StatsGrid } from "@/components/StatsGrid";
 import { MicroNews } from "@/components/MicroNews";
 import { MegaNumbers } from "@/components/MegaNumbers";
 import { RegionStrip } from "@/components/RegionStrip";
+import { Countdown } from "@/components/Countdown";
+import { SwingProvinces } from "@/components/SwingProvinces";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -25,29 +27,30 @@ function Index() {
   return (
     <div className="bg-background">
       {/* HERO BAND */}
-      <section className="border-b border-border px-4 pt-8 pb-6 md:px-8 md:pt-12 lg:px-12">
-        <div className="flex flex-wrap items-end justify-between gap-3">
+      <section className="border-b border-border px-4 pt-8 pb-8 md:px-8 md:pt-12 lg:px-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_420px] lg:items-end">
           <div>
             <span className="eyebrow-accent">Seçim Gecesi · 14 Mart 2028</span>
-            <h1 className="display-mega mt-2 text-balance text-foreground">
-              CUMHURİYETİN <br className="hidden md:inline" />
-              <span className="text-primary">SEÇİMİ</span>
+            <h1 className="display-mega mt-3 text-balance text-foreground">
+              Cumhuriyetin <span className="text-primary">Seçimi</span>
             </h1>
-          </div>
-          <div className="max-w-md">
-            <p className="font-serif text-lg leading-snug text-muted-foreground">
-              Türkiye 64 milyon seçmenle sandık başında. Cumhurbaşkanlığı yarışında 2. tur kaçınılmaz görünürken,
-              meclis aritmetiği yeniden yazılıyor.
+            <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+              Türkiye 64 milyon seçmenle sandık başında. Cumhurbaşkanlığı yarışında
+              2. tur kaçınılmaz görünürken, meclis aritmetiği yeniden yazılıyor.
             </p>
-            <div className="mt-4 flex gap-2">
-              <Link to="/harita" className="border border-border bg-card px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-foreground hover:bg-surface-2">
+            <div className="mt-5 flex flex-wrap gap-2">
+              <Link to="/harita" className="border border-border bg-card px-4 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-foreground hover:bg-surface-2">
                 Harita →
               </Link>
-              <Link to="/tur2" className="border border-accent bg-accent px-4 py-2 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-accent-foreground hover:bg-accent/85">
+              <Link to="/milletvekili" className="border border-border bg-card px-4 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-foreground hover:bg-surface-2">
+                Milletvekili
+              </Link>
+              <Link to="/tur2" className="border border-accent bg-accent px-4 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-accent-foreground hover:bg-accent/85">
                 2. Tur Simülatörü
               </Link>
             </div>
           </div>
+          <Countdown />
         </div>
       </section>
 
@@ -95,26 +98,37 @@ function Index() {
         <Parliament />
       </section>
 
-      {/* LIVE FEED + STATS */}
-      <section className="px-4 py-10 md:px-8 lg:px-12">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[380px_1fr]">
+      {/* SWING PROVINCES + LIVE */}
+      <section className="border-t border-border px-4 py-10 md:px-8 lg:px-12">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
           <div>
             <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-              <h2 className="display-lg text-foreground">CANLI</h2>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-primary">● AKTİF</span>
+              <h2 className="display-lg text-foreground">Swing — Değişim</h2>
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+                2023 → 2028
+              </span>
+            </div>
+            <SwingProvinces />
+          </div>
+          <div>
+            <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
+              <h2 className="display-lg text-foreground">Canlı Akış</h2>
+              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">● AKTİF</span>
             </div>
             <LiveFeed />
           </div>
-          <div>
-            <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-              <h2 className="display-lg text-foreground">İSTATİSTİKLER</h2>
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground">
-                Veri özeti
-              </span>
-            </div>
-            <StatsGrid />
-          </div>
         </div>
+      </section>
+
+      {/* STATS */}
+      <section className="border-t border-border px-4 py-10 md:px-8 lg:px-12">
+        <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
+          <h2 className="display-lg text-foreground">İstatistikler</h2>
+          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            Veri özeti
+          </span>
+        </div>
+        <StatsGrid />
       </section>
 
       {/* NEWS */}
