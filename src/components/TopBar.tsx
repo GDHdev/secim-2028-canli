@@ -1,7 +1,14 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { COUNTED_VOTES, COUNT_PERCENT, TOTAL_VOTERS, fmtTR, LIVE_FEED, MEGA_STATS } from "@/lib/mock-data";
+import {
+  COUNTED_VOTES, COUNT_PERCENT, TOTAL_VOTERS, fmtTR, LIVE_FEED, MEGA_STATS,
+  type MegaStatIcon,
+} from "@/lib/mock-data";
+import {
+  ArrowUpRight, ArrowDownRight,
+  Vote, Trophy, Repeat, Users, CheckCircle2, Landmark,
+} from "lucide-react";
 
 const NAV = [
   { to: "/", label: "GENEL" },
@@ -13,11 +20,20 @@ const NAV = [
   { to: "/haberler", label: "HABERLER" },
 ] as const;
 
-const toneClass: Record<string, string> = {
-  default: "text-foreground",
-  primary: "text-primary",
-  accent: "text-accent",
-  cyan: "text-cyan",
+const ICONS: Record<MegaStatIcon, React.ComponentType<{ size?: number; className?: string }>> = {
+  vote: Vote,
+  leader: Trophy,
+  runoff: Repeat,
+  turnout: Users,
+  checked: CheckCircle2,
+  parliament: Landmark,
+};
+
+const toneAccent: Record<string, { bg: string; fg: string }> = {
+  default: { bg: "bg-gray-100", fg: "text-gray-700" },
+  primary: { bg: "bg-brand-50", fg: "text-brand-700" },
+  accent:  { bg: "bg-brand-50", fg: "text-brand-700" },
+  cyan:    { bg: "bg-gray-100", fg: "text-gray-700" },
 };
 
 export function TopBar() {
