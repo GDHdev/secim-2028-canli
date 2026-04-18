@@ -1,6 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 
-/** Animated counter (odometer style) */
+/**
+ * Animated counter (odometer style).
+ * `to` değişince mevcut değerden tween yapar — sıfırdan başlamaz.
+ */
 export function CountUp({
   to,
   duration = 1.2,
@@ -18,23 +21,31 @@ export function CountUp({
   className?: string;
   style?: React.CSSProperties;
 }) {
-  const [val, setVal] = useState(0);
-  const ref = useRef<number>(0);
+  const [val, setVal] = useState(to);
+  const currentRef = useRef<number>(to);
+  const rafRef = useRef<number | null>(null);
 
   useEffect(() => {
-    let raf = 0;
+    if (rafRef.current) cancelAnimationFrame(rafRef.current);
     const start = performance.now();
-    const from = ref.current;
+    const from = currentRef.current; // her zaman SON görüntülenen değer
     const tick = (now: number) => {
       const t = Math.min(1, (now - start) / (duration * 1000));
       const eased = 1 - Math.pow(1 - t, 3);
       const v = from + (to - from) * eased;
+      currentRef.current = v;
       setVal(v);
-      if (t < 1) raf = requestAnimationFrame(tick);
-      else ref.current = to;
+      if (t < 1) {
+        rafRef.current = requestAnimationFrame(tick);
+      } else {
+        currentRef.current = to;
+        rafRef.current = null;
+      }
     };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
+    rafRef.current = requestAnimationFrame(tick);
+    return () => {
+      if (rafRef.current) cancelAnimationFrame(rafRef.current);
+    };
   }, [to, duration]);
 
   const formatted = decimals > 0

@@ -1,13 +1,11 @@
 import { motion } from "framer-motion";
 import { PROVINCES, CANDIDATES } from "@/lib/mock-data";
-import { ArrowDownRight, ArrowUpRight } from "lucide-react";
+import { ArrowDownRight, ArrowUpRight, MapPin } from "lucide-react";
 
-// Deterministic mock 2023 results derived from current results +/- pseudo-random shift
 function compute2023(p: (typeof PROVINCES)[number]) {
   const seed = p.id.length * 13 + p.name.charCodeAt(0);
-  const shift = ((seed * 9301 + 49297) % 233280) / 233280; // 0..1
-  const swing = 4 + shift * 10; // 4..14 pts
-  // Apply opposite swing to current leader (simulate swing FROM other party)
+  const shift = ((seed * 9301 + 49297) % 233280) / 233280;
+  const swing = 4 + shift * 10;
   const yilmaz = +(p.results.yilmaz - swing).toFixed(1);
   const kaya = +(p.results.kaya + swing * 0.6).toFixed(1);
   const demir = +(p.results.demir + swing * 0.4).toFixed(1);
@@ -35,68 +33,74 @@ export function SwingProvinces() {
     .slice(0, 5);
 
   return (
-    <div className="panel">
-      <div className="flex items-center justify-between border-b border-border px-5 py-3">
+    <div className="panel overflow-hidden">
+      <div className="flex items-center justify-between border-b border-gray-200 px-5 py-4">
         <div>
-          <span className="eyebrow-accent">2023 → 2028</span>
-          <h3 className="mt-1 font-display text-lg text-foreground">
-            En Çok Değişen 5 İl
-          </h3>
+          <h3 className="text-lg font-semibold text-gray-900">En Çok Değişen 5 İl</h3>
+          <p className="text-sm text-gray-500">2023 → 2028 oy farkı (puan)</p>
         </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-          Oy farkı (puan)
-        </span>
+        <span className="uui-badge uui-badge-gray">Swing</span>
       </div>
 
-      <div className="divide-y divide-border">
+      <ul className="divide-y divide-gray-100">
         {ranked.map((item, i) => {
           const positive = item.biggest.delta >= 0;
           const cand = c(item.biggest.id);
           return (
-            <motion.div
+            <motion.li
               key={item.p.id}
               initial={{ opacity: 0, x: -8 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: i * 0.06 }}
-              className="flex items-center gap-4 px-5 py-3.5 hover:bg-surface-1"
+              className="flex items-center gap-4 px-5 py-4 transition-colors hover:bg-gray-50"
             >
-              <span className="font-mono text-xs font-bold text-muted-foreground tabular-nums w-5">
+              <span className="w-6 text-base font-semibold tabular-nums text-gray-400">
                 {String(i + 1).padStart(2, "0")}
               </span>
-              <div className="flex-1 min-w-0">
-                <p className="truncate text-sm font-semibold text-foreground">
+              <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gray-100">
+                <MapPin size={16} className="text-gray-500" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-base font-semibold text-gray-900">
                   {item.p.name}
                 </p>
-                <p className="font-mono text-[10px] uppercase tracking-wider text-muted-foreground">
-                  {item.p.region} · sayım %{item.p.counted}
-                </p>
+                <div className="mt-0.5 flex flex-wrap items-center gap-2">
+                  <span className="uui-badge uui-badge-gray text-[11px]">
+                    {item.p.region}
+                  </span>
+                  <span className="text-xs text-gray-500">
+                    sayım %{item.p.counted}
+                  </span>
+                </div>
               </div>
               <div className="flex items-center gap-2">
                 <span
                   className="inline-block h-2 w-2 rounded-full"
                   style={{ backgroundColor: cand.color }}
                 />
-                <span className="font-mono text-xs font-semibold text-foreground">
-                  {cand.name.split(" ")[1]}
+                <span className="text-sm font-medium text-gray-700">
+                  {cand.name.split(" ").slice(-1)[0]}
                 </span>
               </div>
               <div
-                className={`flex items-center gap-1 font-display text-xl tabular-nums ${
-                  positive ? "text-cyan" : "text-primary"
+                className={`flex items-center gap-1 rounded-full border px-2.5 py-1 text-sm font-semibold tabular-nums ${
+                  positive
+                    ? "border-success-600/20 bg-success-500/10 text-success-600"
+                    : "border-error-600/20 bg-error-500/10 text-error-600"
                 }`}
               >
                 {positive ? (
-                  <ArrowUpRight size={18} strokeWidth={2.5} />
+                  <ArrowUpRight size={14} strokeWidth={2.5} />
                 ) : (
-                  <ArrowDownRight size={18} strokeWidth={2.5} />
+                  <ArrowDownRight size={14} strokeWidth={2.5} />
                 )}
                 {positive ? "+" : ""}
-                {item.biggest.delta.toFixed(1)}
+                {item.biggest.delta.toFixed(1)} pt
               </div>
-            </motion.div>
+            </motion.li>
           );
         })}
-      </div>
+      </ul>
     </div>
   );
 }
