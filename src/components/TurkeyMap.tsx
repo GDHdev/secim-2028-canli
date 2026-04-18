@@ -99,17 +99,21 @@ export function TurkeyMap({
 
   return (
     <div className="relative">
-      {!hideHeader && (
-        <div className="mb-3">
-          <h2 className="font-display text-2xl tracking-wider text-foreground">TÜRKİYE HARİTASI</h2>
-        </div>
-      )}
-
       <div
         ref={containerRef}
         className={`relative overflow-hidden ${className ?? ""}`}
         onMouseLeave={() => setHover(null)}
       >
+        {!hideHeader && (
+          <>
+            <h2 className="pointer-events-none absolute left-4 top-3 z-10 font-display text-xl tracking-wider text-foreground md:text-2xl">
+              TÜRKİYE HARİTASI
+            </h2>
+            <div className="absolute right-4 top-3 z-10">
+              <Legend />
+            </div>
+          </>
+        )}
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{ scale: MAP_SCALE, center: MAP_CENTER }}
