@@ -21,10 +21,10 @@ export const COUNTED_VOTES = 47_800_000;
 export const COUNT_PERCENT = (COUNTED_VOTES / TOTAL_VOTERS) * 100; // ~74.6
 
 export const CANDIDATES: Candidate[] = [
-  { id: "yilmaz", name: "Mehmet Yılmaz", party: "AK Parti", color: "#F4C20D", cssVar: "cand-yilmaz", percent: 38.2, votes: Math.round(COUNTED_VOTES * 0.382), photo: yilmazPhoto },
-  { id: "kaya",   name: "Ayşe Kaya",     party: "CHP",      color: "#E11D2B", cssVar: "cand-kaya",   percent: 31.7, votes: Math.round(COUNTED_VOTES * 0.317), photo: kayaPhoto },
-  { id: "demir",  name: "Can Demir",     party: "YHP",      color: "#0891B2", cssVar: "cand-demir",  percent: 22.4, votes: Math.round(COUNTED_VOTES * 0.224), photo: demirPhoto },
-  { id: "other",  name: "Diğer",         party: "—",        color: "#6B7280", cssVar: "cand-other",  percent: 7.7,  votes: Math.round(COUNTED_VOTES * 0.077) },
+  { id: "yilmaz", name: "Mehmet Yılmaz", party: "Ulusal Birlik Partisi",   color: "#F4C20D", cssVar: "cand-yilmaz", percent: 38.2, votes: Math.round(COUNTED_VOTES * 0.382), photo: yilmazPhoto },
+  { id: "kaya",   name: "Ayşe Kaya",     party: "Halkın Sesi Partisi",      color: "#E11D2B", cssVar: "cand-kaya",   percent: 31.7, votes: Math.round(COUNTED_VOTES * 0.317), photo: kayaPhoto },
+  { id: "demir",  name: "Can Demir",     party: "Yeni Yol Hareketi",        color: "#0891B2", cssVar: "cand-demir",  percent: 22.4, votes: Math.round(COUNTED_VOTES * 0.224), photo: demirPhoto },
+  { id: "other",  name: "Diğer",         party: "Bağımsız",                 color: "#6B7280", cssVar: "cand-other",  percent: 7.7,  votes: Math.round(COUNTED_VOTES * 0.077) },
 ];
 
 export const SECOND_ROUND_PROBABILITY = 73; // %
@@ -251,10 +251,10 @@ export const TURNOUT_BY_REGION = REGIONS.map((r) => {
 
 // Historical comparison 2023 vs 2028 (mock)
 export const HISTORICAL = [
-  { name: "Yılmaz/AKP", y2023: 35.2, y2028: 38.2 },
-  { name: "Kaya/CHP",   y2023: 33.1, y2028: 31.7 },
-  { name: "Demir/HDP",  y2023: 18.5, y2028: 22.4 },
-  { name: "Diğer",      y2023: 13.2, y2028: 7.7 },
+  { name: "Yılmaz",  y2023: 35.2, y2028: 38.2 },
+  { name: "Kaya",    y2023: 33.1, y2028: 31.7 },
+  { name: "Demir",   y2023: 18.5, y2028: 22.4 },
+  { name: "Diğer",   y2023: 13.2, y2028: 7.7 },
 ];
 
 // Top 5 cities

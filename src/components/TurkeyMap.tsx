@@ -197,15 +197,14 @@ export function TurkeyMap({
                     <g key={`lbl-${geo.rsmKey}`} transform={`translate(${projectPoint(centroid)})`} pointerEvents="none">
                       <text
                         textAnchor="middle"
+                        dominantBaseline="middle"
                         y={0}
                         style={{
-                          fontFamily: "var(--font-mono)",
-                          fontSize: 7,
-                          fontWeight: 700,
+                          fontFamily: "Inter, system-ui, -apple-system, sans-serif",
+                          fontSize: 8,
+                          fontWeight: 800,
+                          letterSpacing: "0.02em",
                           fill: "white",
-                          paintOrder: "stroke",
-                          stroke: "rgba(0,0,0,0.6)",
-                          strokeWidth: 0.7,
                         }}
                       >
                         {province.name.toUpperCase()}

@@ -27,9 +27,9 @@ function Index() {
         <SecondRoundGauge />
       </section>
 
-      {/* MAP — fills container width */}
-      <section className="mt-8">
-        <TurkeyMap className="h-[680px]" />
+      {/* MAP — extends beyond container to viewport edges */}
+      <section className="relative left-1/2 right-1/2 mt-8 -ml-[50vw] -mr-[50vw] w-screen">
+        <TurkeyMap className="h-[720px]" />
       </section>
 
       {/* LIVE FEED + STATS */}
