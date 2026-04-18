@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 export function Footer() {
   return (
     <footer className="mt-12 border-t border-border bg-surface-1">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 px-4 py-8 md:flex-row md:items-start md:justify-between md:px-6">
+      <div className="flex w-full flex-col gap-6 px-4 py-8 md:flex-row md:items-start md:justify-between md:px-8 lg:px-12">
         <div>
           <div className="font-display text-2xl tracking-widest">
             SEÇİM<span className="text-primary">2028</span>

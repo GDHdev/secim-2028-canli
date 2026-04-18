@@ -47,7 +47,7 @@ function Tur2Page() {
   }, [toKaya, abstain, yilmaz, kaya, demir]);
 
   return (
-    <div className="mx-auto max-w-5xl px-4 py-8 md:px-6">
+    <div className="w-full px-4 py-8 md:px-8 lg:px-12">
       <div className="mb-6">
         <span className="rounded-sm bg-accent px-2 py-0.5 font-display text-xs tracking-wider text-accent-foreground">
           2. TUR KESİNLEŞTİ

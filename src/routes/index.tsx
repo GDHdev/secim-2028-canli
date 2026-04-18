@@ -20,15 +20,15 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="mx-auto max-w-[1600px] px-4 py-6 md:px-6">
+    <div className="w-full px-4 py-6 md:px-8 lg:px-12">
       {/* HERO */}
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_320px]">
         <CandidateRace />
         <SecondRoundGauge />
       </section>
 
-      {/* MAP — extends beyond container to viewport edges */}
-      <section className="relative left-1/2 right-1/2 mt-8 -ml-[50vw] -mr-[50vw] w-screen">
+      {/* MAP — edge-to-edge, ignores page padding */}
+      <section className="-mx-4 mt-8 md:-mx-8 lg:-mx-12">
         <TurkeyMap className="h-[720px]" />
       </section>
 

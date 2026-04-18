@@ -21,7 +21,7 @@ function HaberlerPage() {
   const items = cat === "Tümü" ? NEWS : NEWS.filter((n) => n.category === cat);
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-6 md:px-6">
+    <div className="w-full px-4 py-6 md:px-8 lg:px-12">
       <div className="mb-4">
         <h1 className="font-display text-4xl tracking-wider text-foreground">HABERLER</h1>
         <p className="font-mono text-xs text-muted-foreground">{items.length} HABER</p>

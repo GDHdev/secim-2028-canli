@@ -52,7 +52,7 @@ function SonuclarPage() {
   const candColor = (id: "yilmaz" | "kaya" | "demir") => CANDIDATES.find((c) => c.id === id)!.color;
 
   return (
-    <div className="mx-auto max-w-[1600px] px-4 py-6 md:px-6">
+    <div className="w-full px-4 py-6 md:px-8 lg:px-12">
       <div className="mb-4 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <h1 className="font-display text-4xl tracking-wider text-foreground">SONUÇLAR TABLOSU</h1>
