@@ -115,7 +115,7 @@ export function TopBar() {
             activeProps={{ className: "text-brand-700 border-brand-600 bg-brand-50/50" }}
             inactiveProps={{ className: "text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50" }}
             activeOptions={n.to === "/" ? { exact: true } : undefined}
-            className="site-container border-b-2 py-3 text-sm font-semibold tracking-wide transition-colors"
+            className="border-b-2 px-4 py-3 text-sm font-semibold tracking-wide transition-colors"
           >
             {n.label}
           </Link>
