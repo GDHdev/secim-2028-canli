@@ -47,6 +47,15 @@ const MAP_CENTER: [number, number] = [35.5, 39.1];
 const MAP_W = 1200;
 const MAP_H = 560;
 
+// Provinces too small for a normal label — show in smaller font
+const SMALL_PROVINCES = new Set([
+  "yalova", "kilis", "bartin", "duzce", "karabuk", "bayburt",
+  "gumushane", "ardahan", "igdir", "kirklareli", "bilecik",
+  "tunceli", "hakkari", "siirt", "batman", "sirnak",
+]);
+// Provinces so tiny we hide labels entirely
+const TINY_PROVINCES = new Set<string>([]);
+
 export type TurkeyMapProps = {
   /** Hide built-in modal side panel; emit selection upward instead. */
   embedded?: boolean;
@@ -90,17 +99,21 @@ export function TurkeyMap({
 
   return (
     <div className="relative">
-      {!hideHeader && (
-        <div className="mb-3">
-          <h2 className="font-display text-2xl tracking-wider text-foreground">TÜRKİYE HARİTASI</h2>
-        </div>
-      )}
-
       <div
         ref={containerRef}
         className={`relative overflow-hidden ${className ?? ""}`}
         onMouseLeave={() => setHover(null)}
       >
+        {!hideHeader && (
+          <>
+            <h2 className="pointer-events-none absolute left-4 top-3 z-10 font-display text-xl tracking-wider text-foreground md:text-2xl">
+              TÜRKİYE HARİTASI
+            </h2>
+            <div className="absolute right-4 top-3 z-10">
+              <Legend />
+            </div>
+          </>
+        )}
         <ComposableMap
           projection="geoMercator"
           projectionConfig={{ scale: MAP_SCALE, center: MAP_CENTER }}
@@ -193,6 +206,9 @@ export function TurkeyMap({
                   if (!province) return null;
                   const centroid = geoCentroid(geo);
                   if (!Number.isFinite(centroid[0]) || !Number.isFinite(centroid[1])) return null;
+                  // Hide labels for very small provinces
+                  if (TINY_PROVINCES.has(province.id)) return null;
+                  const isSmall = SMALL_PROVINCES.has(province.id);
                   return (
                     <g key={`lbl-${geo.rsmKey}`} transform={`translate(${projectPoint(centroid)})`} pointerEvents="none">
                       <text
@@ -201,7 +217,7 @@ export function TurkeyMap({
                         y={0}
                         style={{
                           fontFamily: "Inter, system-ui, -apple-system, sans-serif",
-                          fontSize: 8,
+                          fontSize: isSmall ? 5 : 8,
                           fontWeight: 800,
                           letterSpacing: "0.02em",
                           fill: "white",
@@ -223,19 +239,42 @@ export function TurkeyMap({
             className="pointer-events-none fixed z-40 rounded-sm border border-border bg-popover px-3 py-2 text-xs shadow-lg"
             style={{ left: tipPos.x + 14, top: tipPos.y + 14 }}
           >
-            <div className="font-display text-base tracking-wider text-popover-foreground">{hover.name}</div>
-            <div className="text-muted-foreground">
-              Önde: <span className="font-medium text-foreground">{candName(hover.leader)}</span>{" "}
-              <span className="font-mono text-accent">%{hover.results[hover.leader]}</span>
+            <div className="mb-1 font-display text-base tracking-wider text-popover-foreground">
+              {hover.name}
             </div>
-            <div className="font-mono text-xs text-muted-foreground">Sayım: %{hover.counted}</div>
+            <div className="space-y-1">
+              {(["yilmaz", "kaya", "demir", "other"] as const).map((cid) => {
+                const c = CANDIDATES.find((x) => x.id === cid)!;
+                const v = hover.results[cid];
+                const isLead = cid === hover.leader;
+                return (
+                  <div key={cid} className="flex items-center gap-2">
+                    <span
+                      className="inline-block h-2 w-2 rounded-full"
+                      style={{ backgroundColor: c.color }}
+                    />
+                    <span className={`flex-1 ${isLead ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                      {c.name}
+                    </span>
+                    <span
+                      className="font-mono font-semibold"
+                      style={{ color: isLead ? c.color : undefined }}
+                    >
+                      %{v}
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-2 border-t border-border pt-1 font-mono text-[10px] text-muted-foreground">
+              Sayım: %{hover.counted}
+            </div>
           </div>
         )}
       </div>
 
       {!hideHeader && (
-        <div className="mt-3 flex flex-col items-center gap-2">
-          <Legend />
+        <div className="mt-3 flex justify-center">
           <p className="font-mono text-xs text-muted-foreground">
             81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME
           </p>
@@ -362,11 +401,11 @@ export function ProvincePanelBody({ province, onClose }: { province: Province; o
 
 function Legend() {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 rounded-md border border-border bg-card/90 px-3 py-1.5 backdrop-blur-sm">
       {CANDIDATES.slice(0, 3).map((c) => (
         <div key={c.id} className="flex items-center gap-1.5">
-          <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: c.color }} />
-          <span className="font-mono text-xs text-muted-foreground">{c.name.split(" ")[1].toUpperCase()}</span>
+          <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: c.color }} />
+          <span className="font-mono text-xs font-semibold text-foreground">{c.name.split(" ")[1].toUpperCase()}</span>
         </div>
       ))}
     </div>
