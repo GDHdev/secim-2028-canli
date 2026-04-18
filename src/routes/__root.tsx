@@ -35,7 +35,7 @@ export const Route = createRootRoute({
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Seçim 2028" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "theme-color", content: "#0D1117" },
+      { name: "theme-color", content: "#0A0E1A" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
