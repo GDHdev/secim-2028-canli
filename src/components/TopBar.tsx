@@ -14,29 +14,29 @@ export function TopBar() {
 
   return (
     <div className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur-md">
-      {/* Status bar */}
-      <div className="flex items-center gap-4 px-4 py-2 text-sm md:px-6">
-        <div className="flex items-center gap-2">
-          <span className="live-pulse inline-block h-2.5 w-2.5 rounded-full bg-primary" />
-          <span className="font-display text-base tracking-wider text-primary">CANLI</span>
+      {/* Status bar — bigger, more prominent */}
+      <div className="flex items-center gap-5 px-4 py-3 text-base md:gap-6 md:px-6">
+        <div className="flex items-center gap-2.5">
+          <span className="live-pulse inline-block h-3 w-3 rounded-full bg-primary" />
+          <span className="font-display text-xl tracking-wider text-primary md:text-2xl">CANLI</span>
         </div>
 
-        <div className="hidden items-center gap-2 text-muted-foreground md:flex">
-          <span className="font-mono text-xs">SANDIKLAR KAPANDI</span>
+        <div className="hidden items-center gap-2.5 text-muted-foreground md:flex">
+          <span className="font-mono text-sm font-semibold">SANDIKLAR KAPANDI</span>
           <span className="text-border">·</span>
-          <span className="font-mono text-xs">{time}</span>
+          <span className="font-mono text-sm font-semibold tabular-nums">{time}</span>
         </div>
 
         <div className="ml-auto flex flex-1 items-center gap-3 md:flex-none">
-          <div className="flex flex-col gap-1">
-            <div className="flex items-baseline gap-2 text-xs">
-              <span className="text-muted-foreground">Sayılan oy:</span>
-              <span className="font-mono font-medium text-foreground">{fmtTR(COUNTED_VOTES)}</span>
+          <div className="flex flex-col gap-1.5">
+            <div className="flex items-baseline gap-2 text-sm">
+              <span className="font-medium text-muted-foreground">Sayılan oy:</span>
+              <span className="font-mono text-base font-bold text-foreground">{fmtTR(COUNTED_VOTES)}</span>
               <span className="text-muted-foreground">/</span>
-              <span className="font-mono text-muted-foreground">{fmtTR(TOTAL_VOTERS)}</span>
-              <span className="font-display text-base text-accent">%{COUNT_PERCENT.toFixed(1)}</span>
+              <span className="font-mono text-sm text-muted-foreground">{fmtTR(TOTAL_VOTERS)}</span>
+              <span className="font-display text-xl text-accent md:text-2xl">%{COUNT_PERCENT.toFixed(1)}</span>
             </div>
-            <div className="h-1 w-48 overflow-hidden rounded-sm bg-surface-2 md:w-64">
+            <div className="h-1.5 w-56 overflow-hidden rounded-full bg-surface-2 md:w-80">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${COUNT_PERCENT}%` }}
@@ -117,15 +117,15 @@ function BreakingTicker() {
   const items = LIVE_FEED.filter((f) => f.kind === "breaking" || f.kind === "decisive").slice(0, 8);
   const doubled = [...items, ...items];
   return (
-    <div className="flex items-center gap-3 overflow-hidden border-t border-border bg-primary/5 py-1.5">
-      <span className="ml-4 shrink-0 rounded-sm bg-primary px-2 py-0.5 font-display text-xs tracking-wider text-primary-foreground">
+    <div className="flex items-center gap-3 overflow-hidden border-t border-border bg-[#0a0a0a] py-2">
+      <span className="ml-4 shrink-0 rounded-sm bg-primary px-2.5 py-1 font-display text-sm tracking-wider text-primary-foreground">
         SON DAKİKA
       </span>
       <div className="relative flex-1 overflow-hidden">
         <div className="ticker-track flex whitespace-nowrap">
           {doubled.map((item, i) => (
-            <span key={i} className="mx-6 font-mono text-xs text-foreground">
-              <span className="text-muted-foreground">{item.time}</span>{" "}
+            <span key={i} className="mx-6 font-mono text-sm text-white">
+              <span className="text-white/60">{item.time}</span>{" "}
               <span className="text-primary">▸</span> {item.text}
             </span>
           ))}

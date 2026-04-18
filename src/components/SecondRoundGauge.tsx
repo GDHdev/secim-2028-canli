@@ -1,6 +1,6 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useState } from "react";
-import { SECOND_ROUND_PROBABILITY } from "@/lib/mock-data";
+import { SECOND_ROUND_PROBABILITY, SECOND_ROUND_TRIGGERED } from "@/lib/mock-data";
 
 export function SecondRoundGauge() {
   const value = useMotionValue(0);
@@ -75,9 +75,25 @@ export function SecondRoundGauge() {
       <div className="-mt-2 flex items-baseline gap-1">
         <span className="font-display text-6xl text-accent">%{display}</span>
       </div>
-      <p className="mt-1 max-w-[200px] text-center text-xs text-muted-foreground">
+      <p className="mt-1 max-w-[220px] text-center text-xs text-muted-foreground">
         Mevcut oy dağılımına göre ikinci tur olasılığı
       </p>
+
+      {SECOND_ROUND_TRIGGERED && (
+        <motion.div
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1.2 }}
+          className="gold-pulse mt-4 w-full rounded-md border border-accent/40 bg-accent/10 px-3 py-2.5 text-center"
+        >
+          <div className="font-display text-base tracking-wider text-accent">
+            2. TUR KESİNLEŞTİ
+          </div>
+          <div className="mt-0.5 font-mono text-xs font-semibold uppercase tracking-wider text-accent/80">
+            14 Nisan 2028
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

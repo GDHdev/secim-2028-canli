@@ -70,34 +70,34 @@
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.16 0.025 260);
 
-  /* Vibrant election red — AP/NBC red */
-  --primary: oklch(0.56 0.24 27);               /* #DC2626 */
+  /* Vivid election red — AP/NBC red, more saturated */
+  --primary: oklch(0.585 0.255 27);             /* #E11D2B vivid red */
   --primary-foreground: oklch(1 0 0);
 
-  --secondary: oklch(0.97 0.005 260);
+  --secondary: oklch(0.975 0.004 250);
   --secondary-foreground: oklch(0.16 0.025 260);
-  --muted: oklch(0.96 0.005 260);
-  --muted-foreground: oklch(0.42 0.02 260);     /* darker for legibility */
-  --accent: oklch(0.62 0.18 50);                /* vibrant amber #E07B00 */
+  --muted: oklch(0.965 0.004 250);
+  --muted-foreground: oklch(0.38 0.018 255);    /* darker for stronger legibility */
+  --accent: oklch(0.66 0.2 48);                 /* vivid amber/orange */
   --accent-foreground: oklch(1 0 0);
-  --destructive: oklch(0.56 0.24 27);
+  --destructive: oklch(0.585 0.255 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.9 0.006 260);
-  --input: oklch(0.9 0.006 260);
-  --ring: oklch(0.56 0.24 27);
+  --border: oklch(0.915 0.005 250);             /* slightly cooler, modern */
+  --input: oklch(0.915 0.005 250);
+  --ring: oklch(0.585 0.255 27);
 
-  --gold: oklch(0.62 0.18 50);
-  --gold-foreground: oklch(1 0 0);
+  --gold: oklch(0.82 0.17 92);                  /* AKP yellow #F4C20D */
+  --gold-foreground: oklch(0.18 0.02 260);
 
-  /* Vibrant candidate colors — high saturation, accessible contrast */
-  --cand-yilmaz: oklch(0.56 0.24 27);           /* vivid red #DC2626 */
-  --cand-kaya: oklch(0.5 0.24 265);             /* vivid blue #1E40AF */
-  --cand-demir: oklch(0.58 0.14 195);           /* vivid teal #0891B2 */
-  --cand-other: oklch(0.55 0.02 260);           /* gray */
+  /* Vivid, high-contrast candidate colors */
+  --cand-yilmaz: oklch(0.82 0.17 92);           /* AKP yellow #F4C20D */
+  --cand-kaya: oklch(0.46 0.26 264);            /* CHP vivid blue */
+  --cand-demir: oklch(0.6 0.16 195);            /* vivid teal */
+  --cand-other: oklch(0.55 0.02 260);           /* neutral gray */
 
-  --surface-1: oklch(0.985 0.003 260);          /* very subtle gray */
-  --surface-2: oklch(0.96 0.005 260);           /* light gray */
-  --grid: oklch(0.9 0.006 260);
+  --surface-1: oklch(0.985 0.003 250);          /* very subtle cool gray */
+  --surface-2: oklch(0.955 0.004 250);          /* modern light gray */
+  --grid: oklch(0.915 0.005 250);
 
   --sidebar: var(--surface-1);
   --sidebar-foreground: var(--foreground);

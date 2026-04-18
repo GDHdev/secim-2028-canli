@@ -3,7 +3,7 @@ import { TOP_CITIES, TURNOUT_BY_REGION, HISTORICAL, CANDIDATES } from "@/lib/moc
 
 export function StatsGrid() {
   return (
-    <div className="grid grid-cols-1 gap-4 lg:grid-cols-3">
+    <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
       <TopCities />
       <TurnoutChart />
       <HistoricalCompare />

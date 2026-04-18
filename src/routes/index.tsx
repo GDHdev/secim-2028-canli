@@ -27,16 +27,18 @@ function Index() {
         <SecondRoundGauge />
       </section>
 
-      {/* MAP + FEED */}
-      <section className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-[3fr_2fr]">
-        <TurkeyMap />
-        <LiveFeed />
+      {/* MAP — full width, prominent */}
+      <section className="mt-8">
+        <TurkeyMap className="h-[560px]" />
       </section>
 
-      {/* STATS */}
-      <section className="mt-8">
-        <h2 className="mb-3 font-display text-2xl tracking-wider text-foreground">İSTATİSTİKLER</h2>
-        <StatsGrid />
+      {/* LIVE FEED + STATS */}
+      <section className="mt-8 grid grid-cols-1 gap-4 lg:grid-cols-[360px_1fr]">
+        <LiveFeed />
+        <div>
+          <h2 className="mb-3 font-display text-2xl tracking-wider text-foreground">İSTATİSTİKLER</h2>
+          <StatsGrid />
+        </div>
       </section>
 
       {/* NEWS */}
