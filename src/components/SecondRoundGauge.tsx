@@ -26,7 +26,7 @@ export function SecondRoundGauge() {
   const arcPath = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`;
 
   return (
-    <div className="flex flex-col items-center justify-between rounded-sm border border-border bg-surface-1 p-5">
+    <div className="shadow-card flex flex-col items-center justify-between rounded-lg border border-border bg-card p-5">
       <div className="mb-1 flex w-full items-center justify-between">
         <span className="font-display text-sm tracking-wider text-muted-foreground">
           2. TUR İHTİMALİ
