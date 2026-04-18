@@ -21,7 +21,7 @@ export const Route = createFileRoute("/haberler/$id")({
   }),
   component: NewsArticle,
   notFoundComponent: () => (
-    <div className="mx-auto max-w-3xl px-6 py-12 text-center">
+    <div className="w-full px-4 py-12 text-center md:px-8 lg:px-12">
       <h1 className="font-display text-4xl text-foreground">HABER BULUNAMADI</h1>
       <Link to="/haberler" className="mt-4 inline-block font-mono text-sm text-accent hover:underline">
         ← Tüm haberler
@@ -33,7 +33,7 @@ export const Route = createFileRoute("/haberler/$id")({
 function NewsArticle() {
   const { item } = Route.useLoaderData();
   return (
-    <article className="mx-auto max-w-3xl px-4 py-8 md:px-6">
+    <article className="w-full px-4 py-8 md:px-8 lg:px-12">
       <Link to="/haberler" className="inline-flex items-center gap-1.5 font-mono text-xs text-muted-foreground hover:text-foreground">
         <ArrowLeft size={12} /> Tüm haberler
       </Link>

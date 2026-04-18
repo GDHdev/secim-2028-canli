@@ -20,7 +20,7 @@ function AnketlerPage() {
   const demir = CANDIDATES.find((c) => c.id === "demir")!;
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6 md:px-6">
+    <div className="w-full px-4 py-6 md:px-8 lg:px-12">
       <div className="mb-6">
         <h1 className="font-display text-4xl tracking-wider text-foreground">ANKETLER TARİHÇESİ</h1>
         <p className="font-mono text-xs text-muted-foreground">EKİM 2026 — MART 2028 · 18 AY</p>
