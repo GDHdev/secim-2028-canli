@@ -234,6 +234,15 @@ export function TurkeyMap({
         )}
       </div>
 
+      {!hideHeader && (
+        <div className="mt-3 flex flex-col items-center gap-2">
+          <Legend />
+          <p className="font-mono text-xs text-muted-foreground">
+            81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME
+          </p>
+        </div>
+      )}
+
       {/* Modal side panel — only when not embedded */}
       <AnimatePresence>
         {!embedded && selected && (
