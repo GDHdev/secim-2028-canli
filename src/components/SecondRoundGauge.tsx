@@ -1,6 +1,7 @@
 import { motion, useMotionValue, useTransform, animate } from "framer-motion";
 import { useEffect, useState } from "react";
-import { SECOND_ROUND_PROBABILITY, SECOND_ROUND_TRIGGERED } from "@/lib/mock-data";
+import { SECOND_ROUND_PROBABILITY, SECOND_ROUND_TRIGGERED, CANDIDATES } from "@/lib/mock-data";
+import { Link } from "@tanstack/react-router";
 
 export function SecondRoundGauge() {
   const value = useMotionValue(0);
@@ -9,90 +10,106 @@ export function SecondRoundGauge() {
 
   useEffect(() => {
     const controls = animate(value, SECOND_ROUND_PROBABILITY, {
-      duration: 1.4,
+      duration: 1.6,
       ease: [0.16, 1, 0.3, 1],
       onUpdate: (v) => setDisplay(Math.round(v)),
     });
     return () => controls.stop();
   }, [value]);
 
-  // Half-circle gauge
-  const size = 220;
+  const yilmaz = CANDIDATES.find((c) => c.id === "yilmaz")!;
+  const kaya = CANDIDATES.find((c) => c.id === "kaya")!;
+
+  const size = 240;
   const cx = size / 2;
   const cy = size * 0.85;
   const r = size * 0.4;
 
-  // Arc background path
-  const arcPath = `M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`;
-
   return (
-    <div className="flex flex-col items-center justify-between rounded-lg border border-border bg-card p-5">
-      <div className="mb-1 flex w-full items-center justify-between">
-        <span className="font-display text-sm tracking-wider text-muted-foreground">
-          2. TUR İHTİMALİ
+    <div className="panel flex flex-col">
+      <div className="flex items-center justify-between border-b border-border px-6 py-3">
+        <span className="eyebrow-accent">2. Tur Projeksiyonu</span>
+        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+          14 Nis · 2028
         </span>
-        <span className="font-mono text-xs text-muted-foreground">PROJEKSİYON</span>
       </div>
 
-      <svg width={size} height={size * 0.55} viewBox={`0 0 ${size} ${size * 0.95}`}>
-        {/* tick marks */}
-        {Array.from({ length: 11 }).map((_, i) => {
-          const a = -90 + (i * 180) / 10;
-          const rad = (a * Math.PI) / 180;
-          const x1 = cx + Math.cos(rad) * (r + 6);
-          const y1 = cy + Math.sin(rad) * (r + 6);
-          const x2 = cx + Math.cos(rad) * (r + 14);
-          const y2 = cy + Math.sin(rad) * (r + 14);
-          return (
-            <line
-              key={i}
-              x1={x1} y1={y1} x2={x2} y2={y2}
-              stroke={i % 5 === 0 ? "var(--color-muted-foreground)" : "var(--color-border)"}
-              strokeWidth="1.5"
-            />
-          );
-        })}
+      <div className="flex flex-col items-center px-6 pt-6">
+        <svg width={size} height={size * 0.6} viewBox={`0 0 ${size} ${size * 0.95}`}>
+          {Array.from({ length: 11 }).map((_, i) => {
+            const a = -90 + (i * 180) / 10;
+            const rad = (a * Math.PI) / 180;
+            const x1 = cx + Math.cos(rad) * (r + 6);
+            const y1 = cy + Math.sin(rad) * (r + 6);
+            const x2 = cx + Math.cos(rad) * (r + 14);
+            const y2 = cy + Math.sin(rad) * (r + 14);
+            return (
+              <line
+                key={i}
+                x1={x1} y1={y1} x2={x2} y2={y2}
+                stroke={i % 5 === 0 ? "var(--color-foreground)" : "var(--color-border)"}
+                strokeWidth="1.5"
+              />
+            );
+          })}
 
-        {/* base arc */}
-        <path d={arcPath} stroke="var(--color-surface-2)" strokeWidth="14" fill="none" strokeLinecap="butt" />
+          <path
+            d={`M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`}
+            stroke="var(--color-surface-3)"
+            strokeWidth="16"
+            fill="none"
+          />
 
-        {/* progress arc - we use motion path via dasharray */}
-        <ProgressArc cx={cx} cy={cy} r={r} value={value} />
+          <ProgressArc cx={cx} cy={cy} r={r} value={value} />
 
-        {/* needle */}
-        <motion.line
-          x1={cx} y1={cy}
-          x2={cx} y2={cy - r * 0.95}
-          stroke="var(--color-accent)"
-          strokeWidth="3"
-          strokeLinecap="round"
-          style={{ rotate: angle, originX: `${cx}px`, originY: `${cy}px` }}
-        />
-        <circle cx={cx} cy={cy} r="6" fill="var(--color-accent)" />
-        <circle cx={cx} cy={cy} r="2" fill="var(--color-background)" />
-      </svg>
+          <motion.line
+            x1={cx} y1={cy}
+            x2={cx} y2={cy - r * 0.95}
+            stroke="var(--color-foreground)"
+            strokeWidth="3"
+            strokeLinecap="round"
+            style={{ rotate: angle, originX: `${cx}px`, originY: `${cy}px` }}
+          />
+          <circle cx={cx} cy={cy} r="8" fill="var(--color-foreground)" />
+          <circle cx={cx} cy={cy} r="3" fill="var(--color-background)" />
+        </svg>
 
-      <div className="-mt-2 flex items-baseline gap-1">
-        <span className="font-display text-6xl text-accent">%{display}</span>
+        <span className="-mt-2 font-display text-7xl leading-none text-accent">%{display}</span>
+        <p className="mt-1 text-center text-[11px] text-muted-foreground">
+          ihtimalle ikinci tura gidiliyor
+        </p>
       </div>
-      <p className="mt-1 max-w-[220px] text-center text-xs text-muted-foreground">
-        Mevcut oy dağılımına göre ikinci tur olasılığı
-      </p>
 
+      {/* Likely matchup */}
       {SECOND_ROUND_TRIGGERED && (
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.2 }}
-          className="gold-pulse mt-4 w-full rounded-md border border-accent/40 bg-accent/10 px-3 py-2.5 text-center"
-        >
-          <div className="font-display text-base tracking-wider text-accent">
-            2. TUR KESİNLEŞTİ
+        <>
+          <div className="hr-rule mt-5" />
+          <div className="px-6 py-4">
+            <span className="eyebrow">Olası 2. tur eşleşmesi</span>
+            <div className="mt-3 grid grid-cols-[1fr_auto_1fr] items-center gap-3">
+              <div className="text-right">
+                <p className="truncate font-display text-xl tracking-tight" style={{ color: yilmaz.color }}>
+                  {yilmaz.name.split(" ")[1].toUpperCase()}
+                </p>
+                <p className="font-mono text-[10px] text-muted-foreground">{yilmaz.party}</p>
+              </div>
+              <span className="font-display text-2xl text-muted-foreground">vs</span>
+              <div className="text-left">
+                <p className="truncate font-display text-xl tracking-tight" style={{ color: kaya.color }}>
+                  {kaya.name.split(" ")[1].toUpperCase()}
+                </p>
+                <p className="font-mono text-[10px] text-muted-foreground">{kaya.party}</p>
+              </div>
+            </div>
+
+            <Link
+              to="/tur2"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 border border-accent bg-accent px-4 py-2.5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-accent-foreground transition-colors hover:bg-accent/85"
+            >
+              Simülatörü Aç →
+            </Link>
           </div>
-          <div className="mt-0.5 font-mono text-xs font-semibold uppercase tracking-wider text-accent/80">
-            14 Nisan 2028
-          </div>
-        </motion.div>
+        </>
       )}
     </div>
   );
@@ -105,7 +122,7 @@ function ProgressArc({ cx, cy, r, value }: { cx: number; cy: number; r: number; 
     <motion.path
       d={`M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`}
       stroke="var(--color-accent)"
-      strokeWidth="14"
+      strokeWidth="16"
       fill="none"
       strokeLinecap="butt"
       strokeDasharray={circumference}
