@@ -119,7 +119,7 @@ export function TurkeyMap({
           {/* SVG patterns + filters */}
           <defs>
             <filter id="province-hover-shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0F1428" floodOpacity="0.25" />
+              <feDropShadow dx="0" dy="2" stdDeviation="3" floodColor="#101828" floodOpacity="0.18" />
             </filter>
             {(["yilmaz", "kaya", "demir"] as const).map((id) => (
               <pattern
@@ -147,7 +147,7 @@ export function TurkeyMap({
                     ? (mode === "vekil"
                         ? `url(#hatch-${province.leader})`
                         : candidateColor(province.leader))
-                    : "var(--color-surface-2)";
+                    : "var(--color-gray-100)";
                   const isSelected = selected?.id === id;
                   const isHover = hover?.id === id;
                   return (
@@ -167,8 +167,8 @@ export function TurkeyMap({
                       style={{
                         default: {
                           fill: baseFill,
-                          stroke: "#FFFFFF",
-                          strokeWidth: 0.8,
+                          stroke: "var(--color-gray-300)",
+                          strokeWidth: 0.7,
                           outline: "none",
                           transition: "fill 0.4s ease, opacity 0.3s ease",
                           opacity: isSelected ? 1 : 0.92,
@@ -176,16 +176,16 @@ export function TurkeyMap({
                         },
                         hover: {
                           fill: baseFill,
-                          stroke: "#FFFFFF",
-                          strokeWidth: 1.2,
+                          stroke: "white",
+                          strokeWidth: 1.6,
                           outline: "none",
                           opacity: 1,
                           cursor: "pointer",
                         },
                         pressed: {
                           fill: baseFill,
-                          stroke: "#FFFFFF",
-                          strokeWidth: 0.8,
+                          stroke: "white",
+                          strokeWidth: 1.2,
                           outline: "none",
                         },
                       }}

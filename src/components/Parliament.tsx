@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { PARTIES, TOTAL_SEATS, MAJORITY_THRESHOLD, COALITIONS } from "@/lib/mock-data";
+import { Users, ArrowUp, ArrowDown } from "lucide-react";
 
 const FIRST_NAMES = [
   "Mehmet", "Ayşe", "Can", "Zeynep", "Emre", "Elif", "Ahmet", "Selin",
@@ -21,7 +22,9 @@ function deputyName(seed: number) {
 }
 
 /**
- * Hemicycle parliament chart with hover tooltips.
+ * Untitled UI–styled hemicycle parliament.
+ * - Soft-shadow card, hemicycle on left, party list on right with UUI badges + progress.
+ * - Hover seat → soft shadow popover with party + deputy info.
  */
 export function Parliament() {
   const [hover, setHover] = useState<{
@@ -85,159 +88,229 @@ export function Parliament() {
     }
   });
 
+  const leadingParty = [...PARTIES].sort((a, b) => b.seats - a.seats)[0];
+
   return (
-    <div className="panel p-6 md:p-8">
-      <div className="mb-4 flex items-end justify-between">
-        <div>
-          <span className="eyebrow-accent">Türkiye Büyük Millet Meclisi</span>
-          <h2 className="display-lg mt-2 text-foreground">600 Sandalye</h2>
-          <p className="mt-2 text-xs text-muted-foreground">
-            Çoğunluk için <span className="font-bold text-foreground">301</span> sandalye gerekli ·
-            <span className="ml-1.5 font-semibold text-primary">Hiçbir parti tek başına çoğunluğu sağlayamadı</span>
-          </p>
+    <div className="panel overflow-hidden">
+      {/* Header */}
+      <div className="flex flex-col gap-3 border-b border-gray-200 px-6 py-5 md:flex-row md:items-center md:justify-between">
+        <div className="flex items-start gap-3">
+          <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-brand-50">
+            <Users size={20} className="text-brand-700" />
+          </div>
+          <div>
+            <h2 className="text-base font-semibold text-gray-900">
+              Türkiye Büyük Millet Meclisi
+            </h2>
+            <p className="text-xs text-gray-500">
+              600 sandalye · Çoğunluk için {MAJORITY_THRESHOLD} sandalye gerekli
+            </p>
+          </div>
         </div>
-        <div className="hidden text-right md:block">
-          <span className="eyebrow">En büyük blok</span>
-          <p className="display-lg text-accent">UBP · 198</p>
+        <div className="flex items-center gap-2">
+          <span className="uui-badge uui-badge-error uui-badge-live">Hung Parliament</span>
+          <span className="uui-badge uui-badge-brand">
+            En büyük blok · {leadingParty.abbr} {leadingParty.seats}
+          </span>
         </div>
       </div>
 
-      <div className="relative w-full">
-        <svg viewBox="0 0 1000 410" className="w-full">
-          <line
-            x1="500" y1="20" x2="500" y2="360"
-            stroke="var(--color-foreground)"
-            strokeWidth="1"
-            strokeDasharray="4 4"
-            opacity="0.3"
-          />
-          <text
-            x="500" y="14"
-            textAnchor="middle"
-            className="fill-muted-foreground font-mono"
-            style={{ fontSize: 11, fontWeight: 600, letterSpacing: "0.12em" }}
-          >
-            ÇOĞUNLUK · {MAJORITY_THRESHOLD}
-          </text>
-
-          {seatPositions.map((s, i) => {
-            const isHover = hover?.seatNo === s.seatNo;
-            return (
-              <motion.circle
-                key={i}
-                cx={s.x}
-                cy={s.y}
-                r={isHover ? 8.5 : 6.5}
-                fill={s.party.color}
-                stroke={isHover ? "var(--color-foreground)" : "transparent"}
-                strokeWidth={isHover ? 1.5 : 0}
-                style={{ cursor: "pointer" }}
-                onMouseEnter={(e) =>
-                  setHover({
-                    x: e.clientX,
-                    y: e.clientY,
-                    party: s.party,
-                    seatNo: s.seatNo,
-                    deputy: s.deputy,
-                  })
-                }
-                onMouseMove={(e) =>
-                  setHover((h) => (h ? { ...h, x: e.clientX, y: e.clientY } : h))
-                }
-                onMouseLeave={() => setHover(null)}
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{
-                  duration: 0.4,
-                  delay: Math.min(0.8, i * 0.0008),
-                  ease: "easeOut",
-                }}
-              />
-            );
-          })}
-        </svg>
-
-        <AnimatePresence>
-          {hover && (
-            <motion.div
-              initial={{ opacity: 0, y: 4 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.12 }}
-              className="pointer-events-none fixed z-50 min-w-[200px] border border-border bg-popover px-3 py-2.5 shadow-2xl"
-              style={{ left: hover.x + 14, top: hover.y + 14 }}
+      <div className="grid grid-cols-1 gap-0 lg:grid-cols-[1.4fr_1fr]">
+        {/* Hemicycle */}
+        <div className="relative border-b border-gray-200 p-5 lg:border-b-0 lg:border-r">
+          <svg viewBox="0 0 1000 410" className="w-full">
+            {/* Center majority line */}
+            <line
+              x1="500" y1="20" x2="500" y2="360"
+              stroke="var(--color-gray-300)"
+              strokeWidth="1"
+              strokeDasharray="4 4"
+            />
+            <text
+              x="500" y="14"
+              textAnchor="middle"
+              style={{
+                fontFamily: "Inter, system-ui",
+                fontSize: 11,
+                fontWeight: 600,
+                fill: "var(--color-gray-500)",
+              }}
             >
-              <div className="mb-1.5 flex items-center gap-2">
+              ÇOĞUNLUK · {MAJORITY_THRESHOLD}
+            </text>
+
+            {seatPositions.map((s, i) => {
+              const isHover = hover?.seatNo === s.seatNo;
+              return (
+                <motion.circle
+                  key={i}
+                  cx={s.x}
+                  cy={s.y}
+                  r={isHover ? 8.5 : 6.5}
+                  fill={s.party.color}
+                  stroke={isHover ? "white" : "transparent"}
+                  strokeWidth={isHover ? 2 : 0}
+                  style={{
+                    cursor: "pointer",
+                    filter: isHover ? "drop-shadow(0 2px 6px rgba(16,24,40,0.25))" : undefined,
+                  }}
+                  onMouseEnter={(e) =>
+                    setHover({
+                      x: e.clientX,
+                      y: e.clientY,
+                      party: s.party,
+                      seatNo: s.seatNo,
+                      deputy: s.deputy,
+                    })
+                  }
+                  onMouseMove={(e) =>
+                    setHover((h) => (h ? { ...h, x: e.clientX, y: e.clientY } : h))
+                  }
+                  onMouseLeave={() => setHover(null)}
+                  initial={{ opacity: 0, scale: 0 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{
+                    duration: 0.4,
+                    delay: Math.min(0.8, i * 0.0008),
+                    ease: "easeOut",
+                  }}
+                />
+              );
+            })}
+          </svg>
+
+          {/* Coalition mini-bars */}
+          <div className="mt-2 grid gap-2.5 md:grid-cols-3">
+            {COALITIONS.map((cn) => {
+              const pct = (cn.seats / TOTAL_SEATS) * 100;
+              const reachesMajority = cn.seats >= MAJORITY_THRESHOLD;
+              return (
+                <div key={cn.id} className="rounded-lg border border-gray-200 bg-gray-50 p-3">
+                  <div className="flex items-baseline justify-between">
+                    <span className="text-[11px] font-medium text-gray-600">{cn.name}</span>
+                    <span className="text-base font-semibold tabular-nums text-gray-900">
+                      {cn.seats}
+                    </span>
+                  </div>
+                  <div className="relative mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white">
+                    <motion.div
+                      initial={{ width: 0 }}
+                      animate={{ width: `${pct}%` }}
+                      transition={{ duration: 0.9, delay: 0.4 }}
+                      className="h-full rounded-full"
+                      style={{ backgroundColor: cn.color }}
+                    />
+                  </div>
+                  <p className="mt-1 text-[10px] text-gray-500">
+                    {reachesMajority ? (
+                      <span className="font-medium text-success-600">Çoğunluk ✓</span>
+                    ) : (
+                      <>%{pct.toFixed(1)} · çoğunluğa {MAJORITY_THRESHOLD - cn.seats}</>
+                    )}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Party list — Untitled UI table-row style */}
+        <div className="flex flex-col">
+          <div className="flex items-center justify-between border-b border-gray-200 px-5 py-3">
+            <h3 className="text-sm font-semibold text-gray-900">Partiler</h3>
+            <span className="text-[11px] text-gray-500">7 parti · 600 sandalye</span>
+          </div>
+          <ul className="flex-1 divide-y divide-gray-100">
+            {[...PARTIES].sort((a, b) => b.seats - a.seats).map((p) => {
+              const pct = (p.seats / TOTAL_SEATS) * 100;
+              const up = p.delta > 0;
+              const down = p.delta < 0;
+              return (
+                <li key={p.id} className="px-5 py-3 transition-colors hover:bg-gray-50">
+                  <div className="flex items-center gap-3">
+                    <span
+                      className="h-8 w-1 shrink-0 rounded-full"
+                      style={{ backgroundColor: p.color }}
+                    />
+                    <div className="min-w-0 flex-1">
+                      <div className="flex items-center gap-2">
+                        <span className="text-sm font-semibold text-gray-900">{p.abbr}</span>
+                        <span className="truncate text-xs text-gray-500">{p.name}</span>
+                      </div>
+                      <div className="mt-1.5 flex items-center gap-2">
+                        <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-gray-100">
+                          <motion.div
+                            initial={{ width: 0 }}
+                            animate={{ width: `${pct}%` }}
+                            transition={{ duration: 0.8 }}
+                            className="h-full rounded-full"
+                            style={{ backgroundColor: p.color }}
+                          />
+                        </div>
+                        <span className="w-12 text-right text-[11px] font-medium tabular-nums text-gray-500">
+                          %{p.percent}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="flex w-16 shrink-0 flex-col items-end">
+                      <span className="text-base font-semibold tabular-nums text-gray-900">
+                        {p.seats}
+                      </span>
+                      <span
+                        className={`mt-0.5 inline-flex items-center gap-0.5 rounded-full border px-1.5 py-0.5 text-[10px] font-medium tabular-nums ${
+                          up
+                            ? "border-success-600/20 bg-success-500/10 text-success-600"
+                            : down
+                            ? "border-error-600/20 bg-error-500/10 text-error-600"
+                            : "border-gray-200 bg-gray-50 text-gray-500"
+                        }`}
+                      >
+                        {up && <ArrowUp size={10} strokeWidth={2.5} />}
+                        {down && <ArrowDown size={10} strokeWidth={2.5} />}
+                        {p.delta > 0 ? "+" : ""}{p.delta}
+                      </span>
+                    </div>
+                  </div>
+                </li>
+              );
+            })}
+          </ul>
+        </div>
+      </div>
+
+      {/* Floating UUI tooltip */}
+      <AnimatePresence>
+        {hover && (
+          <motion.div
+            initial={{ opacity: 0, y: 4, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.12 }}
+            className="pointer-events-none fixed z-50 min-w-[220px] rounded-lg border border-gray-200 bg-white p-3 shadow-lg"
+            style={{ left: hover.x + 14, top: hover.y + 14 }}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div className="flex items-center gap-2">
                 <span
                   className="inline-block h-2.5 w-2.5 rounded-full"
                   style={{ backgroundColor: hover.party.color }}
                 />
-                <span className="text-xs font-bold text-foreground">
+                <span className="text-sm font-semibold text-gray-900">
                   {hover.party.abbr}
                 </span>
-                <span className="ml-auto font-mono text-[10px] text-muted-foreground">
-                  #{String(hover.seatNo).padStart(3, "0")}
-                </span>
               </div>
-              <p className="text-[11px] leading-tight text-muted-foreground">
-                {hover.party.name}
-              </p>
-              <p className="mt-1.5 border-t border-border pt-1.5 text-sm font-semibold text-foreground">
-                {hover.deputy}
-              </p>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-
-      {/* Coalition bars */}
-      <div className="mt-6 grid gap-3 md:grid-cols-3">
-        {COALITIONS.map((cn) => (
-          <div key={cn.id} className="panel-flat p-4">
-            <div className="flex items-baseline justify-between">
-              <span className="font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
-                {cn.name}
-              </span>
-              <span className="font-display text-2xl" style={{ color: cn.color }}>
-                {cn.seats}
+              <span className="rounded-full bg-gray-50 px-2 py-0.5 text-[10px] font-medium tabular-nums text-gray-600">
+                Sandalye #{String(hover.seatNo).padStart(3, "0")}
               </span>
             </div>
-            <div className="mt-2 h-1.5 w-full overflow-hidden bg-surface-3">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${(cn.seats / TOTAL_SEATS) * 100}%` }}
-                transition={{ duration: 0.9, delay: 0.4 }}
-                className="h-full"
-                style={{ backgroundColor: cn.color }}
-              />
+            <p className="mt-1 text-xs text-gray-500">{hover.party.name}</p>
+            <div className="mt-2 border-t border-gray-100 pt-2">
+              <p className="text-[10px] uppercase tracking-wide text-gray-400">Milletvekili</p>
+              <p className="text-sm font-semibold text-gray-900">{hover.deputy}</p>
             </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Party legend */}
-      <div className="mt-6 hr-rule" />
-      <div className="mt-4 grid grid-cols-2 gap-x-6 gap-y-3 md:grid-cols-4 lg:grid-cols-7">
-        {PARTIES.map((p) => (
-          <div key={p.id} className="flex items-center gap-2">
-            <span className="inline-block h-3 w-3 rounded-full shrink-0" style={{ backgroundColor: p.color }} />
-            <div className="min-w-0 flex-1">
-              <div className="flex items-baseline gap-1.5">
-                <span className="text-xs font-bold text-foreground">{p.abbr}</span>
-                <span className="tabular-nums font-mono text-xs text-muted-foreground">
-                  %{p.percent}
-                </span>
-              </div>
-              <div className="flex items-center gap-1 font-mono text-[10px] text-muted-foreground">
-                <span className="tabular-nums">{p.seats}</span>
-                <span className={p.delta >= 0 ? "text-cyan" : "text-primary"}>
-                  ({p.delta >= 0 ? "+" : ""}{p.delta})
-                </span>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
