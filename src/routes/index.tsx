@@ -20,7 +20,7 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   return (
-    <div className="mx-auto max-w-[1600px] px-4 py-6 md:px-6">
+    <div className="w-full px-4 py-6 md:px-8 lg:px-12">
       {/* HERO */}
       <section className="grid grid-cols-1 gap-4 lg:grid-cols-[1fr_320px]">
         <CandidateRace />
