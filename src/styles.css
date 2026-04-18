@@ -91,7 +91,7 @@
 
   /* Vivid, high-contrast candidate colors */
   --cand-yilmaz: oklch(0.82 0.17 92);           /* AKP yellow #F4C20D */
-  --cand-kaya: oklch(0.46 0.26 264);            /* CHP vivid blue */
+  --cand-kaya: oklch(0.585 0.255 27);           /* CHP red #E11D2B */
   --cand-demir: oklch(0.6 0.16 195);            /* vivid teal */
   --cand-other: oklch(0.55 0.02 260);           /* neutral gray */
 

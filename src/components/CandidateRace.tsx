@@ -36,10 +36,16 @@ function CandidateBar({
   return (
     <div
       className={`shadow-card flex items-center gap-4 rounded-lg border bg-card transition-all hover:shadow-card-lg ${
-        isLeader
-          ? "border-accent/50 p-5 ring-1 ring-accent/30 md:p-6"
-          : "border-border p-4"
+        isLeader ? "p-5 ring-1 md:p-6" : "border-border p-4"
       }`}
+      style={
+        isLeader
+          ? {
+              borderColor: `${candidate.color}80`,
+              ["--tw-ring-color" as never]: `${candidate.color}55`,
+            }
+          : undefined
+      }
     >
       {/* Portrait */}
       <div className="relative shrink-0">
@@ -68,7 +74,10 @@ function CandidateBar({
           )}
         </div>
         {isLeader && (
-          <span className="absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-full bg-accent px-2.5 py-0.5 font-mono text-xs font-bold uppercase tracking-wider text-accent-foreground shadow-sm">
+          <span
+            className="absolute -bottom-1 left-1/2 -translate-x-1/2 rounded-full px-2.5 py-0.5 font-mono text-xs font-bold uppercase tracking-wider shadow-sm"
+            style={{ backgroundColor: candidate.color, color: "#1a1a1a" }}
+          >
             Önde
           </span>
         )}
@@ -107,10 +116,9 @@ function CandidateBar({
             duration={0.9}
             suffix="%"
             className={`tabular-nums font-display ${
-              isLeader
-                ? "text-5xl text-accent md:text-7xl"
-                : "text-4xl text-foreground md:text-5xl"
+              isLeader ? "text-5xl md:text-7xl" : "text-4xl text-foreground md:text-5xl"
             }`}
+            style={isLeader ? { color: candidate.color } : undefined}
           />
         </div>
 
