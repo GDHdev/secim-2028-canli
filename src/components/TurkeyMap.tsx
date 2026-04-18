@@ -123,7 +123,7 @@ export function TurkeyMap({
 
       <div
         ref={containerRef}
-        className={`relative overflow-hidden rounded-sm border border-border bg-surface-1 ${className ?? ""}`}
+        className={`relative overflow-hidden ${className ?? ""}`}
         onMouseLeave={() => setHover(null)}
       >
         {/* Zoom controls */}
@@ -165,8 +165,11 @@ export function TurkeyMap({
           height={420}
           style={{ width: "100%", height: "100%", display: "block" }}
         >
-          {/* SVG patterns for parliamentary mode hatching + accessibility */}
+          {/* SVG patterns + filters */}
           <defs>
+            <filter id="province-hover-shadow" x="-20%" y="-20%" width="140%" height="140%">
+              <feDropShadow dx="0" dy="2" stdDeviation="2.5" floodColor="#000" floodOpacity="0.45" />
+            </filter>
             {(["yilmaz", "kaya", "demir"] as const).map((id) => (
               <pattern
                 key={id}
@@ -203,6 +206,7 @@ export function TurkeyMap({
                           : candidateColor(province.leader))
                       : "var(--color-surface-2)";
                     const isSelected = selected?.id === id;
+                    const isHover = hover?.id === id;
                     return (
                       <Geography
                         key={geo.rsmKey}
@@ -216,6 +220,7 @@ export function TurkeyMap({
                         onMouseMove={(e) => setTipPos({ x: e.clientX, y: e.clientY })}
                         onMouseLeave={() => setHover(null)}
                         onClick={() => province && setSelected(province)}
+                        filter={isHover || isSelected ? "url(#province-hover-shadow)" : undefined}
                         style={{
                           default: {
                             fill: baseFill,
@@ -228,16 +233,16 @@ export function TurkeyMap({
                           },
                           hover: {
                             fill: baseFill,
-                            stroke: "var(--color-foreground)",
-                            strokeWidth: 1.2,
+                            stroke: "var(--color-background)",
+                            strokeWidth: 0.6,
                             outline: "none",
                             opacity: 1,
                             cursor: "pointer",
                           },
                           pressed: {
                             fill: baseFill,
-                            stroke: "var(--color-accent)",
-                            strokeWidth: 1.5,
+                            stroke: "var(--color-background)",
+                            strokeWidth: 0.6,
                             outline: "none",
                           },
                         }}

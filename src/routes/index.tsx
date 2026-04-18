@@ -27,9 +27,9 @@ function Index() {
         <SecondRoundGauge />
       </section>
 
-      {/* MAP — full width, prominent */}
-      <section className="mt-8">
-        <TurkeyMap className="h-[560px]" />
+      {/* MAP — full-bleed, edge-to-edge */}
+      <section className="-mx-4 mt-8 md:-mx-6">
+        <TurkeyMap className="h-[640px]" />
       </section>
 
       {/* LIVE FEED + STATS */}

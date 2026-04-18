@@ -25,7 +25,7 @@ export function LiveFeed() {
   }, []);
 
   return (
-    <div className="shadow-card flex h-full flex-col rounded-lg border border-border bg-card">
+    <div className="flex h-full flex-col rounded-lg border border-border bg-card">
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
         <div className="flex items-center gap-2.5">
           <span className="live-pulse inline-block h-2.5 w-2.5 rounded-full bg-primary" />
