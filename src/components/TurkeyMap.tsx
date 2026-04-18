@@ -1,10 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { geoCentroid } from "d3-geo";
 import { PROVINCES, type Province, CANDIDATES } from "@/lib/mock-data";
-import { X, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { X } from "lucide-react";
 import trProvinces from "@/assets/tr-provinces.json";
 
 // GeoJSON property name → mock province id
@@ -42,7 +42,10 @@ const candidateColor = (id: "yilmaz" | "kaya" | "demir") =>
   CANDIDATES.find((c) => c.id === id)!.color;
 
 const GEO_URL = trProvinces as unknown as object;
-const LABEL_ZOOM_THRESHOLD = 2.5;
+const MAP_SCALE = 3200;
+const MAP_CENTER: [number, number] = [35.5, 39.1];
+const MAP_W = 1200;
+const MAP_H = 560;
 
 export type TurkeyMapProps = {
   /** Hide built-in modal side panel; emit selection upward instead. */
