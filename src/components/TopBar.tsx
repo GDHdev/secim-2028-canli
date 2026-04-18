@@ -104,16 +104,16 @@ function BreakingTicker() {
   const items = LIVE_FEED.filter((f) => f.kind === "breaking" || f.kind === "decisive").slice(0, 10);
   const doubled = [...items, ...items];
   return (
-    <div className="flex items-stretch overflow-hidden border-t border-border bg-ink">
+    <div className="flex items-stretch overflow-hidden border-t border-border bg-foreground">
       <span className="flex shrink-0 items-center bg-primary px-3 font-mono text-[10px] font-bold uppercase tracking-[0.2em] text-primary-foreground">
         ⚡ Son Dakika
       </span>
       <div className="relative flex-1 overflow-hidden py-1.5">
         <div className="ticker-track flex whitespace-nowrap">
           {doubled.map((item, i) => (
-            <span key={i} className="mx-8 font-mono text-[11px] tracking-wide text-foreground">
-              <span className="text-muted-foreground">{item.time}</span>
-              <span className="mx-2 text-accent">▸</span>
+            <span key={i} className="mx-8 font-mono text-[11px] tracking-wide text-background">
+              <span className="text-background/55">{item.time}</span>
+              <span className="mx-2 text-primary">▸</span>
               {item.text}
             </span>
           ))}

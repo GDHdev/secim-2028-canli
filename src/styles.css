@@ -2,15 +2,14 @@
 @source "../src";
 @import "tw-animate-css";
 
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
 
 @custom-variant dark (&:is(.dark *));
 
 /*
- * SEÇİM 2028 — "MIDNIGHT NEWSROOM"
- * Editorial gece-haberi estetiği. Koyu midnight zemin, yüksek kontrast tipografi,
- * mega display sayılar, kırmızı/altın/cyan/magenta editorial palet.
- * İlham: NYT Election Night, FT, Bloomberg Terminal, BBC News at Ten.
+ * SEÇİM 2028 — "EDITORIAL LIGHT"
+ * Light editorial estetik. Beyaz zemin, lacivert/kırmızı kontrast,
+ * sade tipografi, NYT/Bloomberg/FT esintili profesyonel haber arayüzü.
  */
 
 @theme inline {
@@ -48,6 +47,7 @@
   --color-gold-foreground: var(--gold-foreground);
   --color-cyan: var(--cyan);
   --color-magenta: var(--magenta);
+  --color-navy: var(--navy);
 
   --color-cand-yilmaz: var(--cand-yilmaz);
   --color-cand-kaya: var(--cand-kaya);
@@ -63,54 +63,55 @@
   --color-chart-1: var(--cand-yilmaz);
   --color-chart-2: var(--cand-kaya);
   --color-chart-3: var(--cand-demir);
-  --color-chart-4: var(--gold);
+  --color-chart-4: var(--accent);
   --color-chart-5: var(--cand-other);
 }
 
 :root {
   --radius: 0.25rem;
 
-  /* MIDNIGHT NEWSROOM PALETTE */
-  --background: oklch(0.14 0.02 260);            /* deep midnight #0A0E1A */
-  --foreground: oklch(0.98 0.005 250);           /* near-white ink */
-  --ink: oklch(0.08 0.015 260);                  /* pure ink for inverted blocks */
+  /* EDITORIAL LIGHT PALETTE */
+  --background: oklch(0.995 0.002 250);          /* off-white #FCFCFC */
+  --foreground: oklch(0.18 0.02 260);            /* deep navy ink */
+  --ink: oklch(0.14 0.02 260);                   /* darkest ink */
 
-  --card: oklch(0.18 0.022 260);                 /* elevated card */
-  --card-foreground: oklch(0.98 0.005 250);
-  --popover: oklch(0.20 0.025 260);
-  --popover-foreground: oklch(0.98 0.005 250);
+  --card: oklch(1 0 0);                          /* pure white card */
+  --card-foreground: oklch(0.18 0.02 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.18 0.02 260);
 
-  /* Editorial vivid red — NYT/FT urgency */
-  --primary: oklch(0.62 0.255 25);               /* #EE2C3A */
-  --primary-foreground: oklch(0.98 0.005 250);
+  /* Editorial red — NYT/FT urgency */
+  --primary: oklch(0.55 0.22 25);                /* #C8252C deep red */
+  --primary-foreground: oklch(1 0 0);
 
-  --secondary: oklch(0.22 0.025 260);
-  --secondary-foreground: oklch(0.98 0.005 250);
-  --muted: oklch(0.22 0.022 260);
-  --muted-foreground: oklch(0.68 0.025 255);     /* readable on dark */
-  --accent: oklch(0.78 0.17 75);                 /* warm gold #F4B81C */
-  --accent-foreground: oklch(0.12 0.02 260);
-  --destructive: oklch(0.62 0.255 25);
-  --destructive-foreground: oklch(0.98 0.005 250);
-  --border: oklch(0.28 0.018 260);
-  --input: oklch(0.28 0.018 260);
-  --ring: oklch(0.62 0.255 25);
+  --secondary: oklch(0.96 0.006 250);
+  --secondary-foreground: oklch(0.18 0.02 260);
+  --muted: oklch(0.96 0.006 250);
+  --muted-foreground: oklch(0.45 0.015 255);     /* readable mid-grey */
+  --accent: oklch(0.32 0.09 255);                /* deep navy/blue accent */
+  --accent-foreground: oklch(1 0 0);
+  --destructive: oklch(0.55 0.22 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.90 0.005 250);               /* hairline grey */
+  --input: oklch(0.90 0.005 250);
+  --ring: oklch(0.55 0.22 25);
 
-  --gold: oklch(0.78 0.17 75);                   /* warm gold */
-  --gold-foreground: oklch(0.12 0.02 260);
-  --cyan: oklch(0.78 0.13 200);                  /* electric cyan */
-  --magenta: oklch(0.65 0.25 350);               /* hot magenta */
+  --navy: oklch(0.32 0.09 255);                  /* deep navy */
+  --gold: oklch(0.68 0.15 75);                   /* warm gold */
+  --gold-foreground: oklch(0.18 0.02 260);
+  --cyan: oklch(0.55 0.13 220);                  /* editorial blue */
+  --magenta: oklch(0.55 0.22 350);
 
-  /* Candidate / Party palette - high contrast on midnight */
-  --cand-yilmaz: oklch(0.78 0.17 75);            /* gold */
-  --cand-kaya: oklch(0.62 0.255 25);             /* red */
-  --cand-demir: oklch(0.72 0.16 200);            /* cyan */
-  --cand-other: oklch(0.55 0.02 260);            /* neutral */
+  /* Candidate / Party palette - editorial high-contrast on light */
+  --cand-yilmaz: oklch(0.55 0.22 25);            /* red */
+  --cand-kaya: oklch(0.32 0.12 255);             /* navy blue */
+  --cand-demir: oklch(0.58 0.13 195);            /* teal-blue */
+  --cand-other: oklch(0.70 0.02 260);            /* neutral grey */
 
-  --surface-1: oklch(0.17 0.022 260);            /* slight elevation */
-  --surface-2: oklch(0.22 0.025 260);            /* row hover */
-  --surface-3: oklch(0.27 0.025 260);            /* deeper elevation */
-  --grid: oklch(0.28 0.018 260);
+  --surface-1: oklch(0.985 0.003 250);           /* faintest grey */
+  --surface-2: oklch(0.96 0.005 250);            /* row hover */
+  --surface-3: oklch(0.92 0.006 250);            /* deeper elevation */
+  --grid: oklch(0.93 0.005 250);
 
   --sidebar: var(--surface-1);
   --sidebar-foreground: var(--foreground);
@@ -131,20 +132,20 @@
     background-color: var(--color-background);
     color: var(--color-foreground);
     font-family: var(--font-sans);
-    font-size: 16px;
-    line-height: 1.5;
+    font-size: 15px;
+    line-height: 1.55;
     -webkit-font-smoothing: antialiased;
     text-rendering: optimizeLegibility;
   }
 
   ::selection {
-    background: var(--color-accent);
-    color: var(--color-accent-foreground);
+    background: var(--color-primary);
+    color: var(--color-primary-foreground);
   }
 
   ::-webkit-scrollbar { width: 10px; height: 10px; }
   ::-webkit-scrollbar-track { background: var(--color-background); }
-  ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 5px; }
+  ::-webkit-scrollbar-thumb { background: var(--color-surface-3); border-radius: 5px; }
   ::-webkit-scrollbar-thumb:hover { background: var(--color-muted-foreground); }
 }
 
@@ -152,8 +153,8 @@
   .font-display {
     font-family: var(--font-display);
     letter-spacing: -0.02em;
-    font-weight: 800;
-    line-height: 1;
+    font-weight: 700;
+    line-height: 1.05;
   }
   .font-serif {
     font-family: var(--font-serif);
@@ -166,51 +167,52 @@
   .tabular-nums { font-variant-numeric: tabular-nums; }
   .text-balance { text-wrap: balance; }
 
-  /* Professional display ramps — toned down, clear hierarchy */
+  /* Toned-down editorial display ramps */
   .display-mega {
     font-family: var(--font-display);
-    font-size: clamp(2.25rem, 5vw, 4rem);
-    font-weight: 800;
-    line-height: 1.02;
-    letter-spacing: -0.035em;
-  }
-  .display-xl {
-    font-family: var(--font-display);
-    font-size: clamp(1.75rem, 3.5vw, 2.75rem);
+    font-size: clamp(1.875rem, 3.6vw, 2.875rem);
     font-weight: 700;
     line-height: 1.05;
     letter-spacing: -0.025em;
   }
+  .display-xl {
+    font-family: var(--font-display);
+    font-size: clamp(1.375rem, 2.4vw, 1.875rem);
+    font-weight: 600;
+    line-height: 1.15;
+    letter-spacing: -0.018em;
+  }
   .display-lg {
     font-family: var(--font-display);
-    font-size: clamp(1.25rem, 2vw, 1.625rem);
+    font-size: clamp(1rem, 1.4vw, 1.125rem);
     font-weight: 700;
-    line-height: 1.15;
-    letter-spacing: -0.015em;
+    line-height: 1.25;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
   }
 
-  /* Eyebrow / kicker — small label */
+  /* Eyebrow / kicker */
   .eyebrow {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 600;
-    letter-spacing: 0.12em;
+    letter-spacing: 0.14em;
     text-transform: uppercase;
     color: var(--color-muted-foreground);
   }
   .eyebrow-accent {
     font-family: var(--font-mono);
-    font-size: 0.75rem;
+    font-size: 0.6875rem;
     font-weight: 700;
-    letter-spacing: 0.14em;
+    letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--color-accent);
+    color: var(--color-primary);
   }
 
   /* Pulsing live dot */
   @keyframes live-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 oklch(0.62 0.255 25 / 0.7); }
-    50% { opacity: 0.85; transform: scale(1.15); box-shadow: 0 0 0 10px oklch(0.62 0.255 25 / 0); }
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 oklch(0.55 0.22 25 / 0.55); }
+    50% { opacity: 0.85; transform: scale(1.2); box-shadow: 0 0 0 8px oklch(0.55 0.22 25 / 0); }
   }
   .live-pulse { animation: live-pulse 1.4s ease-in-out infinite; }
 
@@ -221,13 +223,7 @@
   }
   .ticker-track { animation: ticker 70s linear infinite; }
 
-  @keyframes gold-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 oklch(0.78 0.17 75 / 0.5); }
-    50% { box-shadow: 0 0 32px 6px oklch(0.78 0.17 75 / 0.4); }
-  }
-  .gold-pulse { animation: gold-pulse 2.4s ease-in-out infinite; }
-
-  /* Subtle grid background */
+  /* Subtle grid background — very light */
   .grid-bg {
     background-image:
       linear-gradient(var(--color-grid) 1px, transparent 1px),
@@ -236,18 +232,16 @@
     background-position: -1px -1px;
   }
 
-  /* Editorial vertical rule */
   .vrule {
     background: var(--color-border);
     width: 1px;
     align-self: stretch;
   }
 
-  /* Hairline */
   .hr-rule { height: 1px; background: var(--color-border); }
   .hr-rule-accent { height: 2px; background: var(--color-foreground); }
 
-  /* Card variants */
+  /* Panels — editorial clean */
   .panel {
     background: var(--color-card);
     border: 1px solid var(--color-border);
@@ -258,32 +252,6 @@
   }
   .panel-inverted {
     background: var(--color-foreground);
-    color: var(--color-ink);
-  }
-
-  /* Subtle film-grain noise overlay */
-  .noise::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    pointer-events: none;
-    opacity: 0.04;
-    mix-blend-mode: overlay;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/></filter><rect width='100%25' height='100%25' filter='url(%23n)' opacity='0.7'/></svg>");
-  }
-
-  /* Diagonal stripes — emergency/election bands */
-  .stripes-warning {
-    background-image: repeating-linear-gradient(
-      45deg,
-      var(--color-accent),
-      var(--color-accent) 12px,
-      var(--color-ink) 12px,
-      var(--color-ink) 24px
-    );
-  }
-
-  .ring-glow {
-    box-shadow: 0 0 0 1px var(--color-border), 0 20px 60px -20px oklch(0 0 0 / 0.6);
+    color: var(--color-background);
   }
 }
