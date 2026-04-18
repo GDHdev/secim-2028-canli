@@ -119,7 +119,7 @@ export function TurkeyMap({
           {/* SVG patterns + filters */}
           <defs>
             <filter id="province-hover-shadow" x="-20%" y="-20%" width="140%" height="140%">
-              <feDropShadow dx="0" dy="2" stdDeviation="2.5" floodColor="#000" floodOpacity="0.45" />
+              <feDropShadow dx="0" dy="2" stdDeviation="2" floodColor="#0F1428" floodOpacity="0.25" />
             </filter>
             {(["yilmaz", "kaya", "demir"] as const).map((id) => (
               <pattern
@@ -167,25 +167,25 @@ export function TurkeyMap({
                       style={{
                         default: {
                           fill: baseFill,
-                          stroke: "var(--color-background)",
-                          strokeWidth: 0.6,
+                          stroke: "#FFFFFF",
+                          strokeWidth: 0.8,
                           outline: "none",
                           transition: "fill 0.4s ease, opacity 0.3s ease",
-                          opacity: isSelected ? 1 : 0.95,
+                          opacity: isSelected ? 1 : 0.92,
                           cursor: "pointer",
                         },
                         hover: {
                           fill: baseFill,
-                          stroke: "var(--color-background)",
-                          strokeWidth: 0.6,
+                          stroke: "#FFFFFF",
+                          strokeWidth: 1.2,
                           outline: "none",
                           opacity: 1,
                           cursor: "pointer",
                         },
                         pressed: {
                           fill: baseFill,
-                          stroke: "var(--color-background)",
-                          strokeWidth: 0.6,
+                          stroke: "#FFFFFF",
+                          strokeWidth: 0.8,
                           outline: "none",
                         },
                       }}
@@ -212,13 +212,13 @@ export function TurkeyMap({
                         y={0}
                         style={{
                           fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-                          fontSize: isSmall ? 5 : 8,
+                          fontSize: isSmall ? 5.5 : 8.5,
                           fontWeight: 700,
-                          letterSpacing: "0.06em",
-                          fill: "#0A0E1A",
+                          letterSpacing: "0.04em",
+                          fill: "#FFFFFF",
                           paintOrder: "stroke",
-                          stroke: "rgba(255,255,255,0.35)",
-                          strokeWidth: 0.5,
+                          stroke: "rgba(15,20,40,0.35)",
+                          strokeWidth: 0.6,
                         }}
                       >
                         {province.name.toUpperCase()}
