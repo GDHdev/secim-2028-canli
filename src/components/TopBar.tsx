@@ -58,7 +58,7 @@ export function TopBar() {
       <BreakingTicker />
 
       {/* Row 1 — masthead */}
-      <div className="flex items-center gap-6 px-4 py-3 md:px-8 lg:px-12">
+      <div className="site-container flex items-center gap-6 py-3">
         <Link to="/" className="flex items-center gap-3">
           <img
             src={gdhLogo}
@@ -115,7 +115,7 @@ export function TopBar() {
             activeProps={{ className: "text-brand-700 border-brand-600 bg-brand-50/50" }}
             inactiveProps={{ className: "text-gray-600 border-transparent hover:text-gray-900 hover:bg-gray-50" }}
             activeOptions={n.to === "/" ? { exact: true } : undefined}
-            className="border-b-2 px-4 py-3 text-sm font-semibold tracking-wide transition-colors"
+            className="site-container border-b-2 py-3 text-sm font-semibold tracking-wide transition-colors"
           >
             {n.label}
           </Link>

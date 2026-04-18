@@ -54,7 +54,7 @@ function SonuclarPage() {
   return (
     <div className="bg-background">
       {/* Header band */}
-      <section className="border-b border-border px-4 pt-10 pb-6 md:px-8 lg:px-12">
+      <section className="site-container border-b border-border pt-10 pb-6">
         <span className="eyebrow-accent">81 İl · Cumhurbaşkanlığı 1. Tur</span>
         <h1 className="display-xl mt-2 text-foreground">SONUÇLAR TABLOSU</h1>
         <p className="mt-2 max-w-2xl font-serif text-base text-muted-foreground">
@@ -63,7 +63,7 @@ function SonuclarPage() {
       </section>
 
       {/* Filter band */}
-      <section className="sticky top-[136px] z-10 border-b border-border bg-background/95 px-4 py-3 backdrop-blur-md md:px-8 lg:px-12">
+      <section className="site-container sticky top-[136px] z-10 border-b border-border bg-background/95 py-3 backdrop-blur-md">
         <div className="flex flex-wrap items-center gap-3">
           <div className="relative flex-1 max-w-xs">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
@@ -96,7 +96,7 @@ function SonuclarPage() {
       </section>
 
       {/* Table */}
-      <section className="px-4 py-6 md:px-8 lg:px-12">
+      <section className="site-container py-6">
         <div className="overflow-x-auto border border-border">
           <table className="w-full text-sm">
             <thead className="border-b border-border bg-surface-1">

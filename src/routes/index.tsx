@@ -37,7 +37,7 @@ function Index() {
   return (
     <div className="bg-background">
       {/* PRESIDENTIAL + GAUGE */}
-      <section className="px-4 py-9 md:px-8 lg:px-12">
+      <section className="site-container py-9">
         <SectionHeader
           kicker="Cumhurbaşkanlığı Seçimi"
           title="Adaylar Arası Yarış"
@@ -53,7 +53,7 @@ function Index() {
       <RegionStrip />
 
       {/* MAP — full bleed */}
-      <section className="px-4 pt-9 pb-3 md:px-8 lg:px-12">
+      <section className="site-container pt-9 pb-3">
         <SectionHeader
           kicker="81 İl · Anlık Liderler"
           title="Türkiye Haritası"
@@ -65,7 +65,7 @@ function Index() {
       </section>
 
       {/* PARLIAMENT */}
-      <section className="px-4 py-9 md:px-8 lg:px-12">
+      <section className="site-container py-9">
         <SectionHeader
           kicker="Milletvekili Seçimi"
           title="Meclis Dağılımı"
@@ -75,7 +75,7 @@ function Index() {
       </section>
 
       {/* SWING PROVINCES + LIVE */}
-      <section className="border-t border-border bg-surface-1 px-4 py-9 md:px-8 lg:px-12">
+      <section className="site-container border-t border-border bg-surface-1 py-9">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
           <div>
             <SectionHeader
@@ -97,7 +97,7 @@ function Index() {
       </section>
 
       {/* STATS */}
-      <section className="border-t border-border px-4 py-9 md:px-8 lg:px-12">
+      <section className="site-container border-t border-border py-9">
         <SectionHeader
           kicker="Veri"
           title="İstatistikler"
@@ -107,7 +107,7 @@ function Index() {
       </section>
 
       {/* NEWS */}
-      <section className="px-4 py-9 md:px-8 lg:px-12">
+      <section className="site-container py-9">
         <SectionHeader
           kicker="Gündem"
           title="Son Haberler"

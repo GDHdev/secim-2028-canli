@@ -23,13 +23,13 @@ function HaberlerPage() {
 
   return (
     <div className="bg-background">
-      <section className="border-b border-border px-4 pt-10 pb-6 md:px-8 lg:px-12">
+      <section className="site-container border-b border-border pt-10 pb-6">
         <span className="eyebrow-accent">Newsroom · Canlı</span>
         <h1 className="display-xl mt-2 text-foreground">HABERLER</h1>
         <p className="mt-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">{items.length} HABER · {cat}</p>
       </section>
 
-      <section className="border-b border-border bg-surface-1 px-4 py-3 md:px-8 lg:px-12">
+      <section className="site-container border-b border-border bg-surface-1 py-3">
         <div className="flex flex-wrap gap-1">
           {CATEGORIES.map((c) => (
             <button
@@ -47,7 +47,7 @@ function HaberlerPage() {
         </div>
       </section>
 
-      <section className="px-4 py-8 md:px-8 lg:px-12">
+      <section className="site-container py-8">
         {lead && (
           <Link
             to="/haberler/$id"

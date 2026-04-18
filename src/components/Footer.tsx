@@ -3,7 +3,7 @@ import { Link } from "@tanstack/react-router";
 export function Footer() {
   return (
     <footer className="mt-16 border-t border-border bg-ink">
-      <div className="grid grid-cols-1 gap-8 px-4 py-12 md:grid-cols-[1.5fr_1fr_1fr] md:px-8 lg:px-12">
+      <div className="site-container grid grid-cols-1 gap-8 py-12 md:grid-cols-[1.5fr_1fr_1fr]">
         <div>
           <div className="font-display text-4xl tracking-tight text-foreground">
             SEÇİM<span className="text-primary">2028</span>
@@ -35,7 +35,7 @@ export function Footer() {
           </ul>
         </div>
       </div>
-      <div className="border-t border-border px-4 py-4 text-center md:px-8">
+      <div className="site-container border-t border-border py-4 text-center">
         <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
           © 2028 Seçim2028 · Bütün haklar saklıdır · Demo proje
         </p>

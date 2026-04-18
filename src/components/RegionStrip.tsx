@@ -9,7 +9,7 @@ const candName = (id: "yilmaz" | "kaya" | "demir") =>
 export function RegionStrip() {
   return (
     <section className="border-y border-border bg-surface-1">
-      <div className="flex items-center justify-between border-b border-border px-4 py-3 md:px-8 lg:px-12">
+      <div className="site-container flex items-center justify-between border-b border-border py-3">
         <span className="eyebrow-accent">7 Bölge · Anlık Liderler</span>
         <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
           Bölge ortalaması · 1. Tur
@@ -22,7 +22,7 @@ export function RegionStrip() {
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: i * 0.05 }}
-            className="relative px-4 py-5"
+            className="site-container relative py-5"
           >
             <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
               {r.region}

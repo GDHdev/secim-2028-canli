@@ -48,7 +48,7 @@ function Tur2Page() {
   return (
     <div className="bg-background">
       {/* Hero */}
-      <section className="border-b border-border px-4 pt-10 pb-8 md:px-8 lg:px-12">
+      <section className="site-container border-b border-border pt-10 pb-8">
         <div className="flex flex-wrap items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2">
@@ -69,7 +69,7 @@ function Tur2Page() {
       </section>
 
       {/* Battle visualization */}
-      <section className="px-4 py-10 md:px-8 lg:px-12">
+      <section className="site-container py-10">
         <div className="grid grid-cols-1 items-stretch gap-0 border border-border md:grid-cols-[1fr_auto_1fr]">
           <CandSide candidate={yilmaz} percent={projection.yPct} winner={projection.winner === "yilmaz"} side="left" />
           <div className="flex items-center justify-center border-y border-border px-6 py-4 md:border-x md:border-y-0">
@@ -94,7 +94,7 @@ function Tur2Page() {
       </section>
 
       {/* Controls */}
-      <section className="px-4 pb-10 md:px-8 lg:px-12">
+      <section className="site-container pb-10">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_400px]">
           <div className="panel p-6 md:p-8">
             <span className="eyebrow-accent">Demir Seçmen Davranışı</span>
