@@ -84,10 +84,10 @@
 
   --gold: oklch(0.55 0.13 60);                  /* deeper gold for legibility */
   --gold-foreground: oklch(0.99 0 0);
-  --cand-yilmaz: oklch(0.58 0.21 25);           /* red */
-  --cand-kaya: oklch(0.5 0.18 250);             /* deep blue */
-  --cand-demir: oklch(0.55 0.12 200);           /* teal */
-  --cand-other: oklch(0.65 0.015 260);          /* gray */
+  --cand-yilmaz: oklch(0.5 0.2 27);             /* deep red #B91C1C */
+  --cand-kaya: oklch(0.45 0.21 265);            /* deep blue #1D4ED8 */
+  --cand-demir: oklch(0.48 0.1 195);            /* deep teal #0F766E */
+  --cand-other: oklch(0.6 0.018 260);           /* gray */
   --surface-1: oklch(0.955 0.008 80);           /* slightly off-cream */
   --surface-2: oklch(0.92 0.01 80);             /* deeper cream */
   --grid: oklch(0.86 0.012 80);
