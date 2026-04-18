@@ -19,44 +19,76 @@ const CATEGORIES: ("Tümü" | NewsCategory)[] = ["Tümü", "Seçim", "Sonuçlar"
 function HaberlerPage() {
   const [cat, setCat] = useState<"Tümü" | NewsCategory>("Tümü");
   const items = cat === "Tümü" ? NEWS : NEWS.filter((n) => n.category === cat);
+  const [lead, ...rest] = items;
 
   return (
-    <div className="w-full px-4 py-6 md:px-8 lg:px-12">
-      <div className="mb-4">
-        <h1 className="font-display text-4xl tracking-wider text-foreground">HABERLER</h1>
-        <p className="font-mono text-xs text-muted-foreground">{items.length} HABER</p>
-      </div>
+    <div className="bg-background">
+      <section className="border-b border-border px-4 pt-10 pb-6 md:px-8 lg:px-12">
+        <span className="eyebrow-accent">Newsroom · Canlı</span>
+        <h1 className="display-xl mt-2 text-foreground">HABERLER</h1>
+        <p className="mt-2 font-mono text-xs uppercase tracking-[0.16em] text-muted-foreground">{items.length} HABER · {cat}</p>
+      </section>
 
-      <div className="mb-4 flex gap-2 overflow-x-auto">
-        {CATEGORIES.map((c) => (
-          <button
-            key={c}
-            onClick={() => setCat(c)}
-            className={`shrink-0 rounded-sm border px-3 py-1.5 font-display text-sm tracking-wider transition-colors ${cat === c ? "border-primary bg-primary text-primary-foreground" : "border-border bg-surface-1 text-muted-foreground hover:text-foreground"}`}
-          >
-            {c.toUpperCase()}
-          </button>
-        ))}
-      </div>
+      <section className="border-b border-border bg-surface-1 px-4 py-3 md:px-8 lg:px-12">
+        <div className="flex flex-wrap gap-1">
+          {CATEGORIES.map((c) => (
+            <button
+              key={c}
+              onClick={() => setCat(c)}
+              className={`border px-3 py-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] transition-colors ${
+                cat === c
+                  ? "border-accent bg-accent text-accent-foreground"
+                  : "border-border bg-background text-muted-foreground hover:border-foreground hover:text-foreground"
+              }`}
+            >
+              {c}
+            </button>
+          ))}
+        </div>
+      </section>
 
-      <div className="divide-y divide-border rounded-sm border border-border bg-surface-1">
-        {items.map((n) => (
+      <section className="px-4 py-8 md:px-8 lg:px-12">
+        {lead && (
           <Link
-            key={n.id}
             to="/haberler/$id"
-            params={{ id: n.id }}
-            className="block px-4 py-3 transition-colors hover:bg-surface-2"
+            params={{ id: lead.id }}
+            className="group mb-8 block border border-border bg-card p-6 transition-colors hover:border-accent md:p-10"
           >
-            <div className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
-              <span className="rounded-sm bg-primary/10 px-1.5 py-0.5 text-primary">{n.category.toUpperCase()}</span>
-              <span>{n.source}</span>
-              <span>·</span>
-              <span>{n.time}</span>
+            <div className="flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em]">
+              <span className="bg-primary px-2 py-0.5 font-bold text-primary-foreground">{lead.category}</span>
+              <span className="text-muted-foreground">{lead.source}</span>
+              <span className="text-muted-foreground">·</span>
+              <span className="text-muted-foreground">{lead.time}</span>
             </div>
-            <h2 className="mt-1 text-balance font-medium text-foreground">{n.title}</h2>
+            <h2 className="font-serif mt-4 max-w-4xl text-balance text-4xl font-bold leading-tight text-foreground transition-colors group-hover:text-accent md:text-5xl lg:text-6xl">
+              {lead.title}
+            </h2>
+            <p className="mt-4 max-w-3xl text-base leading-relaxed text-muted-foreground">{lead.body}</p>
           </Link>
-        ))}
-      </div>
+        )}
+
+        <div className="grid grid-cols-1 gap-0 divide-y divide-border border border-border md:grid-cols-2 md:divide-x lg:grid-cols-3">
+          {rest.map((n, i) => (
+            <Link
+              key={n.id}
+              to="/haberler/$id"
+              params={{ id: n.id }}
+              className={`group block bg-card p-5 transition-colors hover:bg-surface-2 ${i >= 2 ? "md:border-t md:border-border" : ""}`}
+            >
+              <div className="flex items-center gap-2 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">
+                <span className="text-primary">{n.category}</span>
+                <span>·</span>
+                <span>{n.time}</span>
+                <span>·</span>
+                <span>{n.source}</span>
+              </div>
+              <h3 className="font-serif mt-2 text-balance text-xl font-semibold leading-snug text-foreground transition-colors group-hover:text-accent">
+                {n.title}
+              </h3>
+            </Link>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

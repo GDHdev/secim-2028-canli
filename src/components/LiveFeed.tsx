@@ -5,7 +5,7 @@ import { LIVE_FEED, type FeedItem } from "@/lib/mock-data";
 const newMessages: Omit<FeedItem, "id">[] = [
   { time: "22:18", text: "İzmir kesinleşti: Kaya (%50.3)", kind: "decisive" },
   { time: "22:21", text: "Bursa %85 sayıldı, Yılmaz farkı koruyor", kind: "info" },
-  { time: "22:24", text: "🔴 Toplam sayım %75'i geçti", kind: "breaking" },
+  { time: "22:24", text: "Toplam sayım %75'i geçti", kind: "breaking" },
   { time: "22:27", text: "Antalya'da Kaya %45 ile öne geçti", kind: "leader" },
   { time: "22:30", text: "Adana kesinleşti: Kaya (%43)", kind: "decisive" },
 ];
@@ -25,32 +25,42 @@ export function LiveFeed() {
   }, []);
 
   return (
-    <div className="flex h-full flex-col rounded-lg border border-border bg-card">
-      <div className="flex items-center justify-between border-b border-border px-5 py-4">
-        <div className="flex items-center gap-2.5">
-          <span className="live-pulse inline-block h-2.5 w-2.5 rounded-full bg-primary" />
-          <h2 className="font-display text-xl tracking-wider text-foreground md:text-2xl">CANLI AKIŞ</h2>
+    <div className="panel flex h-full flex-col">
+      <div className="flex items-center justify-between border-b border-border px-5 py-3">
+        <div className="flex items-center gap-2">
+          <span className="live-pulse inline-block h-2 w-2 rounded-full bg-primary" />
+          <span className="eyebrow-accent">Canlı Akış</span>
         </div>
-        <span className="tabular-nums font-mono text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-          {items.length} güncelleme
+        <span className="font-mono text-[10px] tabular-nums uppercase tracking-[0.16em] text-muted-foreground">
+          {items.length} olay
         </span>
       </div>
-      <div className="max-h-[600px] overflow-y-auto p-2">
+      <div className="max-h-[640px] overflow-y-auto">
         <AnimatePresence initial={false}>
           {items.map((item) => (
             <motion.div
               key={item.id}
               layout
-              initial={{ opacity: 0, y: -20, height: 0 }}
+              initial={{ opacity: 0, y: -10, height: 0 }}
               animate={{ opacity: 1, y: 0, height: "auto" }}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.4, ease: "easeOut" }}
-              className={`mb-1 flex items-start gap-3 rounded-md border-l-[3px] px-3 py-2.5 text-sm transition-colors hover:bg-surface-1 ${kindStyle(item.kind)}`}
+              className={`flex items-start gap-3 border-b border-border/60 px-5 py-3 text-sm transition-colors hover:bg-surface-2 ${kindBg(item.kind)}`}
             >
-              <span className="tabular-nums mt-0.5 font-mono text-xs font-semibold text-muted-foreground">
-                {item.time}
-              </span>
-              <span className="flex-1 leading-relaxed text-foreground">{item.text}</span>
+              <div className={`mt-1 h-full w-[3px] shrink-0 self-stretch ${kindBar(item.kind)}`} />
+              <div className="min-w-0 flex-1">
+                <div className="mb-0.5 flex items-center gap-2">
+                  <span className="tabular-nums font-mono text-[10px] font-semibold text-muted-foreground">
+                    {item.time}
+                  </span>
+                  {item.kind !== "info" && (
+                    <span className={`font-mono text-[9px] font-bold uppercase tracking-[0.18em] ${kindLabel(item.kind)}`}>
+                      {labelFor(item.kind)}
+                    </span>
+                  )}
+                </div>
+                <p className="leading-snug text-foreground">{item.text}</p>
+              </div>
             </motion.div>
           ))}
         </AnimatePresence>
@@ -59,11 +69,15 @@ export function LiveFeed() {
   );
 }
 
-function kindStyle(kind: FeedItem["kind"]) {
-  switch (kind) {
-    case "breaking": return "border-primary bg-primary/5";
-    case "decisive": return "border-accent bg-accent/5";
-    case "leader": return "border-cand-kaya/60";
-    default: return "border-border";
-  }
+function labelFor(k: FeedItem["kind"]) {
+  return { breaking: "Son Dakika", decisive: "Kesinleşti", leader: "Lider Değişti", info: "" }[k];
+}
+function kindBg(k: FeedItem["kind"]) {
+  return k === "breaking" ? "bg-primary/[0.04]" : k === "decisive" ? "bg-accent/[0.04]" : "";
+}
+function kindBar(k: FeedItem["kind"]) {
+  return k === "breaking" ? "bg-primary" : k === "decisive" ? "bg-accent" : k === "leader" ? "bg-cyan" : "bg-border";
+}
+function kindLabel(k: FeedItem["kind"]) {
+  return k === "breaking" ? "text-primary" : k === "decisive" ? "text-accent" : k === "leader" ? "text-cyan" : "text-muted-foreground";
 }

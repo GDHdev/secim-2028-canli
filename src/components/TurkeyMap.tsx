@@ -105,14 +105,9 @@ export function TurkeyMap({
         onMouseLeave={() => setHover(null)}
       >
         {!hideHeader && (
-          <>
-            <h2 className="pointer-events-none absolute left-4 top-3 z-10 font-display text-xl tracking-wider text-foreground md:text-2xl">
-              TÜRKİYE HARİTASI
-            </h2>
-            <div className="absolute right-4 top-3 z-10">
-              <Legend />
-            </div>
-          </>
+          <div className="absolute right-4 top-3 z-10">
+            <Legend />
+          </div>
         )}
         <ComposableMap
           projection="geoMercator"
@@ -216,11 +211,14 @@ export function TurkeyMap({
                         dominantBaseline="middle"
                         y={0}
                         style={{
-                          fontFamily: "Inter, system-ui, -apple-system, sans-serif",
+                          fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
                           fontSize: isSmall ? 5 : 8,
-                          fontWeight: 800,
-                          letterSpacing: "0.02em",
-                          fill: "white",
+                          fontWeight: 700,
+                          letterSpacing: "0.06em",
+                          fill: "#0A0E1A",
+                          paintOrder: "stroke",
+                          stroke: "rgba(255,255,255,0.35)",
+                          strokeWidth: 0.5,
                         }}
                       >
                         {province.name.toUpperCase()}
@@ -274,9 +272,9 @@ export function TurkeyMap({
       </div>
 
       {!hideHeader && (
-        <div className="mt-3 flex justify-center">
-          <p className="font-mono text-xs text-muted-foreground">
-            81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME
+        <div className="absolute bottom-3 left-1/2 -translate-x-1/2">
+          <p className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+            81 İl · Önde olan adaya göre renklendirme
           </p>
         </div>
       )}
