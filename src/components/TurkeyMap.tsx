@@ -5,6 +5,7 @@ import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simp
 import { geoCentroid } from "d3-geo";
 import { PROVINCES, type Province, CANDIDATES } from "@/lib/mock-data";
 import { X, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import trProvinces from "@/assets/tr-provinces.json";
 
 // GeoJSON property name → mock province id
 const NAME_TO_ID: Record<string, string> = {
@@ -40,7 +41,7 @@ const NAME_TO_ID: Record<string, string> = {
 const candidateColor = (id: "yilmaz" | "kaya" | "demir") =>
   CANDIDATES.find((c) => c.id === id)!.color;
 
-const GEO_URL = "/geo/tr-provinces.json";
+const GEO_URL = trProvinces as unknown as object;
 const LABEL_ZOOM_THRESHOLD = 2.5;
 
 export type TurkeyMapProps = {
