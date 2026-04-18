@@ -34,7 +34,8 @@ const toneAccent: Record<string, { bg: string; fg: string }> = {
   default: { bg: "bg-gray-100", fg: "text-gray-700" },
   primary: { bg: "bg-brand-50", fg: "text-brand-700" },
   accent:  { bg: "bg-brand-50", fg: "text-brand-700" },
-  cyan:    { bg: "bg-gray-100", fg: "text-gray-700" },
+  success: { bg: "bg-success-500/10", fg: "text-success-600" },
+  indigo:  { bg: "bg-indigo-700/10", fg: "text-indigo-700" },
 };
 
 export function TopBar() {

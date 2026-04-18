@@ -102,7 +102,7 @@ function ThresholdGrid() {
               </div>
               <span
                 className={`font-mono text-[10px] font-bold uppercase tracking-wider ${
-                  passes ? "text-cyan" : "text-primary"
+                  passes ? "text-success-600" : "text-brand-600"
                 }`}
               >
                 {passes ? "● GEÇTİ" : "● ALTINDA"}
@@ -228,7 +228,7 @@ function CoalitionBuilder() {
           <motion.div
             animate={{ width: `${ratio * 100}%` }}
             transition={{ duration: 0.5 }}
-            className={`h-full ${reachesMajority ? "bg-cyan" : "bg-accent"}`}
+            className={`h-full ${reachesMajority ? "bg-success-600" : "bg-brand-600"}`}
           />
           <span
             className="absolute top-0 h-full w-px bg-foreground"
@@ -245,10 +245,10 @@ function CoalitionBuilder() {
         <div
           className={`mt-5 border px-3 py-2.5 text-center text-xs font-bold ${
             reachesMajority
-              ? "border-cyan bg-cyan/10 text-cyan"
+              ? "border-success-600/30 bg-success-500/10 text-success-600"
               : totals.seats > 0
-                ? "border-primary bg-primary/10 text-primary"
-                : "border-border bg-surface-1 text-muted-foreground"
+                ? "border-brand-600/30 bg-brand-50 text-brand-700"
+                : "border-gray-200 bg-gray-50 text-gray-500"
           }`}
         >
           {reachesMajority
