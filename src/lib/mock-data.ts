@@ -21,10 +21,10 @@ export const COUNTED_VOTES = 47_800_000;
 export const COUNT_PERCENT = (COUNTED_VOTES / TOTAL_VOTERS) * 100; // ~74.6
 
 export const CANDIDATES: Candidate[] = [
-  { id: "yilmaz", name: "Mehmet Yılmaz", party: "AK Parti", color: "#F4C20D", cssVar: "cand-yilmaz", percent: 38.2, votes: Math.round(COUNTED_VOTES * 0.382), photo: yilmazPhoto },
-  { id: "kaya",   name: "Ayşe Kaya",     party: "CHP",      color: "#E11D2B", cssVar: "cand-kaya",   percent: 31.7, votes: Math.round(COUNTED_VOTES * 0.317), photo: kayaPhoto },
-  { id: "demir",  name: "Can Demir",     party: "YHP",      color: "#0891B2", cssVar: "cand-demir",  percent: 22.4, votes: Math.round(COUNTED_VOTES * 0.224), photo: demirPhoto },
-  { id: "other",  name: "Diğer",         party: "—",        color: "#6B7280", cssVar: "cand-other",  percent: 7.7,  votes: Math.round(COUNTED_VOTES * 0.077) },
+  { id: "yilmaz", name: "Mehmet Yılmaz", party: "Ulusal Birlik Partisi",   color: "#F4C20D", cssVar: "cand-yilmaz", percent: 38.2, votes: Math.round(COUNTED_VOTES * 0.382), photo: yilmazPhoto },
+  { id: "kaya",   name: "Ayşe Kaya",     party: "Halkın Sesi Partisi",      color: "#E11D2B", cssVar: "cand-kaya",   percent: 31.7, votes: Math.round(COUNTED_VOTES * 0.317), photo: kayaPhoto },
+  { id: "demir",  name: "Can Demir",     party: "Yeni Yol Hareketi",        color: "#0891B2", cssVar: "cand-demir",  percent: 22.4, votes: Math.round(COUNTED_VOTES * 0.224), photo: demirPhoto },
+  { id: "other",  name: "Diğer",         party: "Bağımsız",                 color: "#6B7280", cssVar: "cand-other",  percent: 7.7,  votes: Math.round(COUNTED_VOTES * 0.077) },
 ];
 
 export const SECOND_ROUND_PROBABILITY = 73; // %
