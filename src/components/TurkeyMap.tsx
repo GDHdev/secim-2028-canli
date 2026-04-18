@@ -201,7 +201,6 @@ export function TurkeyMap({
                   if (!province) return null;
                   const centroid = geoCentroid(geo);
                   if (!Number.isFinite(centroid[0]) || !Number.isFinite(centroid[1])) return null;
-                  // Hide labels for very small provinces
                   if (TINY_PROVINCES.has(province.id)) return null;
                   const isSmall = SMALL_PROVINCES.has(province.id);
                   return (
@@ -211,17 +210,17 @@ export function TurkeyMap({
                         dominantBaseline="middle"
                         y={0}
                         style={{
-                          fontFamily: "'IBM Plex Mono', ui-monospace, monospace",
-                          fontSize: isSmall ? 5.5 : 8.5,
-                          fontWeight: 700,
-                          letterSpacing: "0.04em",
+                          fontFamily: "Inter, system-ui, sans-serif",
+                          fontSize: isSmall ? 6 : 9,
+                          fontWeight: 600,
+                          letterSpacing: "0.01em",
                           fill: "#FFFFFF",
                           paintOrder: "stroke",
-                          stroke: "rgba(15,20,40,0.35)",
-                          strokeWidth: 0.6,
+                          stroke: "rgba(16,24,40,0.45)",
+                          strokeWidth: 0.7,
                         }}
                       >
-                        {province.name.toUpperCase()}
+                        {province.name}
                       </text>
                     </g>
                   );
@@ -231,16 +230,24 @@ export function TurkeyMap({
           </Geographies>
         </ComposableMap>
 
-        {/* Tooltip */}
+        {/* Tooltip — Untitled UI soft popover */}
         {hover && (
           <div
-            className="pointer-events-none fixed z-40 rounded-sm border border-border bg-popover px-3 py-2 text-xs shadow-lg"
+            className="pointer-events-none fixed z-40 min-w-[240px] rounded-xl border border-gray-200 bg-white p-3 shadow-lg"
             style={{ left: tipPos.x + 14, top: tipPos.y + 14 }}
           >
-            <div className="mb-1 font-display text-base tracking-wider text-popover-foreground">
-              {hover.name}
+            <div className="flex items-center justify-between gap-3 pb-2">
+              <div>
+                <p className="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+                  {hover.region}
+                </p>
+                <p className="text-sm font-semibold text-gray-900">{hover.name}</p>
+              </div>
+              <span className="rounded-full bg-gray-50 px-2 py-0.5 text-[10px] font-medium tabular-nums text-gray-600">
+                Sayım %{hover.counted}
+              </span>
             </div>
-            <div className="space-y-1">
+            <div className="space-y-1.5 border-t border-gray-100 pt-2">
               {(["yilmaz", "kaya", "demir", "other"] as const).map((cid) => {
                 const c = CANDIDATES.find((x) => x.id === cid)!;
                 const v = hover.results[cid];
@@ -248,14 +255,14 @@ export function TurkeyMap({
                 return (
                   <div key={cid} className="flex items-center gap-2">
                     <span
-                      className="inline-block h-2 w-2 rounded-full"
+                      className="inline-block h-2 w-2 rounded-full shrink-0"
                       style={{ backgroundColor: c.color }}
                     />
-                    <span className={`flex-1 ${isLead ? "font-semibold text-foreground" : "text-muted-foreground"}`}>
+                    <span className={`flex-1 text-xs ${isLead ? "font-semibold text-gray-900" : "text-gray-500"}`}>
                       {c.name}
                     </span>
                     <span
-                      className="font-mono font-semibold"
+                      className={`text-xs font-semibold tabular-nums ${isLead ? "" : "text-gray-700"}`}
                       style={{ color: isLead ? c.color : undefined }}
                     >
                       %{v}
@@ -263,9 +270,6 @@ export function TurkeyMap({
                   </div>
                 );
               })}
-            </div>
-            <div className="mt-2 border-t border-border pt-1 font-mono text-[10px] text-muted-foreground">
-              Sayım: %{hover.counted}
             </div>
           </div>
         )}
@@ -399,11 +403,11 @@ export function ProvincePanelBody({ province, onClose }: { province: Province; o
 
 function Legend() {
   return (
-    <div className="flex items-center gap-3 rounded-md border border-border bg-card/90 px-3 py-1.5 backdrop-blur-sm">
+    <div className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white/95 px-3 py-1.5 shadow-sm backdrop-blur-sm">
       {CANDIDATES.slice(0, 3).map((c) => (
         <div key={c.id} className="flex items-center gap-1.5">
-          <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: c.color }} />
-          <span className="font-mono text-xs font-semibold text-foreground">{c.name.split(" ")[1].toUpperCase()}</span>
+          <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: c.color }} />
+          <span className="text-xs font-medium text-gray-700">{c.name.split(" ").slice(-1)[0]}</span>
         </div>
       ))}
     </div>
