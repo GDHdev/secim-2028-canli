@@ -1,178 +1,201 @@
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
+import { useEffect, useState } from "react";
 import { CANDIDATES } from "@/lib/mock-data";
 import { CountUp } from "./CountUp";
+import { TrendingUp, TrendingDown } from "lucide-react";
 
 /**
- * Editorial-style presidential race card.
- * Headline-oriented: leader gets massive type, trailing get subordinated.
+ * Live "horse race" presidential card — Untitled UI styled.
+ * Adaylar alt alta, sıralama oylar değiştikçe animasyonla yeniden diziliyor.
+ * Diğer adaylar da listenin sonunda yer alıyor.
  */
+
+type Row = (typeof CANDIDATES)[number] & { delta: number };
+
 export function PresidentRace() {
-  const ranked = [...CANDIDATES].filter((c) => c.id !== "other").sort((a, b) => b.percent - a.percent);
-  const leader = ranked[0];
-  const second = ranked[1];
-  const third = ranked[2];
-  const other = CANDIDATES.find((c) => c.id === "other")!;
+  // Anlık simülasyon: her tick'te çok küçük rastgele oynamalar
+  const [rows, setRows] = useState<Row[]>(() =>
+    [...CANDIDATES].map((c) => ({ ...c, delta: 0 })).sort((a, b) => b.percent - a.percent),
+  );
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setRows((prev) => {
+        const next = prev.map((c) => {
+          const jitter = (Math.random() - 0.5) * 0.18; // ±0.09 puan
+          const np = Math.max(0, +(c.percent + jitter).toFixed(2));
+          return { ...c, percent: np, delta: +(np - c.percent).toFixed(2) };
+        });
+        // Re-normalize to keep ~100
+        const sum = next.reduce((a, b) => a + b.percent, 0);
+        const k = 100 / sum;
+        const norm = next.map((c) => ({ ...c, percent: +(c.percent * k).toFixed(2) }));
+        return norm.sort((a, b) => b.percent - a.percent);
+      });
+    }, 2200);
+    return () => clearInterval(id);
+  }, []);
+
+  const leader = rows[0];
+  const second = rows[1];
   const gap = leader.percent - second.percent;
+  const max = Math.max(...rows.map((r) => r.percent));
 
   return (
-    <div className="panel relative overflow-hidden">
-      {/* Top eyebrow strip */}
-      <div className="flex items-center justify-between border-b border-border px-6 py-3">
+    <div className="panel overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between border-b border-gray-200 px-6 py-4">
         <div className="flex items-center gap-3">
-          <span className="eyebrow-accent">Cumhurbaşkanlığı · 1. Tur</span>
-          <span className="rounded-sm bg-primary/15 px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.15em] text-primary">
-            Canlı
-          </span>
+          <div>
+            <h3 className="text-base font-semibold text-gray-900">Cumhurbaşkanlığı Yarışı</h3>
+            <p className="text-xs text-gray-500">1. Tur · sıralama anlık güncelleniyor</p>
+          </div>
+          <span className="uui-badge uui-badge-error uui-badge-live">Canlı</span>
         </div>
-        <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
-          %50 Barajı · 2. Tur Kaçınılmaz
-        </span>
-      </div>
-
-      {/* Leader hero */}
-      <div className="grid grid-cols-1 gap-0 lg:grid-cols-[1.4fr_1fr]">
-        <div className="relative border-b border-border p-6 md:p-8 lg:border-b-0 lg:border-r">
-          <div className="flex items-start gap-5">
-            <Portrait candidate={leader} size="lg" />
-            <div className="min-w-0 flex-1">
-              <span className="rounded-sm px-1.5 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em]"
-                    style={{ backgroundColor: leader.color, color: "#0A0E1A" }}>
-                Önde
-              </span>
-              <h2 className="mt-2 font-display text-5xl tracking-tight text-foreground md:text-6xl lg:text-7xl">
-                {leader.name.toUpperCase()}
-              </h2>
-              <p className="mt-1 font-mono text-xs text-muted-foreground">
-                {leader.party}
-              </p>
-            </div>
-          </div>
-
-          <div className="mt-6 flex items-end justify-between gap-4">
-            <div>
-              <CountUp
-                to={leader.percent}
-                decimals={1}
-                duration={1.2}
-                suffix="%"
-                className="font-display text-7xl leading-none tracking-tight md:text-8xl lg:text-9xl"
-                style={{ color: leader.color }}
-              />
-              <p className="mt-2 font-mono text-xs text-muted-foreground">
-                {leader.votes.toLocaleString("tr-TR")} oy
-              </p>
-            </div>
-            <div className="text-right">
-              <span className="eyebrow">Fark</span>
-              <p className="font-display text-4xl text-accent md:text-5xl">
-                +{gap.toFixed(1)}
-              </p>
-              <p className="font-mono text-[10px] uppercase tracking-[0.15em] text-muted-foreground">
-                puan üstünlük
-              </p>
-            </div>
-          </div>
-
-          {/* Bar with 50% threshold */}
-          <div className="relative mt-5 h-3 overflow-hidden bg-surface-2">
-            <motion.div
-              initial={{ width: 0 }}
-              animate={{ width: `${leader.percent}%` }}
-              transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1] }}
-              className="h-full"
-              style={{ backgroundColor: leader.color }}
-            />
-            <div className="pointer-events-none absolute inset-y-0 left-1/2 w-px bg-foreground/40" />
-            <span className="pointer-events-none absolute -top-5 left-1/2 -translate-x-1/2 font-mono text-[9px] font-bold uppercase tracking-[0.15em] text-foreground/60">
-              %50
-            </span>
-          </div>
-        </div>
-
-        {/* Trailing candidates stacked */}
-        <div className="divide-y divide-border">
-          <ChallengerRow candidate={second} place={2} />
-          <ChallengerRow candidate={third} place={3} />
-          <div className="flex items-center justify-between px-6 py-4">
-            <div className="flex items-center gap-3">
-              <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: other.color }} />
-              <span className="font-mono text-xs uppercase tracking-[0.12em] text-muted-foreground">
-                Diğer Adaylar
-              </span>
-            </div>
-            <span className="font-display text-2xl text-muted-foreground">
-              %{other.percent.toFixed(1)}
-            </span>
+        <div className="hidden items-center gap-2 text-right md:flex">
+          <div>
+            <p className="text-[11px] font-medium uppercase tracking-wide text-gray-500">Önde · Fark</p>
+            <p className="text-sm font-semibold text-gray-900">
+              {leader.name.split(" ").slice(-1)[0]} · +{gap.toFixed(1)} pt
+            </p>
           </div>
         </div>
       </div>
-    </div>
-  );
-}
 
-function ChallengerRow({ candidate, place }: { candidate: typeof CANDIDATES[number]; place: number }) {
-  return (
-    <div className="flex items-center gap-4 px-6 py-5">
-      <span className="font-display text-3xl text-muted-foreground">
-        {String(place).padStart(2, "0")}
-      </span>
-      <Portrait candidate={candidate} size="sm" />
-      <div className="min-w-0 flex-1">
-        <p className="truncate font-display text-2xl tracking-tight text-foreground md:text-3xl">
-          {candidate.name.toUpperCase()}
+      {/* Stacked live race */}
+      <ul className="flex flex-col gap-2 p-3 md:p-4">
+        <AnimatePresence initial={false}>
+          {rows.map((c, i) => (
+            <motion.li
+              key={c.id}
+              layout
+              transition={{ type: "spring", stiffness: 360, damping: 32, mass: 0.8 }}
+              className="relative"
+            >
+              <CandidateRow candidate={c} place={i + 1} max={max} />
+            </motion.li>
+          ))}
+        </AnimatePresence>
+      </ul>
+
+      {/* Footer threshold note */}
+      <div className="flex items-center justify-between gap-3 border-t border-gray-200 bg-gray-50 px-6 py-3">
+        <p className="text-xs text-gray-500">
+          %50 barajı aşılmadığı için <span className="font-medium text-gray-900">2. tur</span> kaçınılmaz görünüyor.
         </p>
-        <div className="flex items-center gap-2">
-          <span className="inline-block h-2 w-2 rounded-sm" style={{ backgroundColor: candidate.color }} />
-          <p className="truncate font-mono text-[11px] text-muted-foreground">{candidate.party}</p>
-        </div>
-        <div className="mt-2 h-1.5 w-full overflow-hidden bg-surface-2">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${candidate.percent}%` }}
-            transition={{ duration: 0.9, delay: 0.2 + place * 0.1 }}
-            className="h-full"
-            style={{ backgroundColor: candidate.color }}
-          />
-        </div>
+        <span className="uui-badge uui-badge-brand">2. Tur · 14 Nisan 2028</span>
       </div>
-      <CountUp
-        to={candidate.percent}
-        decimals={1}
-        duration={1}
-        suffix="%"
-        className="tabular-nums font-display text-4xl md:text-5xl"
-        style={{ color: candidate.color }}
-      />
     </div>
   );
 }
 
-function Portrait({ candidate, size }: { candidate: typeof CANDIDATES[number]; size: "lg" | "sm" }) {
-  const dim = size === "lg" ? "h-24 w-24 md:h-28 md:w-28" : "h-14 w-14";
+function CandidateRow({
+  candidate,
+  place,
+  max,
+}: {
+  candidate: Row;
+  place: number;
+  max: number;
+}) {
+  const isLeader = place === 1;
+  const widthPct = (candidate.percent / Math.max(max, 1)) * 100;
+  const up = candidate.delta > 0.01;
+  const down = candidate.delta < -0.01;
+
   return (
-    <div className="relative shrink-0">
-      <div
-        className={`overflow-hidden ring-2 ring-offset-2 ring-offset-card ${dim}`}
-        style={{ ["--tw-ring-color" as never]: candidate.color, borderRadius: 2 }}
-      >
-        {candidate.photo ? (
-          <img
-            src={candidate.photo}
-            alt={candidate.name}
-            loading="eager"
-            width={224}
-            height={224}
-            className="h-full w-full object-cover grayscale"
-          />
-        ) : (
-          <div
-            className="flex h-full w-full items-center justify-center font-display text-2xl text-foreground"
-            style={{ backgroundColor: candidate.color }}
-          >
-            {candidate.name[0]}
-          </div>
-        )}
+    <div
+      className={`relative flex items-center gap-4 rounded-lg border px-4 py-3 transition-colors ${
+        isLeader
+          ? "border-brand-200 bg-brand-50/40"
+          : "border-gray-200 bg-white hover:bg-gray-50"
+      }`}
+    >
+      {/* Rank */}
+      <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full border border-gray-200 bg-white text-xs font-semibold text-gray-600 tabular-nums">
+        {place}
       </div>
+
+      {/* Portrait */}
+      <Portrait candidate={candidate} />
+
+      {/* Name + party + bar */}
+      <div className="min-w-0 flex-1">
+        <div className="flex items-center gap-2">
+          <p className="truncate text-sm font-semibold text-gray-900">
+            {candidate.name}
+          </p>
+          {isLeader && (
+            <span className="uui-badge uui-badge-brand !py-0 !px-2 text-[10px]">Önde</span>
+          )}
+          {candidate.id === "other" && (
+            <span className="uui-badge uui-badge-gray !py-0 !px-2 text-[10px]">Toplam</span>
+          )}
+        </div>
+        <p className="truncate text-xs text-gray-500">{candidate.party}</p>
+
+        {/* Race bar */}
+        <div className="relative mt-2 h-2 overflow-hidden rounded-full bg-gray-100">
+          <motion.div
+            className="relative h-full rounded-full race-bar-live"
+            style={{ backgroundColor: candidate.color }}
+            initial={false}
+            animate={{ width: `${widthPct}%` }}
+            transition={{ type: "spring", stiffness: 120, damping: 22 }}
+          />
+        </div>
+      </div>
+
+      {/* % + votes + delta */}
+      <div className="flex w-32 shrink-0 flex-col items-end gap-0.5">
+        <CountUp
+          to={candidate.percent}
+          decimals={1}
+          duration={0.6}
+          suffix="%"
+          className="text-2xl font-semibold tabular-nums tracking-tight"
+          style={{ color: candidate.color }}
+        />
+        <p className="text-[11px] text-gray-500 tabular-nums">
+          {candidate.votes.toLocaleString("tr-TR")} oy
+        </p>
+        <div
+          className={`flex items-center gap-0.5 text-[11px] font-medium tabular-nums ${
+            up ? "text-success-600" : down ? "text-error-600" : "text-gray-400"
+          }`}
+        >
+          {up && <TrendingUp size={12} />}
+          {down && <TrendingDown size={12} />}
+          {up || down ? `${candidate.delta > 0 ? "+" : ""}${candidate.delta.toFixed(2)}` : "—"}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function Portrait({ candidate }: { candidate: Row }) {
+  return (
+    <div
+      className="relative h-12 w-12 shrink-0 overflow-hidden rounded-full ring-2 ring-offset-2 ring-offset-white"
+      style={{ ["--tw-ring-color" as never]: candidate.color }}
+    >
+      {candidate.photo ? (
+        <img
+          src={candidate.photo}
+          alt={candidate.name}
+          loading="eager"
+          width={96}
+          height={96}
+          className="h-full w-full object-cover"
+        />
+      ) : (
+        <div
+          className="flex h-full w-full items-center justify-center text-sm font-semibold text-white"
+          style={{ backgroundColor: candidate.color }}
+        >
+          {candidate.name[0]}
+        </div>
+      )}
     </div>
   );
 }
