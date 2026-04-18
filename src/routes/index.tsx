@@ -23,7 +23,7 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function SectionHeader({ kicker, title, meta }: { kicker?: string; title: string; meta?: React.ReactNode }) {
+function SectionHeader({ kicker, title, meta }: { kicker?: React.ReactNode; title: string; meta?: React.ReactNode }) {
   return (
     <div className="mb-5 border-b border-foreground pb-2">
       {kicker && <div className="eyebrow-accent mb-1">{kicker}</div>}
@@ -120,7 +120,7 @@ function Index() {
           </div>
           <div>
             <SectionHeader
-              kicker={<><span className="live-pulse mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-primary align-middle" />Canlı</>  as unknown as string}
+              kicker={<><span className="live-pulse mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-primary align-middle" />Canlı</>}
               title="Akış"
               meta="Son dakika"
             />
