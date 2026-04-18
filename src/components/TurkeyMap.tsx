@@ -1,10 +1,10 @@
 import { motion, AnimatePresence } from "framer-motion";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useMemo, useRef, useState } from "react";
 import { Link } from "@tanstack/react-router";
-import { ComposableMap, Geographies, Geography, ZoomableGroup } from "react-simple-maps";
+import { ComposableMap, Geographies, Geography } from "react-simple-maps";
 import { geoCentroid } from "d3-geo";
 import { PROVINCES, type Province, CANDIDATES } from "@/lib/mock-data";
-import { X, ZoomIn, ZoomOut, Maximize2 } from "lucide-react";
+import { X } from "lucide-react";
 import trProvinces from "@/assets/tr-provinces.json";
 
 // GeoJSON property name → mock province id
@@ -42,7 +42,10 @@ const candidateColor = (id: "yilmaz" | "kaya" | "demir") =>
   CANDIDATES.find((c) => c.id === id)!.color;
 
 const GEO_URL = trProvinces as unknown as object;
-const LABEL_ZOOM_THRESHOLD = 2.5;
+const MAP_SCALE = 3200;
+const MAP_CENTER: [number, number] = [35.5, 39.1];
+const MAP_W = 1200;
+const MAP_H = 560;
 
 export type TurkeyMapProps = {
   /** Hide built-in modal side panel; emit selection upward instead. */
@@ -77,9 +80,6 @@ export function TurkeyMap({
 
   const [hover, setHover] = useState<Province | null>(null);
   const [tipPos, setTipPos] = useState<{ x: number; y: number }>({ x: 0, y: 0 });
-  const [zoom, setZoom] = useState(1);
-  const [center, setCenter] = useState<[number, number]>([35.2, 39]);
-  const [revealedCount, setRevealedCount] = useState(81);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const provinceById = useMemo(() => {
@@ -88,36 +88,11 @@ export function TurkeyMap({
     return m;
   }, []);
 
-  // "Color bleed" reveal animation
-  useEffect(() => {
-    let raf = 0;
-    const start = performance.now();
-    const total = 81;
-    const duration = 1600;
-    const tick = (now: number) => {
-      const t = Math.min(1, (now - start) / duration);
-      const eased = 1 - Math.pow(1 - t, 2);
-      setRevealedCount(Math.floor(eased * total));
-      if (t < 1) raf = requestAnimationFrame(tick);
-      else setRevealedCount(total);
-    };
-    raf = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(raf);
-  }, []);
-
-  const showLabels = zoom >= LABEL_ZOOM_THRESHOLD;
-
   return (
     <div className="relative">
       {!hideHeader && (
-        <div className="mb-3 flex items-center justify-between">
-          <div>
-            <h2 className="font-display text-2xl tracking-wider text-foreground">TÜRKİYE HARİTASI</h2>
-            <p className="font-mono text-xs text-muted-foreground">
-              81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME
-            </p>
-          </div>
-          <Legend />
+        <div className="mb-3">
+          <h2 className="font-display text-2xl tracking-wider text-foreground">TÜRKİYE HARİTASI</h2>
         </div>
       )}
 
@@ -126,43 +101,11 @@ export function TurkeyMap({
         className={`relative overflow-hidden ${className ?? ""}`}
         onMouseLeave={() => setHover(null)}
       >
-        {/* Zoom controls */}
-        <div className="absolute right-2 top-2 z-10 flex flex-col gap-1">
-          <button
-            onClick={() => setZoom((z) => Math.min(z * 1.5, 8))}
-            className="rounded-sm border border-border bg-card p-1.5 text-foreground hover:bg-surface-2"
-            aria-label="Yakınlaştır"
-          >
-            <ZoomIn size={14} />
-          </button>
-          <button
-            onClick={() => setZoom((z) => Math.max(z / 1.5, 1))}
-            className="rounded-sm border border-border bg-card p-1.5 text-foreground hover:bg-surface-2"
-            aria-label="Uzaklaştır"
-          >
-            <ZoomOut size={14} />
-          </button>
-          <button
-            onClick={() => { setZoom(1); setCenter([35.2, 39]); }}
-            className="rounded-sm border border-border bg-card p-1.5 text-foreground hover:bg-surface-2"
-            aria-label="Sıfırla"
-          >
-            <Maximize2 size={14} />
-          </button>
-        </div>
-
-        {/* Zoom hint */}
-        {!showLabels && (
-          <div className="pointer-events-none absolute bottom-2 left-2 z-10 rounded-sm bg-card/80 px-2 py-1 font-mono text-xs text-muted-foreground backdrop-blur-sm">
-            İl isimleri için yakınlaştır →
-          </div>
-        )}
-
         <ComposableMap
           projection="geoMercator"
-          projectionConfig={{ scale: 2400, center: [35.2, 39] }}
-          width={900}
-          height={420}
+          projectionConfig={{ scale: MAP_SCALE, center: MAP_CENTER }}
+          width={MAP_W}
+          height={MAP_H}
           style={{ width: "100%", height: "100%", display: "block" }}
         >
           {/* SVG patterns + filters */}
@@ -185,105 +128,94 @@ export function TurkeyMap({
             ))}
           </defs>
 
-          <ZoomableGroup
-            zoom={zoom}
-            center={center}
-            onMoveEnd={(pos) => { setZoom(pos.zoom); setCenter(pos.coordinates as [number, number]); }}
-            minZoom={1}
-            maxZoom={8}
-          >
-            <Geographies geography={GEO_URL}>
-              {({ geographies }) => (
-                <>
-                  {geographies.map((geo, i) => {
-                    const name = geo.properties.name as string;
-                    const id = NAME_TO_ID[name];
-                    const province = id ? provinceById.get(id) : undefined;
-                    const isRevealed = i < revealedCount;
-                    const baseFill = province && isRevealed
-                      ? (mode === "vekil"
-                          ? `url(#hatch-${province.leader})`
-                          : candidateColor(province.leader))
-                      : "var(--color-surface-2)";
-                    const isSelected = selected?.id === id;
-                    const isHover = hover?.id === id;
-                    return (
-                      <Geography
-                        key={geo.rsmKey}
-                        geography={geo}
-                        onMouseEnter={(e) => {
-                          if (province) {
-                            setHover(province);
-                            setTipPos({ x: e.clientX, y: e.clientY });
-                          }
-                        }}
-                        onMouseMove={(e) => setTipPos({ x: e.clientX, y: e.clientY })}
-                        onMouseLeave={() => setHover(null)}
-                        onClick={() => province && setSelected(province)}
-                        filter={isHover || isSelected ? "url(#province-hover-shadow)" : undefined}
-                        style={{
-                          default: {
-                            fill: baseFill,
-                            stroke: "var(--color-background)",
-                            strokeWidth: 0.6,
-                            outline: "none",
-                            transition: "fill 0.4s ease, opacity 0.3s ease",
-                            opacity: isRevealed ? (isSelected ? 1 : 0.92) : 0.5,
-                            cursor: "pointer",
-                          },
-                          hover: {
-                            fill: baseFill,
-                            stroke: "var(--color-background)",
-                            strokeWidth: 0.6,
-                            outline: "none",
-                            opacity: 1,
-                            cursor: "pointer",
-                          },
-                          pressed: {
-                            fill: baseFill,
-                            stroke: "var(--color-background)",
-                            strokeWidth: 0.6,
-                            outline: "none",
-                          },
-                        }}
-                      />
-                    );
-                  })}
+          <Geographies geography={GEO_URL}>
+            {({ geographies }) => (
+              <>
+                {geographies.map((geo) => {
+                  const name = geo.properties.name as string;
+                  const id = NAME_TO_ID[name];
+                  const province = id ? provinceById.get(id) : undefined;
+                  const baseFill = province
+                    ? (mode === "vekil"
+                        ? `url(#hatch-${province.leader})`
+                        : candidateColor(province.leader))
+                    : "var(--color-surface-2)";
+                  const isSelected = selected?.id === id;
+                  const isHover = hover?.id === id;
+                  return (
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      onMouseEnter={(e) => {
+                        if (province) {
+                          setHover(province);
+                          setTipPos({ x: e.clientX, y: e.clientY });
+                        }
+                      }}
+                      onMouseMove={(e) => setTipPos({ x: e.clientX, y: e.clientY })}
+                      onMouseLeave={() => setHover(null)}
+                      onClick={() => province && setSelected(province)}
+                      filter={isHover || isSelected ? "url(#province-hover-shadow)" : undefined}
+                      style={{
+                        default: {
+                          fill: baseFill,
+                          stroke: "var(--color-background)",
+                          strokeWidth: 0.6,
+                          outline: "none",
+                          transition: "fill 0.4s ease, opacity 0.3s ease",
+                          opacity: isSelected ? 1 : 0.95,
+                          cursor: "pointer",
+                        },
+                        hover: {
+                          fill: baseFill,
+                          stroke: "var(--color-background)",
+                          strokeWidth: 0.6,
+                          outline: "none",
+                          opacity: 1,
+                          cursor: "pointer",
+                        },
+                        pressed: {
+                          fill: baseFill,
+                          stroke: "var(--color-background)",
+                          strokeWidth: 0.6,
+                          outline: "none",
+                        },
+                      }}
+                    />
+                  );
+                })}
 
-                  {/* Province labels — only at high zoom */}
-                  {showLabels && geographies.map((geo) => {
-                    const name = geo.properties.name as string;
-                    const id = NAME_TO_ID[name];
-                    const province = id ? provinceById.get(id) : undefined;
-                    if (!province) return null;
-                    const centroid = geoCentroid(geo);
-                    if (!Number.isFinite(centroid[0]) || !Number.isFinite(centroid[1])) return null;
-                    // Scale font inversely so it doesn't grow beyond readable
-                    const fontSize = Math.max(2.2, 6 / zoom);
-                    return (
-                      <g key={`lbl-${geo.rsmKey}`} transform={`translate(${projectPoint(centroid)})`} pointerEvents="none">
-                        <text
-                          textAnchor="middle"
-                          y={0}
-                          style={{
-                            fontFamily: "var(--font-mono)",
-                            fontSize,
-                            fontWeight: 700,
-                            fill: "white",
-                            paintOrder: "stroke",
-                            stroke: "rgba(0,0,0,0.55)",
-                            strokeWidth: 0.6,
-                          }}
-                        >
-                          {province.name.toUpperCase()}
-                        </text>
-                      </g>
-                    );
-                  })}
-                </>
-              )}
-            </Geographies>
-          </ZoomableGroup>
+                {/* Province labels — always visible */}
+                {geographies.map((geo) => {
+                  const name = geo.properties.name as string;
+                  const id = NAME_TO_ID[name];
+                  const province = id ? provinceById.get(id) : undefined;
+                  if (!province) return null;
+                  const centroid = geoCentroid(geo);
+                  if (!Number.isFinite(centroid[0]) || !Number.isFinite(centroid[1])) return null;
+                  return (
+                    <g key={`lbl-${geo.rsmKey}`} transform={`translate(${projectPoint(centroid)})`} pointerEvents="none">
+                      <text
+                        textAnchor="middle"
+                        y={0}
+                        style={{
+                          fontFamily: "var(--font-mono)",
+                          fontSize: 7,
+                          fontWeight: 700,
+                          fill: "white",
+                          paintOrder: "stroke",
+                          stroke: "rgba(0,0,0,0.6)",
+                          strokeWidth: 0.7,
+                        }}
+                      >
+                        {province.name.toUpperCase()}
+                      </text>
+                    </g>
+                  );
+                })}
+              </>
+            )}
+          </Geographies>
         </ComposableMap>
 
         {/* Tooltip */}
@@ -301,6 +233,15 @@ export function TurkeyMap({
           </div>
         )}
       </div>
+
+      {!hideHeader && (
+        <div className="mt-3 flex flex-col items-center gap-2">
+          <Legend />
+          <p className="font-mono text-xs text-muted-foreground">
+            81 İL · ÖNDE OLAN ADAYA GÖRE RENKLENDİRME
+          </p>
+        </div>
+      )}
 
       {/* Modal side panel — only when not embedded */}
       <AnimatePresence>
@@ -453,10 +394,9 @@ function fakeDistricts(p: Province) {
 
 /** Project [lon, lat] to SVG coords matching ComposableMap's default projection. */
 function projectPoint([lon, lat]: [number, number]): string {
-  // Recreate the same Mercator transform used by ComposableMap above
-  const scale = 2400;
-  const cx = 35.2, cy = 39;
-  const w = 900, h = 420;
+  const scale = MAP_SCALE;
+  const [cx, cy] = MAP_CENTER;
+  const w = MAP_W, h = MAP_H;
   const lonRad = ((lon - cx) * Math.PI) / 180;
   const latRad = (lat * Math.PI) / 180;
   const cyRad = (cy * Math.PI) / 180;
