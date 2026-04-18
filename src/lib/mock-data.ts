@@ -301,3 +301,109 @@ export const getProvince = (id: string) => PROVINCES.find((p) => p.id === id);
 
 // Helper: format Turkish numbers
 export const fmtTR = (n: number) => n.toLocaleString("tr-TR");
+
+// ============================================================
+// MİLLETVEKİLİ / PARLAMENTO
+// ============================================================
+
+export type Party = {
+  id: string;
+  abbr: string;
+  name: string;
+  color: string;
+  bloc: "ittifak-a" | "ittifak-b" | "ittifak-c" | "bagimsiz";
+  percent: number;
+  seats: number;
+  delta: number; // change vs 2023
+};
+
+export const TOTAL_SEATS = 600;
+export const ELECTION_THRESHOLD = 7; // %
+
+// Six fictional parties + independents — total seats = 600
+export const PARTIES: Party[] = [
+  { id: "ubp", abbr: "UBP", name: "Ulusal Birlik Partisi",  color: "#F4B81C", bloc: "ittifak-a", percent: 32.4, seats: 198, delta:  -14 },
+  { id: "hsp", abbr: "HSP", name: "Halkın Sesi Partisi",     color: "#EE2C3A", bloc: "ittifak-b", percent: 27.8, seats: 174, delta:   +9 },
+  { id: "yyh", abbr: "YYH", name: "Yeni Yol Hareketi",       color: "#5BC0DE", bloc: "ittifak-c", percent: 14.6, seats:  92, delta:  +18 },
+  { id: "agp", abbr: "AGP", name: "Aydınlık Gelecek Partisi",color: "#22C55E", bloc: "ittifak-a", percent:  9.2, seats:  58, delta:   -3 },
+  { id: "tdp", abbr: "TDP", name: "Toplumsal Demokrat Partisi", color: "#A855F7", bloc: "ittifak-b", percent:  7.4, seats:  46, delta:   +5 },
+  { id: "msp", abbr: "MSP", name: "Milli Selamet Partisi",   color: "#FB923C", bloc: "ittifak-a", percent:  4.8, seats:  22, delta:   -8 },
+  { id: "bgz", abbr: "BĞZ", name: "Bağımsızlar",             color: "#94A3B8", bloc: "bagimsiz",  percent:  3.8, seats:  10, delta:   -7 },
+];
+
+export const PARTY_BY_ID = (id: string) => PARTIES.find((p) => p.id === id);
+
+// İttifak / coalition aggregation
+export type Coalition = {
+  id: "ittifak-a" | "ittifak-b" | "ittifak-c";
+  name: string;
+  color: string;
+  partyIds: string[];
+  seats: number;
+  percent: number;
+};
+
+const sumBy = <T,>(arr: T[], f: (t: T) => number) => arr.reduce((s, x) => s + f(x), 0);
+
+export const COALITIONS: Coalition[] = [
+  { id: "ittifak-a", name: "Cumhur İttifakı (kurgu)",   color: "#F4B81C", partyIds: ["ubp", "agp", "msp"],
+    seats: sumBy(PARTIES.filter((p) => ["ubp","agp","msp"].includes(p.id)), (p) => p.seats),
+    percent: +sumBy(PARTIES.filter((p) => ["ubp","agp","msp"].includes(p.id)), (p) => p.percent).toFixed(1),
+  },
+  { id: "ittifak-b", name: "Millet İttifakı (kurgu)",   color: "#EE2C3A", partyIds: ["hsp", "tdp"],
+    seats: sumBy(PARTIES.filter((p) => ["hsp","tdp"].includes(p.id)), (p) => p.seats),
+    percent: +sumBy(PARTIES.filter((p) => ["hsp","tdp"].includes(p.id)), (p) => p.percent).toFixed(1),
+  },
+  { id: "ittifak-c", name: "Emek ve Özgürlük (kurgu)",  color: "#5BC0DE", partyIds: ["yyh"],
+    seats: sumBy(PARTIES.filter((p) => p.id === "yyh"), (p) => p.seats),
+    percent: +sumBy(PARTIES.filter((p) => p.id === "yyh"), (p) => p.percent).toFixed(1),
+  },
+];
+
+export const MAJORITY_THRESHOLD = 301;
+
+// Key insights / mega numbers strip
+export type MegaStat = {
+  label: string;
+  value: string;
+  sub?: string;
+  tone?: "default" | "primary" | "accent" | "cyan";
+};
+
+export const MEGA_STATS: MegaStat[] = [
+  { label: "Sayım",            value: "%74.6",     sub: "47.8M / 64.1M oy", tone: "accent" },
+  { label: "Önde",             value: "YILMAZ",    sub: "%38.2 · 18.3M oy", tone: "default" },
+  { label: "2. Tur ihtimali",  value: "%73",       sub: "14 Nisan 2028",    tone: "primary" },
+  { label: "Katılım",          value: "%86.2",     sub: "+0.8 vs 2023",     tone: "cyan" },
+  { label: "Kesinleşen il",    value: "12 / 81",   sub: "%100 sayım",       tone: "default" },
+  { label: "Meclis lideri",    value: "UBP",       sub: "198 sandalye",     tone: "accent" },
+];
+
+// Region snapshot — leader per region
+export const REGION_SNAPSHOT = REGIONS.map((r) => {
+  const ps = PROVINCES.filter((p) => p.region === r);
+  const totals = ps.reduce(
+    (acc, p) => {
+      acc.yilmaz += p.results.yilmaz;
+      acc.kaya += p.results.kaya;
+      acc.demir += p.results.demir;
+      return acc;
+    },
+    { yilmaz: 0, kaya: 0, demir: 0 },
+  );
+  const sum = totals.yilmaz + totals.kaya + totals.demir;
+  const y = (totals.yilmaz / sum) * 100;
+  const k = (totals.kaya / sum) * 100;
+  const d = (totals.demir / sum) * 100;
+  const leader = y >= k && y >= d ? "yilmaz" : k >= d ? "kaya" : "demir";
+  const provincesCount = ps.length;
+  return {
+    region: r,
+    leader: leader as "yilmaz" | "kaya" | "demir",
+    yilmaz: +y.toFixed(1),
+    kaya: +k.toFixed(1),
+    demir: +d.toFixed(1),
+    provinces: provincesCount,
+  };
+});
+
