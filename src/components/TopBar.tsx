@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { useEffect, useState } from "react";
-import { COUNTED_VOTES, COUNT_PERCENT, TOTAL_VOTERS, fmtTR, LIVE_FEED } from "@/lib/mock-data";
+import { COUNTED_VOTES, COUNT_PERCENT, TOTAL_VOTERS, fmtTR, LIVE_FEED, MEGA_STATS } from "@/lib/mock-data";
 
 const NAV = [
   { to: "/", label: "GENEL" },
@@ -12,6 +12,13 @@ const NAV = [
   { to: "/anketler", label: "ANKETLER" },
   { to: "/haberler", label: "HABERLER" },
 ] as const;
+
+const toneClass: Record<string, string> = {
+  default: "text-foreground",
+  primary: "text-primary",
+  accent: "text-accent",
+  cyan: "text-cyan",
+};
 
 export function TopBar() {
   const [now, setNow] = useState<Date | null>(null);
@@ -94,7 +101,24 @@ export function TopBar() {
         ))}
       </nav>
 
-      {/* Row 3 — breaking ticker */}
+      {/* Row 3 — mega stats strip */}
+      <div className="grid grid-cols-2 divide-x divide-border border-t border-border md:grid-cols-3 lg:grid-cols-6">
+        {MEGA_STATS.map((s, i) => (
+          <div key={i} className="flex flex-col gap-1 px-4 py-2.5 md:px-5 md:py-3">
+            <span className="font-mono text-[9px] font-semibold uppercase tracking-[0.18em] text-muted-foreground">
+              {s.label}
+            </span>
+            <span className={`font-display text-xl leading-none tracking-tight md:text-2xl ${toneClass[s.tone ?? "default"]}`}>
+              {s.value}
+            </span>
+            {s.sub && (
+              <span className="font-mono text-[10px] text-muted-foreground">{s.sub}</span>
+            )}
+          </div>
+        ))}
+      </div>
+
+      {/* Row 4 — breaking ticker */}
       <BreakingTicker />
     </header>
   );

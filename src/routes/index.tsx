@@ -6,9 +6,7 @@ import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { StatsGrid } from "@/components/StatsGrid";
 import { MicroNews } from "@/components/MicroNews";
-import { MegaNumbers } from "@/components/MegaNumbers";
 import { RegionStrip } from "@/components/RegionStrip";
-import { Countdown } from "@/components/Countdown";
 import { SwingProvinces } from "@/components/SwingProvinces";
 
 export const Route = createFileRoute("/")({
@@ -38,37 +36,6 @@ function SectionHeader({ kicker, title, meta }: { kicker?: React.ReactNode; titl
 function Index() {
   return (
     <div className="bg-background">
-      {/* HERO — Editorial masthead */}
-      <section className="border-b border-border bg-card px-4 py-7 md:px-8 md:py-9 lg:px-12">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-center">
-          <div>
-            <span className="eyebrow-accent">Seçim Gecesi · 14 Mart 2028 · Canlı</span>
-            <h1 className="display-mega mt-2 text-balance text-foreground">
-              Cumhuriyetin <span className="text-primary">Seçimi</span>
-            </h1>
-            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
-              Türkiye 64 milyon seçmenle sandık başında. Cumhurbaşkanlığı yarışında
-              2. tur kaçınılmaz görünürken, meclis aritmetiği yeniden yazılıyor.
-            </p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              <Link to="/harita" className="border border-border bg-background px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-foreground hover:bg-surface-2">
-                Harita →
-              </Link>
-              <Link to="/milletvekili" className="border border-border bg-background px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-foreground hover:bg-surface-2">
-                Milletvekili
-              </Link>
-              <Link to="/tur2" className="border border-primary bg-primary px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-primary-foreground hover:bg-primary/90">
-                2. Tur Simülatörü
-              </Link>
-            </div>
-          </div>
-          <Countdown />
-        </div>
-      </section>
-
-      {/* MEGA STATS STRIP */}
-      <MegaNumbers />
-
       {/* PRESIDENTIAL + GAUGE */}
       <section className="px-4 py-9 md:px-8 lg:px-12">
         <SectionHeader
