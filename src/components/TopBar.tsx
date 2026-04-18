@@ -107,7 +107,7 @@ export function TopBar() {
       </div>
 
       {/* Row 2 — nav */}
-      <nav className="flex items-stretch gap-0 overflow-x-auto border-t border-gray-200 px-4 md:px-8 lg:px-12">
+      <nav className="flex items-stretch gap-0 overflow-x-auto border-t border-gray-200 site-container">
         {NAV.map((n) => (
           <Link
             key={n.to}
