@@ -123,8 +123,8 @@ export function TopBar() {
       </nav>
 
       {/* Row 3 — Untitled UI metric cards */}
-      <div className="border-t border-gray-200 bg-gray-50 px-3 py-3 md:px-6 md:py-4">
-        <div className="grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-6">
+      <div className="border-t border-gray-200 bg-gray-50 py-3 md:py-4">
+        <div className="site-container grid grid-cols-2 gap-2 md:grid-cols-3 md:gap-3 lg:grid-cols-6">
           {MEGA_STATS.map((s, i) => {
             const Icon = s.icon ? ICONS[s.icon] : Vote;
             const tone = toneAccent[s.tone ?? "default"];
