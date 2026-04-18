@@ -7,8 +7,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Seçim 2028 — Dark editorial design system.
- * Base #0D1117, red #E63946, gold #F4A261. War-room aesthetic.
+ * Seçim 2028 — Light editorial design system (NYT-style warm cream).
+ * Base #FAF7F2, ink navy text, red #E63946, gold #B8741A. Newsroom aesthetic.
  */
 
 @theme inline {
@@ -61,36 +61,36 @@
 :root {
   --radius: 0.25rem;
 
-  /* Dark only — values mirror in :root for shadcn compatibility */
-  --background: oklch(0.17 0.012 260);          /* #0D1117 */
-  --foreground: oklch(0.98 0 0);                /* near white */
-  --card: oklch(0.205 0.013 258);               /* #161B22 */
-  --card-foreground: oklch(0.98 0 0);
-  --popover: oklch(0.205 0.013 258);
-  --popover-foreground: oklch(0.98 0 0);
-  --primary: oklch(0.62 0.22 25);               /* #E63946 red */
-  --primary-foreground: oklch(0.98 0 0);
-  --secondary: oklch(0.245 0.013 258);
-  --secondary-foreground: oklch(0.98 0 0);
-  --muted: oklch(0.245 0.013 258);
-  --muted-foreground: oklch(0.68 0.012 258);
-  --accent: oklch(0.78 0.14 70);                /* #F4A261 gold */
-  --accent-foreground: oklch(0.17 0.012 260);
-  --destructive: oklch(0.62 0.22 25);
-  --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.28 0.013 258);
-  --input: oklch(0.28 0.013 258);
-  --ring: oklch(0.62 0.22 25);
+  /* Light editorial — warm cream NYT-style */
+  --background: oklch(0.975 0.008 80);          /* #FAF7F2 warm cream */
+  --foreground: oklch(0.18 0.025 260);          /* deep ink navy */
+  --card: oklch(0.995 0.004 80);                /* near white card */
+  --card-foreground: oklch(0.18 0.025 260);
+  --popover: oklch(0.995 0.004 80);
+  --popover-foreground: oklch(0.18 0.025 260);
+  --primary: oklch(0.58 0.21 25);               /* #E63946 red */
+  --primary-foreground: oklch(0.99 0 0);
+  --secondary: oklch(0.94 0.008 80);
+  --secondary-foreground: oklch(0.18 0.025 260);
+  --muted: oklch(0.93 0.008 80);
+  --muted-foreground: oklch(0.45 0.018 260);
+  --accent: oklch(0.55 0.13 60);                /* deeper gold for light bg #B8741A */
+  --accent-foreground: oklch(0.99 0 0);
+  --destructive: oklch(0.58 0.21 25);
+  --destructive-foreground: oklch(0.99 0 0);
+  --border: oklch(0.86 0.012 80);
+  --input: oklch(0.86 0.012 80);
+  --ring: oklch(0.58 0.21 25);
 
-  --gold: oklch(0.78 0.14 70);                  /* #F4A261 */
-  --gold-foreground: oklch(0.17 0.012 260);
-  --cand-yilmaz: oklch(0.62 0.22 25);           /* red #E63946 */
-  --cand-kaya: oklch(0.62 0.18 245);            /* blue */
-  --cand-demir: oklch(0.7 0.13 195);            /* teal */
-  --cand-other: oklch(0.5 0.02 258);            /* gray */
-  --surface-1: oklch(0.205 0.013 258);          /* #161B22 */
-  --surface-2: oklch(0.245 0.013 258);          /* #1C232C */
-  --grid: oklch(0.28 0.013 258);
+  --gold: oklch(0.55 0.13 60);                  /* deeper gold for legibility */
+  --gold-foreground: oklch(0.99 0 0);
+  --cand-yilmaz: oklch(0.58 0.21 25);           /* red */
+  --cand-kaya: oklch(0.5 0.18 250);             /* deep blue */
+  --cand-demir: oklch(0.55 0.12 200);           /* teal */
+  --cand-other: oklch(0.65 0.015 260);          /* gray */
+  --surface-1: oklch(0.955 0.008 80);           /* slightly off-cream */
+  --surface-2: oklch(0.92 0.01 80);             /* deeper cream */
+  --grid: oklch(0.86 0.012 80);
 
   --sidebar: var(--surface-1);
   --sidebar-foreground: var(--foreground);
@@ -137,8 +137,8 @@
 
   /* Pulsing live dot */
   @keyframes live-pulse {
-    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 oklch(0.62 0.22 25 / 0.6); }
-    50% { opacity: 0.85; transform: scale(1.08); box-shadow: 0 0 0 8px oklch(0.62 0.22 25 / 0); }
+    0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 oklch(0.58 0.21 25 / 0.6); }
+    50% { opacity: 0.85; transform: scale(1.08); box-shadow: 0 0 0 8px oklch(0.58 0.21 25 / 0); }
   }
   .live-pulse { animation: live-pulse 1.4s ease-in-out infinite; }
 
@@ -151,8 +151,8 @@
 
   /* Gold banner pulse */
   @keyframes gold-pulse {
-    0%, 100% { box-shadow: 0 0 0 0 oklch(0.78 0.14 70 / 0.5); }
-    50% { box-shadow: 0 0 24px 4px oklch(0.78 0.14 70 / 0.4); }
+    0%, 100% { box-shadow: 0 0 0 0 oklch(0.55 0.13 60 / 0.45); }
+    50% { box-shadow: 0 0 24px 4px oklch(0.55 0.13 60 / 0.35); }
   }
   .gold-pulse { animation: gold-pulse 2s ease-in-out infinite; }
 
