@@ -401,11 +401,11 @@ export function ProvincePanelBody({ province, onClose }: { province: Province; o
 
 function Legend() {
   return (
-    <div className="flex items-center gap-3">
+    <div className="flex items-center gap-3 rounded-md border border-border bg-card/90 px-3 py-1.5 backdrop-blur-sm">
       {CANDIDATES.slice(0, 3).map((c) => (
         <div key={c.id} className="flex items-center gap-1.5">
-          <span className="inline-block h-3 w-3 rounded-sm" style={{ backgroundColor: c.color }} />
-          <span className="font-mono text-xs text-muted-foreground">{c.name.split(" ")[1].toUpperCase()}</span>
+          <span className="inline-block h-3 w-3 rounded-full" style={{ backgroundColor: c.color }} />
+          <span className="font-mono text-xs font-semibold text-foreground">{c.name.split(" ")[1].toUpperCase()}</span>
         </div>
       ))}
     </div>
