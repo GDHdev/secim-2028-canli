@@ -47,6 +47,15 @@ const MAP_CENTER: [number, number] = [35.5, 39.1];
 const MAP_W = 1200;
 const MAP_H = 560;
 
+// Provinces too small for a normal label — show in smaller font
+const SMALL_PROVINCES = new Set([
+  "yalova", "kilis", "bartin", "duzce", "karabuk", "bayburt",
+  "gumushane", "ardahan", "igdir", "kirklareli", "bilecik",
+  "tunceli", "hakkari", "siirt", "batman", "sirnak",
+]);
+// Provinces so tiny we hide labels entirely
+const TINY_PROVINCES = new Set<string>([]);
+
 export type TurkeyMapProps = {
   /** Hide built-in modal side panel; emit selection upward instead. */
   embedded?: boolean;
@@ -193,6 +202,9 @@ export function TurkeyMap({
                   if (!province) return null;
                   const centroid = geoCentroid(geo);
                   if (!Number.isFinite(centroid[0]) || !Number.isFinite(centroid[1])) return null;
+                  // Hide labels for very small provinces
+                  if (TINY_PROVINCES.has(province.id)) return null;
+                  const isSmall = SMALL_PROVINCES.has(province.id);
                   return (
                     <g key={`lbl-${geo.rsmKey}`} transform={`translate(${projectPoint(centroid)})`} pointerEvents="none">
                       <text
@@ -201,7 +213,7 @@ export function TurkeyMap({
                         y={0}
                         style={{
                           fontFamily: "Inter, system-ui, -apple-system, sans-serif",
-                          fontSize: 8,
+                          fontSize: isSmall ? 5 : 8,
                           fontWeight: 800,
                           letterSpacing: "0.02em",
                           fill: "white",
