@@ -23,29 +23,41 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
+function SectionHeader({ kicker, title, meta }: { kicker?: string; title: string; meta?: React.ReactNode }) {
+  return (
+    <div className="mb-5 border-b border-foreground pb-2">
+      {kicker && <div className="eyebrow-accent mb-1">{kicker}</div>}
+      <div className="flex items-baseline justify-between gap-4">
+        <h2 className="display-lg text-foreground">{title}</h2>
+        {meta && <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{meta}</div>}
+      </div>
+    </div>
+  );
+}
+
 function Index() {
   return (
     <div className="bg-background">
-      {/* HERO BAND */}
-      <section className="border-b border-border px-4 pt-8 pb-8 md:px-8 md:pt-12 lg:px-12">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_420px] lg:items-end">
+      {/* HERO — Editorial masthead */}
+      <section className="border-b border-border bg-card px-4 py-7 md:px-8 md:py-9 lg:px-12">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-center">
           <div>
-            <span className="eyebrow-accent">Seçim Gecesi · 14 Mart 2028</span>
-            <h1 className="display-mega mt-3 text-balance text-foreground">
+            <span className="eyebrow-accent">Seçim Gecesi · 14 Mart 2028 · Canlı</span>
+            <h1 className="display-mega mt-2 text-balance text-foreground">
               Cumhuriyetin <span className="text-primary">Seçimi</span>
             </h1>
-            <p className="mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+            <p className="mt-3 max-w-xl text-sm leading-relaxed text-muted-foreground">
               Türkiye 64 milyon seçmenle sandık başında. Cumhurbaşkanlığı yarışında
               2. tur kaçınılmaz görünürken, meclis aritmetiği yeniden yazılıyor.
             </p>
-            <div className="mt-5 flex flex-wrap gap-2">
-              <Link to="/harita" className="border border-border bg-card px-4 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-foreground hover:bg-surface-2">
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link to="/harita" className="border border-border bg-background px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-foreground hover:bg-surface-2">
                 Harita →
               </Link>
-              <Link to="/milletvekili" className="border border-border bg-card px-4 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-foreground hover:bg-surface-2">
+              <Link to="/milletvekili" className="border border-border bg-background px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-foreground hover:bg-surface-2">
                 Milletvekili
               </Link>
-              <Link to="/tur2" className="border border-accent bg-accent px-4 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-accent-foreground hover:bg-accent/85">
+              <Link to="/tur2" className="border border-primary bg-primary px-3.5 py-2 text-[11px] font-bold uppercase tracking-[0.14em] text-primary-foreground hover:bg-primary/90">
                 2. Tur Simülatörü
               </Link>
             </div>
@@ -58,14 +70,13 @@ function Index() {
       <MegaNumbers />
 
       {/* PRESIDENTIAL + GAUGE */}
-      <section className="px-4 py-10 md:px-8 lg:px-12">
-        <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-          <h2 className="display-lg text-foreground">CUMHURBAŞKANLIĞI</h2>
-          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-            Sayım %74.6 · Önde: Yılmaz
-          </span>
-        </div>
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
+      <section className="px-4 py-9 md:px-8 lg:px-12">
+        <SectionHeader
+          kicker="Cumhurbaşkanlığı Seçimi"
+          title="Adaylar Arası Yarış"
+          meta={<>Sayım %74.6 · Önde: Yılmaz</>}
+        />
+        <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_360px]">
           <PresidentRace />
           <SecondRoundGauge />
         </div>
@@ -75,64 +86,66 @@ function Index() {
       <RegionStrip />
 
       {/* MAP — full bleed */}
-      <section className="px-4 py-10 md:px-8 lg:px-12">
-        <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-          <h2 className="display-lg text-foreground">81 İL HARİTASI</h2>
-          <Link to="/harita" className="font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-accent hover:underline">
-            Detaylı harita →
-          </Link>
-        </div>
+      <section className="px-4 pt-9 pb-3 md:px-8 lg:px-12">
+        <SectionHeader
+          kicker="81 İl · Anlık Liderler"
+          title="Türkiye Haritası"
+          meta={<Link to="/harita" className="text-primary hover:underline">Detaylı harita →</Link>}
+        />
       </section>
-      <section className="-mt-4">
-        <TurkeyMap className="h-[680px] border-y border-border bg-card" />
+      <section>
+        <TurkeyMap className="h-[640px] border-y border-border bg-card" />
       </section>
 
       {/* PARLIAMENT */}
-      <section className="px-4 py-10 md:px-8 lg:px-12">
-        <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-          <h2 className="display-lg text-foreground">MİLLETVEKİLİ</h2>
-          <span className="font-mono text-[11px] uppercase tracking-[0.18em] text-muted-foreground">
-            600 Sandalye · 7 Parti
-          </span>
-        </div>
+      <section className="px-4 py-9 md:px-8 lg:px-12">
+        <SectionHeader
+          kicker="Milletvekili Seçimi"
+          title="Meclis Dağılımı"
+          meta={<>600 Sandalye · 7 Parti · <Link to="/milletvekili" className="text-primary hover:underline">Detay →</Link></>}
+        />
         <Parliament />
       </section>
 
       {/* SWING PROVINCES + LIVE */}
-      <section className="border-t border-border px-4 py-10 md:px-8 lg:px-12">
+      <section className="border-t border-border bg-surface-1 px-4 py-9 md:px-8 lg:px-12">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
           <div>
-            <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-              <h2 className="display-lg text-foreground">Swing — Değişim</h2>
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-                2023 → 2028
-              </span>
-            </div>
+            <SectionHeader
+              kicker="Değişim"
+              title="En Çok Salınan İller"
+              meta={<>2023 → 2028</>}
+            />
             <SwingProvinces />
           </div>
           <div>
-            <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-              <h2 className="display-lg text-foreground">Canlı Akış</h2>
-              <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-primary">● AKTİF</span>
-            </div>
+            <SectionHeader
+              kicker={<><span className="live-pulse mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-primary align-middle" />Canlı</>  as unknown as string}
+              title="Akış"
+              meta="Son dakika"
+            />
             <LiveFeed />
           </div>
         </div>
       </section>
 
       {/* STATS */}
-      <section className="border-t border-border px-4 py-10 md:px-8 lg:px-12">
-        <div className="mb-6 flex items-baseline justify-between border-b-2 border-foreground pb-2">
-          <h2 className="display-lg text-foreground">İstatistikler</h2>
-          <span className="font-mono text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
-            Veri özeti
-          </span>
-        </div>
+      <section className="border-t border-border px-4 py-9 md:px-8 lg:px-12">
+        <SectionHeader
+          kicker="Veri"
+          title="İstatistikler"
+          meta="Veri özeti"
+        />
         <StatsGrid />
       </section>
 
       {/* NEWS */}
-      <section className="px-4 pb-10 md:px-8 lg:px-12">
+      <section className="px-4 py-9 md:px-8 lg:px-12">
+        <SectionHeader
+          kicker="Gündem"
+          title="Son Haberler"
+          meta={<Link to="/haberler" className="text-primary hover:underline">Tüm haberler →</Link>}
+        />
         <MicroNews limit={6} />
       </section>
     </div>
