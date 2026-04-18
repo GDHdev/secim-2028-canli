@@ -8,6 +8,7 @@ export function CountUp({
   prefix = "",
   suffix = "",
   className = "",
+  style,
 }: {
   to: number;
   duration?: number;
@@ -15,6 +16,7 @@ export function CountUp({
   prefix?: string;
   suffix?: string;
   className?: string;
+  style?: React.CSSProperties;
 }) {
   const [val, setVal] = useState(0);
   const ref = useRef<number>(0);
@@ -39,5 +41,5 @@ export function CountUp({
     ? val.toLocaleString("tr-TR", { minimumFractionDigits: decimals, maximumFractionDigits: decimals })
     : Math.round(val).toLocaleString("tr-TR");
 
-  return <span className={className}>{prefix}{formatted}{suffix}</span>;
+  return <span className={className} style={style}>{prefix}{formatted}{suffix}</span>;
 }
