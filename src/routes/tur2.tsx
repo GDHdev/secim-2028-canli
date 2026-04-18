@@ -38,7 +38,8 @@ function Tur2Page() {
     const sum = yTotal + kTotal;
     const yPct = (yTotal / sum) * 100;
     const kPct = (kTotal / sum) * 100;
-    return { yPct, kPct, winner: (yPct > kPct ? "yilmaz" : "kaya") as const };
+    const winner: "yilmaz" | "kaya" = yPct > kPct ? "yilmaz" : "kaya";
+    return { yPct, kPct, winner };
   }, [toKaya, abstain, yilmaz, kaya, demir]);
 
   const winnerCand = projection.winner === "yilmaz" ? yilmaz : kaya;
