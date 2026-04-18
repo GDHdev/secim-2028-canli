@@ -16,9 +16,9 @@ export const COUNTED_VOTES = 47_800_000;
 export const COUNT_PERCENT = (COUNTED_VOTES / TOTAL_VOTERS) * 100; // ~74.6
 
 export const CANDIDATES: Candidate[] = [
-  { id: "yilmaz", name: "Mehmet Yılmaz", party: "MTP", color: "#E63946", cssVar: "cand-yilmaz", percent: 38.2, votes: Math.round(COUNTED_VOTES * 0.382) },
-  { id: "kaya",   name: "Ayşe Kaya",     party: "DCP", color: "#3B82F6", cssVar: "cand-kaya",   percent: 31.7, votes: Math.round(COUNTED_VOTES * 0.317) },
-  { id: "demir",  name: "Can Demir",     party: "YHP", color: "#2DD4BF", cssVar: "cand-demir",  percent: 22.4, votes: Math.round(COUNTED_VOTES * 0.224) },
+  { id: "yilmaz", name: "Mehmet Yılmaz", party: "MTP", color: "#B91C1C", cssVar: "cand-yilmaz", percent: 38.2, votes: Math.round(COUNTED_VOTES * 0.382) },
+  { id: "kaya",   name: "Ayşe Kaya",     party: "DCP", color: "#1D4ED8", cssVar: "cand-kaya",   percent: 31.7, votes: Math.round(COUNTED_VOTES * 0.317) },
+  { id: "demir",  name: "Can Demir",     party: "YHP", color: "#0F766E", cssVar: "cand-demir",  percent: 22.4, votes: Math.round(COUNTED_VOTES * 0.224) },
   { id: "other",  name: "Diğer",         party: "—",   color: "#6B7280", cssVar: "cand-other",  percent: 7.7,  votes: Math.round(COUNTED_VOTES * 0.077) },
 ];
 
