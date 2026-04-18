@@ -6,9 +6,7 @@ import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { StatsGrid } from "@/components/StatsGrid";
 import { MicroNews } from "@/components/MicroNews";
-import { MegaNumbers } from "@/components/MegaNumbers";
 import { RegionStrip } from "@/components/RegionStrip";
-import { Countdown } from "@/components/Countdown";
 import { SwingProvinces } from "@/components/SwingProvinces";
 
 export const Route = createFileRoute("/")({
