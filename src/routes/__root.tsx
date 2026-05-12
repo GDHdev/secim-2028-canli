@@ -36,6 +36,12 @@ export const Route = createRootRoute({
       { property: "og:site_name", content: "Seçim 2028" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "theme-color", content: "#0A0E1A" },
+      { property: "og:title", content: "Seçim 2028 Sonuçları | Canlı Takip" },
+      { name: "twitter:title", content: "Seçim 2028 Sonuçları | Canlı Takip" },
+      { property: "og:description", content: "2028 Türkiye Cumhurbaşkanlığı ve Milletvekili Seçimleri canlı sonuçları, harita, anketler ve analizler." },
+      { name: "twitter:description", content: "2028 Türkiye Cumhurbaşkanlığı ve Milletvekili Seçimleri canlı sonuçları, harita, anketler ve analizler." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/74e39b60-9853-4131-8d3a-74d9cd727b83/id-preview-768f05d0--eecdf373-7747-4ace-b267-096e238f25ce.lovable.app-1776511983641.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/74e39b60-9853-4131-8d3a-74d9cd727b83/id-preview-768f05d0--eecdf373-7747-4ace-b267-096e238f25ce.lovable.app-1776511983641.png" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
