@@ -11,11 +11,14 @@
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as Tur2RouteImport } from './routes/tur2'
 import { Route as SonuclarRouteImport } from './routes/sonuclar'
+import { Route as OylamaRouteImport } from './routes/oylama'
 import { Route as MilletvekiliRouteImport } from './routes/milletvekili'
 import { Route as HaritaRouteImport } from './routes/harita'
 import { Route as AnketlerRouteImport } from './routes/anketler'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as RehberIndexRouteImport } from './routes/rehber.index'
 import { Route as HaberlerIndexRouteImport } from './routes/haberler.index'
+import { Route as RehberSlugRouteImport } from './routes/rehber.$slug'
 import { Route as HaberlerIdRouteImport } from './routes/haberler.$id'
 
 const Tur2Route = Tur2RouteImport.update({
@@ -26,6 +29,11 @@ const Tur2Route = Tur2RouteImport.update({
 const SonuclarRoute = SonuclarRouteImport.update({
   id: '/sonuclar',
   path: '/sonuclar',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const OylamaRoute = OylamaRouteImport.update({
+  id: '/oylama',
+  path: '/oylama',
   getParentRoute: () => rootRouteImport,
 } as any)
 const MilletvekiliRoute = MilletvekiliRouteImport.update({
@@ -48,9 +56,19 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const RehberIndexRoute = RehberIndexRouteImport.update({
+  id: '/rehber/',
+  path: '/rehber/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HaberlerIndexRoute = HaberlerIndexRouteImport.update({
   id: '/haberler/',
   path: '/haberler/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RehberSlugRoute = RehberSlugRouteImport.update({
+  id: '/rehber/$slug',
+  path: '/rehber/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const HaberlerIdRoute = HaberlerIdRouteImport.update({
@@ -64,20 +82,26 @@ export interface FileRoutesByFullPath {
   '/anketler': typeof AnketlerRoute
   '/harita': typeof HaritaRoute
   '/milletvekili': typeof MilletvekiliRoute
+  '/oylama': typeof OylamaRoute
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
   '/haberler/$id': typeof HaberlerIdRoute
+  '/rehber/$slug': typeof RehberSlugRoute
   '/haberler/': typeof HaberlerIndexRoute
+  '/rehber/': typeof RehberIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/anketler': typeof AnketlerRoute
   '/harita': typeof HaritaRoute
   '/milletvekili': typeof MilletvekiliRoute
+  '/oylama': typeof OylamaRoute
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
   '/haberler/$id': typeof HaberlerIdRoute
+  '/rehber/$slug': typeof RehberSlugRoute
   '/haberler': typeof HaberlerIndexRoute
+  '/rehber': typeof RehberIndexRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -85,10 +109,13 @@ export interface FileRoutesById {
   '/anketler': typeof AnketlerRoute
   '/harita': typeof HaritaRoute
   '/milletvekili': typeof MilletvekiliRoute
+  '/oylama': typeof OylamaRoute
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
   '/haberler/$id': typeof HaberlerIdRoute
+  '/rehber/$slug': typeof RehberSlugRoute
   '/haberler/': typeof HaberlerIndexRoute
+  '/rehber/': typeof RehberIndexRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -97,30 +124,39 @@ export interface FileRouteTypes {
     | '/anketler'
     | '/harita'
     | '/milletvekili'
+    | '/oylama'
     | '/sonuclar'
     | '/tur2'
     | '/haberler/$id'
+    | '/rehber/$slug'
     | '/haberler/'
+    | '/rehber/'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
     | '/anketler'
     | '/harita'
     | '/milletvekili'
+    | '/oylama'
     | '/sonuclar'
     | '/tur2'
     | '/haberler/$id'
+    | '/rehber/$slug'
     | '/haberler'
+    | '/rehber'
   id:
     | '__root__'
     | '/'
     | '/anketler'
     | '/harita'
     | '/milletvekili'
+    | '/oylama'
     | '/sonuclar'
     | '/tur2'
     | '/haberler/$id'
+    | '/rehber/$slug'
     | '/haberler/'
+    | '/rehber/'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -128,10 +164,13 @@ export interface RootRouteChildren {
   AnketlerRoute: typeof AnketlerRoute
   HaritaRoute: typeof HaritaRoute
   MilletvekiliRoute: typeof MilletvekiliRoute
+  OylamaRoute: typeof OylamaRoute
   SonuclarRoute: typeof SonuclarRoute
   Tur2Route: typeof Tur2Route
   HaberlerIdRoute: typeof HaberlerIdRoute
+  RehberSlugRoute: typeof RehberSlugRoute
   HaberlerIndexRoute: typeof HaberlerIndexRoute
+  RehberIndexRoute: typeof RehberIndexRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -148,6 +187,13 @@ declare module '@tanstack/react-router' {
       path: '/sonuclar'
       fullPath: '/sonuclar'
       preLoaderRoute: typeof SonuclarRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/oylama': {
+      id: '/oylama'
+      path: '/oylama'
+      fullPath: '/oylama'
+      preLoaderRoute: typeof OylamaRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/milletvekili': {
@@ -178,11 +224,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/rehber/': {
+      id: '/rehber/'
+      path: '/rehber'
+      fullPath: '/rehber/'
+      preLoaderRoute: typeof RehberIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/haberler/': {
       id: '/haberler/'
       path: '/haberler'
       fullPath: '/haberler/'
       preLoaderRoute: typeof HaberlerIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rehber/$slug': {
+      id: '/rehber/$slug'
+      path: '/rehber/$slug'
+      fullPath: '/rehber/$slug'
+      preLoaderRoute: typeof RehberSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/haberler/$id': {
@@ -200,10 +260,13 @@ const rootRouteChildren: RootRouteChildren = {
   AnketlerRoute: AnketlerRoute,
   HaritaRoute: HaritaRoute,
   MilletvekiliRoute: MilletvekiliRoute,
+  OylamaRoute: OylamaRoute,
   SonuclarRoute: SonuclarRoute,
   Tur2Route: Tur2Route,
   HaberlerIdRoute: HaberlerIdRoute,
+  RehberSlugRoute: RehberSlugRoute,
   HaberlerIndexRoute: HaberlerIndexRoute,
+  RehberIndexRoute: RehberIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

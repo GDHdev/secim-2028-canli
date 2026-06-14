@@ -23,6 +23,16 @@ const NAV: NavItem[] = [
   },
   { to: "/milletvekili", label: "Milletvekili" },
   { to: "/harita", label: "Harita" },
+  {
+    label: "Rehber",
+    children: [
+      { to: "/rehber", label: "Seçmen Rehberi", hint: "Oy nasıl kullanılır, kimlik, haklar" },
+      { to: "/rehber/secim-takvimi", label: "Seçim Takvimi", hint: "Önemli tarihler" },
+      { to: "/rehber/yurt-disi-secmen", label: "Yurt Dışı Oy", hint: "Temsilcilik ve gümrük" },
+      { to: "/rehber/sss", label: "Sıkça Sorulanlar", hint: "Telefon, kıyafet, sayım" },
+    ],
+  },
+  { to: "/oylama", label: "Site Anketi" },
   { to: "/haberler", label: "Haberler" },
 ];
 
@@ -52,7 +62,8 @@ export function TopBar() {
             <span className="hidden sm:inline text-gray-500">· 14 Mart 2028 · {dateStr}</span>
           </div>
           <div className="hidden items-center gap-4 sm:flex">
-            <Link to="/anketler" className="hover:text-gray-900">Anketler</Link>
+            <Link to="/rehber" className="hover:text-gray-900">Rehber</Link>
+            <Link to="/oylama" className="hover:text-gray-900">Site Anketi</Link>
             <Link to="/haberler" className="hover:text-gray-900">Haberler</Link>
           </div>
         </div>
