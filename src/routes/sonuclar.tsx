@@ -107,11 +107,17 @@ function SonuclarPage() {
                   <Th label="Demir" k="demir" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
                   <Th label="Sayım" k="counted" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
                   <Th label="Katılım" k="turnout" sortKey={sortKey} sortDir={sortDir} onSort={toggleSort} align="right" />
+                  <th className="px-3 py-3 text-right text-[12px] font-semibold uppercase tracking-wide text-gray-500">2023 · Değişim</th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.map((p) => {
                   const leaderColor = candColor(p.leader);
+                  const prev = province2023(p);
+                  const flipped = prev.leader !== p.leader;
+                  const prevLeaderC = CANDIDATES.find((c) => c.id === prev.leader)!;
+                  const currLeaderC = CANDIDATES.find((c) => c.id === p.leader)!;
+                  const shift = +(p.results[p.leader] - prev[p.leader]).toFixed(1);
                   return (
                     <tr key={p.id} className="border-b border-gray-100 last:border-0 transition-colors hover:bg-gray-50">
                       <td className="px-3 py-3">
@@ -126,6 +132,46 @@ function SonuclarPage() {
                       <Cell value={p.results.demir} highlight={p.leader === "demir"} color={candColor("demir")} />
                       <td className="px-3 py-3 text-right tabular-nums text-gray-700">%{p.counted}</td>
                       <td className="px-3 py-3 text-right tabular-nums font-semibold text-indigo-600">%{p.turnout}</td>
+                      <td className="px-3 py-3 text-right">
+                        <div className="flex items-center justify-end gap-1.5 text-[12px]">
+                          {flipped ? (
+                            <span className="inline-flex items-center gap-1">
+                              <span
+                                className="rounded px-1.5 py-0.5 text-[11px] font-semibold text-white"
+                                style={{ backgroundColor: prevLeaderC.color }}
+                                title="2023 lideri"
+                              >
+                                {prevLeaderC.name.split(" ").slice(-1)[0]}
+                              </span>
+                              <ArrowRight size={11} className="text-gray-400" />
+                              <span
+                                className="rounded px-1.5 py-0.5 text-[11px] font-semibold text-white"
+                                style={{ backgroundColor: currLeaderC.color }}
+                                title="2028 lideri"
+                              >
+                                {currLeaderC.name.split(" ").slice(-1)[0]}
+                              </span>
+                            </span>
+                          ) : (
+                            <span className="text-gray-500" title="2023 lideri ile aynı">
+                              {prevLeaderC.name.split(" ").slice(-1)[0]} korudu
+                            </span>
+                          )}
+                          <span
+                            className={`ml-1 inline-flex items-center gap-0.5 rounded-full px-1.5 py-0.5 text-[11px] font-semibold tabular-nums ${
+                              shift > 0.05
+                                ? "bg-success-50 text-success-700"
+                                : shift < -0.05
+                                  ? "bg-error-50 text-error-700"
+                                  : "bg-gray-100 text-gray-600"
+                            }`}
+                          >
+                            {Math.abs(shift) < 0.05 ? <Minus size={10} /> : null}
+                            {Math.abs(shift) < 0.05 ? "0" : `${shift > 0 ? "+" : ""}${shift}`}
+                            <span className="text-[10px] opacity-70">pt</span>
+                          </span>
+                        </div>
+                      </td>
                     </tr>
                   );
                 })}
