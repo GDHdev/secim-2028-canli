@@ -2,12 +2,6 @@ import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, RefreshCcw, ChevronRight } from "lucide-react";
 
-/**
- * AI ÖZET — 10 dk'da bir son durumu 2 cümlede özetler.
- * Şeffaf etiketleme: "AI ÖZET · model çıktısı" + zaman damgası.
- * Süs değil — kullanıcı 5 dk uzaklaşıp döndüğünde ne kaçırdığını tek bakışta görür.
- */
-
 const SUMMARIES = [
   {
     headline: "Yılmaz farkı açıyor, ama eşik hâlâ uzak",
@@ -46,18 +40,23 @@ export function AISummary() {
     : "--:--";
 
   return (
-    <div className="border-b border-gray-200 bg-gradient-to-b from-gray-50 to-white">
-      <div className="site-container py-4 md:py-5">
-        <div className="flex flex-col gap-3 md:flex-row md:items-stretch md:gap-5">
-          {/* Label column */}
-          <div className="flex shrink-0 items-center gap-2 md:w-44 md:flex-col md:items-start md:justify-center md:gap-1.5 md:border-r md:border-gray-200 md:pr-5">
-            <div className="flex items-center gap-1.5 rounded-md border border-gray-900/10 bg-gray-900 px-2 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white">
-              <Sparkles size={11} strokeWidth={2.5} className="text-brand-500" />
+    <div className="relative overflow-hidden border-b border-white/[0.06] bg-[oklch(0.155_0.020_264)]">
+      {/* Subtle accent stripe */}
+      <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-500/40 to-transparent" />
+
+      <div className="site-container py-5 md:py-6">
+        <div className="flex flex-col gap-4 md:flex-row md:items-center md:gap-6">
+          {/* Label */}
+          <div className="flex shrink-0 items-center gap-3 md:w-52 md:flex-col md:items-start md:gap-2 md:border-r md:border-white/[0.06] md:pr-6">
+            <div className="inline-flex items-center gap-1.5 rounded-md border border-brand-500/30 bg-brand-700/20 px-2.5 py-1.5 text-[11px] font-extrabold uppercase tracking-[0.16em] text-brand-500 shadow-[0_0_16px_oklch(0.62_0.25_25/0.25)]">
+              <Sparkles size={12} strokeWidth={2.5} />
               AI Özet
             </div>
-            <div className="flex items-center gap-1 text-[11px] font-medium tabular-nums text-gray-500">
-              <RefreshCcw size={10} />
-              {time} · 10 dk
+            <div className="inline-flex items-center gap-1.5 text-[12px] font-medium tabular-nums text-gray-500">
+              <RefreshCcw size={11} />
+              <span>{time}</span>
+              <span className="text-gray-400/40">·</span>
+              <span>10 dk'da bir</span>
             </div>
           </div>
 
@@ -66,23 +65,23 @@ export function AISummary() {
             <AnimatePresence mode="wait">
               <motion.div
                 key={idx}
-                initial={{ opacity: 0, y: 6 }}
+                initial={{ opacity: 0, y: 8 }}
                 animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -6 }}
-                transition={{ duration: 0.35, ease: "easeOut" }}
+                exit={{ opacity: 0, y: -8 }}
+                transition={{ duration: 0.4, ease: "easeOut" }}
               >
-                <p className="text-base font-semibold leading-snug tracking-tight text-gray-900 md:text-lg">
+                <p className="text-lg font-bold leading-snug tracking-tight text-gray-900 md:text-xl">
                   {current.headline}
                 </p>
-                <p className="mt-1 text-sm leading-relaxed text-gray-600 md:text-[15px]">
+                <p className="mt-1.5 text-[15px] leading-relaxed text-gray-600 md:text-base">
                   {current.body}
                 </p>
               </motion.div>
             </AnimatePresence>
           </div>
 
-          {/* Pager dots */}
-          <div className="flex shrink-0 items-center gap-2 md:flex-col md:items-end md:justify-between md:gap-3">
+          {/* Pager */}
+          <div className="flex shrink-0 items-center gap-3 md:flex-col md:items-end md:justify-between md:gap-3">
             <div className="flex items-center gap-1.5">
               {SUMMARIES.map((_, i) => (
                 <button
@@ -91,7 +90,7 @@ export function AISummary() {
                   onClick={() => setIdx(i)}
                   aria-label={`Özet ${i + 1}`}
                   className={`h-1.5 rounded-full transition-all ${
-                    i === idx ? "w-6 bg-brand-600" : "w-1.5 bg-gray-300 hover:bg-gray-400"
+                    i === idx ? "w-7 bg-brand-500 shadow-[0_0_8px_oklch(0.68_0.25_25/0.6)]" : "w-1.5 bg-white/[0.15] hover:bg-white/[0.3]"
                   }`}
                 />
               ))}
@@ -99,10 +98,10 @@ export function AISummary() {
             <button
               type="button"
               onClick={() => setIdx((i) => (i + 1) % SUMMARIES.length)}
-              className="hidden items-center gap-0.5 text-xs font-medium text-gray-500 hover:text-gray-900 md:inline-flex"
+              className="hidden items-center gap-0.5 text-[12px] font-semibold text-gray-500 transition-colors hover:text-gray-900 md:inline-flex"
             >
               Sonraki
-              <ChevronRight size={13} />
+              <ChevronRight size={14} />
             </button>
           </div>
         </div>
