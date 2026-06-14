@@ -84,6 +84,7 @@ function Index() {
 
       <section className="site-container pb-4">
         <SectionHeader
+          icon={Map}
           kicker="81 İl · Coğrafi dağılım"
           title="Türkiye haritası"
           meta="İlin üzerine gelin · lider parti, fark ve sayım yüzdesi"
