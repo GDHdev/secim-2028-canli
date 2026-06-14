@@ -99,6 +99,7 @@ function Index() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px]">
           <div>
             <SectionHeader
+              icon={Landmark}
               kicker="Milletvekili · 600 sandalye"
               title="Meclis dağılımı"
               meta="7 parti · koalisyon eşiği 301 sandalye"
@@ -108,6 +109,7 @@ function Index() {
           </div>
           <div>
             <SectionHeader
+              icon={Radio}
               kicker="Canlı"
               title="Akış"
               meta="Son dakika gelişmeleri"
