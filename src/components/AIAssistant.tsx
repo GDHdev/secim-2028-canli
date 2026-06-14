@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from "react";
-import { useChat } from "@ai-sdk/react";
-import { DefaultChatTransport } from "ai";
+import { useServerFn } from "@tanstack/react-start";
 import { Sparkles, X, Send, Bot, User as UserIcon, Loader2 } from "lucide-react";
+import { askElectionAssistant } from "@/lib/election-assistant.functions";
+
+type Msg = { id: string; role: "user" | "assistant"; content: string };
 
 const SUGGESTIONS = [
   "Kim önde, fark ne kadar?",
@@ -13,18 +15,15 @@ const SUGGESTIONS = [
 export function AIAssistant() {
   const [open, setOpen] = useState(false);
   const [input, setInput] = useState("");
+  const [messages, setMessages] = useState<Msg[]>([]);
+  const [loading, setLoading] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
-
-  const { messages, sendMessage, status } = useChat({
-    transport: new DefaultChatTransport({ api: "/api/chat" }),
-  });
-
-  const isLoading = status === "submitted" || status === "streaming";
+  const ask = useServerFn(askElectionAssistant);
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages, status]);
+  }, [messages, loading]);
 
   useEffect(() => {
     if (open) setTimeout(() => inputRef.current?.focus(), 150);
@@ -32,18 +31,38 @@ export function AIAssistant() {
 
   const submit = async (text: string) => {
     const t = text.trim();
-    if (!t || isLoading) return;
+    if (!t || loading) return;
+    const userMsg: Msg = { id: crypto.randomUUID(), role: "user", content: t };
+    const next = [...messages, userMsg];
+    setMessages(next);
     setInput("");
-    await sendMessage({ text: t });
+    setLoading(true);
+    try {
+      const res = await ask({
+        data: { messages: next.map(({ role, content }) => ({ role, content })) },
+      });
+      setMessages((m) => [...m, { id: crypto.randomUUID(), role: "assistant", content: res.text }]);
+    } catch (err) {
+      setMessages((m) => [
+        ...m,
+        {
+          id: crypto.randomUUID(),
+          role: "assistant",
+          content: "Üzgünüm, şu an cevap üretemiyorum. Lütfen biraz sonra tekrar deneyin.",
+        },
+      ]);
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
     <>
-      {/* Floating launcher */}
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="fixed bottom-6 right-6 z-[80] inline-flex items-center gap-2.5 rounded-full bg-violet-600 px-5 py-3.5 text-[15px] font-semibold text-white shadow-xl transition-all hover:bg-violet-700 hover:shadow-2xl"
+        className="fixed bottom-6 right-6 z-[80] inline-flex items-center gap-2.5 rounded-full px-5 py-3.5 text-[15px] font-semibold text-white shadow-xl transition-all hover:shadow-2xl"
         style={{ background: "var(--color-violet-600)" }}
         aria-label="Seçim asistanını aç"
       >
@@ -60,9 +79,11 @@ export function AIAssistant() {
             className="absolute inset-0 bg-gray-900/30 backdrop-blur-sm"
           />
           <div className="relative flex h-[100dvh] w-full flex-col overflow-hidden bg-white shadow-2xl sm:h-[640px] sm:max-h-[85vh] sm:w-[440px] sm:rounded-2xl sm:border sm:border-gray-200">
-            {/* Header */}
             <div className="flex items-center gap-3 border-b border-gray-200 px-5 py-4">
-              <span className="uui-feat-icon uui-feat-icon-violet" style={{ width: 40, height: 40, borderRadius: 10 }}>
+              <span
+                className="inline-flex h-10 w-10 items-center justify-center rounded-xl"
+                style={{ background: "var(--color-violet-50)", color: "var(--color-violet-600)", border: "1px solid var(--color-violet-100)" }}
+              >
                 <Sparkles size={18} />
               </span>
               <div className="min-w-0 flex-1">
@@ -79,12 +100,11 @@ export function AIAssistant() {
               </button>
             </div>
 
-            {/* Messages */}
             <div ref={scrollRef} className="flex-1 overflow-y-auto px-5 py-4">
               {messages.length === 0 && (
                 <div className="space-y-4">
-                  <div className="rounded-2xl border border-violet-100 bg-violet-50 p-4 text-[14.5px] leading-relaxed text-gray-800">
-                    <p className="font-semibold text-violet-700">Merhaba 👋</p>
+                  <div className="rounded-2xl p-4 text-[14.5px] leading-relaxed text-gray-800" style={{ background: "var(--color-violet-50)", border: "1px solid var(--color-violet-100)" }}>
+                    <p className="font-semibold" style={{ color: "var(--color-violet-700)" }}>Merhaba 👋</p>
                     <p className="mt-1.5">
                       Aday yüzdeleri, il sonuçları, katılım ve 2. tur olasılığı hakkında soru sorabilirsin.
                     </p>
@@ -109,16 +129,14 @@ export function AIAssistant() {
 
               <div className="space-y-4">
                 {messages.map((m) => {
-                  const text = m.parts
-                    .map((p) => (p.type === "text" ? p.text : ""))
-                    .join("");
                   const isUser = m.role === "user";
                   return (
                     <div key={m.id} className={`flex gap-2.5 ${isUser ? "flex-row-reverse" : ""}`}>
                       <span
                         className={`mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-full ${
-                          isUser ? "bg-gray-900 text-white" : "bg-violet-100 text-violet-700"
+                          isUser ? "bg-gray-900 text-white" : ""
                         }`}
+                        style={!isUser ? { background: "var(--color-violet-100)", color: "var(--color-violet-700)" } : undefined}
                       >
                         {isUser ? <UserIcon size={14} /> : <Bot size={14} />}
                       </span>
@@ -129,14 +147,17 @@ export function AIAssistant() {
                             : "rounded-tl-sm border border-gray-200 bg-white text-gray-800"
                         }`}
                       >
-                        {text || (isLoading ? "…" : "")}
+                        {m.content}
                       </div>
                     </div>
                   );
                 })}
-                {isLoading && messages[messages.length - 1]?.role !== "assistant" && (
+                {loading && (
                   <div className="flex gap-2.5">
-                    <span className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-violet-100 text-violet-700">
+                    <span
+                      className="mt-0.5 flex h-8 w-8 items-center justify-center rounded-full"
+                      style={{ background: "var(--color-violet-100)", color: "var(--color-violet-700)" }}
+                    >
                       <Bot size={14} />
                     </span>
                     <div className="flex items-center gap-2 rounded-2xl rounded-tl-sm border border-gray-200 bg-white px-3.5 py-2.5 text-[14px] text-gray-500">
@@ -147,7 +168,6 @@ export function AIAssistant() {
               </div>
             </div>
 
-            {/* Composer */}
             <form
               onSubmit={(e) => {
                 e.preventDefault();
@@ -155,24 +175,24 @@ export function AIAssistant() {
               }}
               className="border-t border-gray-200 bg-white p-3"
             >
-              <div className="flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2 focus-within:border-violet-500 focus-within:ring-2 focus-within:ring-violet-100">
+              <div className="flex items-center gap-2 rounded-xl border border-gray-300 bg-white px-3 py-2 focus-within:ring-2" style={{ ["--tw-ring-color" as never]: "var(--color-violet-100)" }}>
                 <input
                   ref={inputRef}
                   type="text"
                   value={input}
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Bir soru sor…"
-                  disabled={isLoading}
+                  disabled={loading}
                   className="flex-1 bg-transparent text-[15px] text-gray-900 placeholder:text-gray-400 focus:outline-none"
                 />
                 <button
                   type="submit"
-                  disabled={!input.trim() || isLoading}
-                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg bg-violet-600 text-white transition-colors hover:bg-violet-700 disabled:bg-gray-200 disabled:text-gray-400"
-                  style={{ background: input.trim() && !isLoading ? "var(--color-violet-600)" : undefined }}
+                  disabled={!input.trim() || loading}
+                  className="inline-flex h-9 w-9 items-center justify-center rounded-lg text-white transition-colors disabled:bg-gray-200 disabled:text-gray-400"
+                  style={{ background: input.trim() && !loading ? "var(--color-violet-600)" : undefined }}
                   aria-label="Gönder"
                 >
-                  {isLoading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
+                  {loading ? <Loader2 size={16} className="animate-spin" /> : <Send size={16} />}
                 </button>
               </div>
               <p className="mt-2 text-center text-[11.5px] text-gray-400">
