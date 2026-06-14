@@ -1,7 +1,7 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { ArrowLeft, Clock, BookOpen, ChevronRight } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
-import { GUIDES, getGuide } from "@/lib/guides";
+import { GUIDES, getGuide, type GuideSection } from "@/lib/guides";
 
 export const Route = createFileRoute("/rehber/$slug")({
   loader: ({ params }) => {
@@ -56,7 +56,7 @@ function GuideDetail() {
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_280px]">
           <article className="uui-card p-6 md:p-8">
             <div className="prose-content space-y-7">
-              {guide.sections.map((s, i) => (
+              {guide.sections.map((s: GuideSection, i: number) => (
                 <section key={i}>
                   <h2 className="font-display text-[20px] font-bold tracking-tight text-gray-900 md:text-[22px]">
                     {s.heading}
@@ -64,7 +64,7 @@ function GuideDetail() {
                   <p className="mt-2 text-[15px] leading-[1.7] text-gray-700">{s.body}</p>
                   {s.bullets && (
                     <ul className="mt-3 space-y-1.5">
-                      {s.bullets.map((b, j) => (
+                      {s.bullets.map((b: string, j: number) => (
                         <li key={j} className="flex gap-2 text-[14.5px] leading-[1.6] text-gray-700">
                           <span className="mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-brand-500" />
                           <span>{b}</span>

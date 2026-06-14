@@ -3,7 +3,7 @@ import { BookOpen, ArrowRight, Clock } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 import { GUIDES } from "@/lib/guides";
 
-export const Route = createFileRoute("/rehber")({
+export const Route = createFileRoute("/rehber/")({
   head: () => ({
     meta: [
       { title: "Seçmen Rehberi | Seçim 2028" },
