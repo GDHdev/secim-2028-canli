@@ -234,3 +234,47 @@ function NavDropdown({
     </div>
   );
 }
+
+function DataCol({
+  label,
+  value,
+  delta,
+  up,
+  down,
+  amber,
+  color,
+}: {
+  label: string;
+  value: string;
+  delta?: string;
+  up?: boolean;
+  down?: boolean;
+  amber?: boolean;
+  color?: string;
+}) {
+  const valueClass = amber
+    ? "term-amber"
+    : up
+    ? "term-up"
+    : down
+    ? "term-down"
+    : "text-white";
+  return (
+    <div className="col">
+      <span className="term-label term-label-light">{label}</span>
+      <span
+        className={`term-num text-[13px] font-semibold ${color ? "" : valueClass}`}
+        style={color ? { color } : undefined}
+      >
+        {value}
+      </span>
+      {delta && (
+        <span className={`term-num text-[11px] ${up ? "term-up" : down ? "term-down" : "text-white/60"} inline-flex items-center gap-0.5`}>
+          {up && <ArrowUpRight size={10} />}
+          {down && <ArrowDownRight size={10} />}
+          {delta}
+        </span>
+      )}
+    </div>
+  );
+}
