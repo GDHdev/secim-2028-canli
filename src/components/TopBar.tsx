@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Search, Menu, X, ChevronDown } from "lucide-react";
+import { Search, Menu, X, ChevronDown, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import gdhLogo from "@/assets/gdh-logo.svg";
 import { GlobalSearch } from "./GlobalSearch";
+import { CANDIDATES, COUNT_PERCENT, SECOND_ROUND_PROBABILITY } from "@/lib/mock-data";
 
 type NavItem =
   | { to: string; label: string }
@@ -37,27 +38,31 @@ export function TopBar() {
     return () => clearInterval(t);
   }, []);
 
+  const leader = CANDIDATES[0];
+  const second = CANDIDATES[1];
+  const gap = (leader.percent - second.percent).toFixed(1);
   const time = now
-    ? now.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit" })
-    : "--:--";
+    ? now.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+    : "--:--:--";
+  const dateStr = now
+    ? now.toLocaleDateString("tr-TR", { day: "2-digit", month: "short" })
+    : "--";
 
   return (
     <>
       <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="site-container flex h-[72px] items-center gap-6">
+        <div className="site-container flex h-[60px] items-center gap-6">
           {/* Brand */}
           <Link to="/" className="flex shrink-0 items-center gap-3" aria-label="Seçim 2028 anasayfa">
-            <img src={gdhLogo} alt="" className="h-8 w-auto" />
-            <div className="hidden flex-col leading-tight sm:flex">
-              <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-gray-500">
-                Seçim
-              </span>
-              <span className="font-display text-xl font-semibold text-gray-900">2028</span>
+            <img src={gdhLogo} alt="" className="h-7 w-auto" />
+            <div className="hidden items-baseline gap-2 sm:flex">
+              <span className="font-display text-lg font-extrabold tracking-tight text-gray-900">SEÇİM</span>
+              <span className="font-mono text-sm font-semibold text-brand-600">2028</span>
             </div>
           </Link>
 
           {/* Primary nav — desktop */}
-          <nav className="ml-2 hidden items-center gap-1 lg:flex" aria-label="Ana menü">
+          <nav className="ml-2 hidden items-center gap-0.5 lg:flex" aria-label="Ana menü">
             {NAV.map((n) =>
               "children" in n ? (
                 <NavDropdown key={n.label} item={n} />
@@ -65,10 +70,10 @@ export function TopBar() {
                 <Link
                   key={n.to}
                   to={n.to}
-                  activeProps={{ className: "text-brand-600 bg-brand-50" }}
-                  inactiveProps={{ className: "text-gray-700 hover:bg-gray-100 hover:text-gray-900" }}
+                  activeProps={{ className: "text-gray-900 after:scale-x-100" }}
+                  inactiveProps={{ className: "text-gray-600 hover:text-gray-900 after:scale-x-0" }}
                   activeOptions={n.to === "/" ? { exact: true } : undefined}
-                  className="rounded-lg px-3.5 py-2 text-[15px] font-semibold transition-colors"
+                  className="relative px-3 py-2 text-[13.5px] font-semibold uppercase tracking-wide transition-colors after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:origin-left after:bg-brand-600 after:transition-transform"
                 >
                   {n.label}
                 </Link>
@@ -81,34 +86,45 @@ export function TopBar() {
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2.5 rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 text-sm text-gray-500 transition-colors hover:border-gray-300 hover:bg-white hover:text-gray-700 md:min-w-[280px]"
-              aria-label="İl, aday veya parti ara"
+              className="flex items-center gap-2.5 rounded-sm border border-gray-300 bg-white px-3 py-1.5 text-[13px] text-gray-500 transition-colors hover:border-gray-900 hover:text-gray-900 md:min-w-[260px]"
+              aria-label="Ara"
             >
-              <Search size={16} />
-              <span className="hidden md:inline">İl, aday, parti ara…</span>
+              <Search size={14} />
+              <span className="hidden font-mono md:inline">İL · ADAY · PARTİ…</span>
               <span className="md:hidden">Ara</span>
-              <kbd className="ml-auto hidden rounded border border-gray-200 bg-white px-1.5 py-0.5 font-mono text-[11px] text-gray-500 md:inline">
-                ⌘K
-              </kbd>
+              <kbd className="ml-auto hidden rounded-sm border border-gray-300 bg-gray-50 px-1.5 py-px font-mono text-[10px] text-gray-500 md:inline">⌘K</kbd>
             </button>
-
-            <span className="hidden items-center gap-2 rounded-lg border border-error-500/30 bg-error-500/5 px-2.5 py-2 text-[12px] font-bold uppercase tracking-wider text-error-600 md:inline-flex">
-              <span className="live-pulse h-1.5 w-1.5 rounded-full bg-error-500" />
-              Canlı
-              <span className="font-mono text-[12px] font-medium tabular-nums text-gray-500">{time}</span>
-            </span>
 
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="rounded-lg border border-gray-200 bg-white p-2 text-gray-700 lg:hidden"
+              className="rounded-sm border border-gray-300 bg-white p-2 text-gray-700 lg:hidden"
               aria-label="Menüyü aç"
             >
               <Menu size={20} />
             </button>
           </div>
         </div>
+
+        {/* Bloomberg-style data sub-strip */}
+        <div className="term-strip overflow-x-auto">
+          <div className="site-container flex items-stretch text-[12px]">
+            <div className="col !pl-0">
+              <span className="term-tag term-tag-live">
+                <span className="live-pulse h-1.5 w-1.5 rounded-full bg-white" /> CANLI
+              </span>
+              <span className="term-label term-label-light">{dateStr} · {time}</span>
+            </div>
+            <DataCol label="SAYIM" value={`${COUNT_PERCENT.toFixed(1)}%`} delta="+0.3" up />
+            <DataCol label="KATILIM" value="86.2%" delta="+0.8 pt" up />
+            <DataCol label={`ÖNDE · ${leader.name.split(" ").slice(-1)[0].toUpperCase()}`} value={`${leader.percent.toFixed(1)}%`} color={leader.color} />
+            <DataCol label="FARK" value={`+${gap} pt`} amber />
+            <DataCol label="2.TUR" value={`${SECOND_ROUND_PROBABILITY}%`} amber />
+            <DataCol label="BARAJ AŞAN" value="7" />
+          </div>
+        </div>
       </header>
+
 
       {/* Mobile sheet */}
       {mobileOpen && (
@@ -214,6 +230,50 @@ function NavDropdown({
             ))}
           </div>
         </div>
+      )}
+    </div>
+  );
+}
+
+function DataCol({
+  label,
+  value,
+  delta,
+  up,
+  down,
+  amber,
+  color,
+}: {
+  label: string;
+  value: string;
+  delta?: string;
+  up?: boolean;
+  down?: boolean;
+  amber?: boolean;
+  color?: string;
+}) {
+  const valueClass = amber
+    ? "term-amber"
+    : up
+    ? "term-up"
+    : down
+    ? "term-down"
+    : "text-white";
+  return (
+    <div className="col">
+      <span className="term-label term-label-light">{label}</span>
+      <span
+        className={`term-num text-[13px] font-semibold ${color ? "" : valueClass}`}
+        style={color ? { color } : undefined}
+      >
+        {value}
+      </span>
+      {delta && (
+        <span className={`term-num text-[11px] ${up ? "term-up" : down ? "term-down" : "text-white/60"} inline-flex items-center gap-0.5`}>
+          {up && <ArrowUpRight size={10} />}
+          {down && <ArrowDownRight size={10} />}
+          {delta}
+        </span>
       )}
     </div>
   );
