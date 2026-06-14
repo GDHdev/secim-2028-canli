@@ -233,7 +233,7 @@ export function TurkeyMap({
         {/* Tooltip — Untitled UI soft popover */}
         {hover && (
           <div
-            className="pointer-events-none fixed z-40 min-w-[240px] rounded-xl border border-gray-200 bg-white p-3 shadow-lg"
+            className="pointer-events-none fixed z-40 min-w-[240px] rounded-xl border border-gray-200 bg-card p-3 shadow-lg"
             style={{ left: tipPos.x + 14, top: tipPos.y + 14 }}
           >
             <div className="flex items-center justify-between gap-3 pb-2">
@@ -403,7 +403,7 @@ export function ProvincePanelBody({ province, onClose }: { province: Province; o
 
 function Legend() {
   return (
-    <div className="flex items-center gap-3 rounded-lg border border-gray-200 bg-white/95 px-3 py-1.5 shadow-sm backdrop-blur-sm">
+    <div className="flex items-center gap-3 rounded-lg border border-gray-200 bg-card/95 px-3 py-1.5 shadow-sm backdrop-blur-sm">
       {CANDIDATES.slice(0, 3).map((c) => (
         <div key={c.id} className="flex items-center gap-1.5">
           <span className="inline-block h-2.5 w-2.5 rounded-full" style={{ backgroundColor: c.color }} />
