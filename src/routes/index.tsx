@@ -6,7 +6,6 @@ import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { MicroNews } from "@/components/MicroNews";
 import { AISummary } from "@/components/AISummary";
-import { Reveal, RevealItem } from "@/components/Reveal";
 import { ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -59,82 +58,63 @@ function SectionHeader({
 function Index() {
   return (
     <div className="bg-background">
-      {/* 1 — DURUM ŞERİDİ: ilk göz teması */}
       <AISummary />
 
-      {/* 2 — CUMHURBAŞKANLIĞI YARIŞI + 2. TUR */}
-      <Reveal as="section" className="site-container py-10 md:py-14">
-        <RevealItem>
-          <SectionHeader
-            kicker="Cumhurbaşkanlığı · 1. Tur"
-            title="Adaylar arası yarış"
-            meta="Sandık verisi · sıralama 2,2 sn'de bir güncellenir"
-          />
-        </RevealItem>
+      <section className="site-container py-10 md:py-14">
+        <SectionHeader
+          kicker="Cumhurbaşkanlığı · 1. Tur"
+          title="Adaylar arası yarış"
+          meta="Sandık verisi · sıralama 2,2 sn'de bir güncellenir"
+        />
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_360px]">
-          <RevealItem><PresidentRace /></RevealItem>
-          <RevealItem><SecondRoundGauge /></RevealItem>
+          <PresidentRace />
+          <SecondRoundGauge />
         </div>
-      </Reveal>
+      </section>
 
-      {/* 3 — TÜRKİYE HARİTASI */}
-      <Reveal as="section" className="site-container pb-4">
-        <RevealItem>
-          <SectionHeader
-            kicker="81 İl · Coğrafi dağılım"
-            title="Türkiye haritası"
-            meta="İlin üzerine gelin · lider parti, fark ve sayım yüzdesi"
-            cta={{ to: "/harita", label: "Detaylı harita" }}
-          />
-        </RevealItem>
-      </Reveal>
-      <Reveal>
-        <RevealItem>
-          <section>
-            <TurkeyMap className="h-[640px] border-y border-gray-200 bg-gray-50" />
-          </section>
-        </RevealItem>
-      </Reveal>
+      <section className="site-container pb-4">
+        <SectionHeader
+          kicker="81 İl · Coğrafi dağılım"
+          title="Türkiye haritası"
+          meta="İlin üzerine gelin · lider parti, fark ve sayım yüzdesi"
+          cta={{ to: "/harita", label: "Detaylı harita" }}
+        />
+      </section>
+      <section>
+        <TurkeyMap className="h-[640px] border-y border-gray-200 bg-gray-50" />
+      </section>
 
-      {/* 4 — MECLİS + CANLI AKIŞ */}
-      <Reveal as="section" className="site-container py-12 md:py-16">
+      <section className="site-container py-12 md:py-16">
         <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px]">
           <div>
-            <RevealItem>
-              <SectionHeader
-                kicker="Milletvekili · 600 sandalye"
-                title="Meclis dağılımı"
-                meta="7 parti · koalisyon eşiği 301 sandalye"
-                cta={{ to: "/milletvekili", label: "Tüm sandalyeler" }}
-              />
-            </RevealItem>
-            <RevealItem><Parliament /></RevealItem>
+            <SectionHeader
+              kicker="Milletvekili · 600 sandalye"
+              title="Meclis dağılımı"
+              meta="7 parti · koalisyon eşiği 301 sandalye"
+              cta={{ to: "/milletvekili", label: "Tüm sandalyeler" }}
+            />
+            <Parliament />
           </div>
           <div>
-            <RevealItem>
-              <SectionHeader
-                kicker="Canlı"
-                title="Akış"
-                meta="Son dakika gelişmeleri"
-              />
-            </RevealItem>
-            <RevealItem><LiveFeed /></RevealItem>
+            <SectionHeader
+              kicker="Canlı"
+              title="Akış"
+              meta="Son dakika gelişmeleri"
+            />
+            <LiveFeed />
           </div>
         </div>
-      </Reveal>
+      </section>
 
-      {/* 5 — HABERLER */}
-      <Reveal as="section" className="site-container pb-16">
-        <RevealItem>
-          <SectionHeader
-            kicker="Gündem"
-            title="Son haberler"
-            meta="Editöryel akış · son 24 saat"
-            cta={{ to: "/haberler", label: "Tüm haberler" }}
-          />
-        </RevealItem>
-        <RevealItem><MicroNews limit={6} /></RevealItem>
-      </Reveal>
+      <section className="site-container pb-16">
+        <SectionHeader
+          kicker="Gündem"
+          title="Son haberler"
+          meta="Editöryel akış · son 24 saat"
+          cta={{ to: "/haberler", label: "Tüm haberler" }}
+        />
+        <MicroNews limit={6} />
+      </section>
     </div>
   );
 }
