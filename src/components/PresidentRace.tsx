@@ -101,16 +101,16 @@ export function PresidentRace() {
         </div>
       </div>
 
-      {/* Candidate rows */}
+      {/* Candidate rows (leader zaten hero'da gösteriliyor) */}
       <ul className="flex flex-col gap-3 p-3 md:p-4">
         <AnimatePresence initial={false}>
-          {rows.map((c, i) => (
+          {rows.slice(1).map((c, i) => (
             <motion.li
               key={c.id}
               layout
               transition={{ type: "spring", stiffness: 360, damping: 32, mass: 0.8 }}
             >
-              <CandidateRow candidate={c} place={i + 1} max={max} />
+              <CandidateRow candidate={c} place={i + 2} max={max} />
             </motion.li>
           ))}
         </AnimatePresence>
