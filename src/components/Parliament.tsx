@@ -192,7 +192,7 @@ export function Parliament() {
                       {cn.seats}
                     </span>
                   </div>
-                  <div className="relative mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white">
+                  <div className="relative mt-2 h-1.5 w-full overflow-hidden rounded-full bg-card">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${pct}%` }}
@@ -286,7 +286,7 @@ export function Parliament() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, scale: 0.98 }}
             transition={{ duration: 0.12 }}
-            className="pointer-events-none fixed z-50 min-w-[220px] rounded-lg border border-gray-200 bg-white p-3 shadow-lg"
+            className="pointer-events-none fixed z-50 min-w-[220px] rounded-lg border border-gray-200 bg-card p-3 shadow-lg"
             style={{ left: hover.x + 14, top: hover.y + 14 }}
           >
             <div className="flex items-start justify-between gap-3">

@@ -100,15 +100,15 @@ function CandidateRow({
       className={`relative flex items-center gap-4 rounded-xl border transition-colors ${
         isLeader
           ? "border-brand-200 bg-brand-50/50 px-4 py-5"
-          : "border-gray-200 bg-white px-4 py-3 hover:bg-gray-50"
+          : "border-gray-200 bg-card px-4 py-3 hover:bg-gray-50"
       }`}
     >
       {/* Rank */}
       <div
         className={`flex shrink-0 items-center justify-center rounded-full border font-semibold tabular-nums ${
           isLeader
-            ? "h-10 w-10 border-brand-200 bg-white text-brand-700 text-base"
-            : "h-8 w-8 border-gray-200 bg-white text-gray-600 text-sm"
+            ? "h-10 w-10 border-brand-200 bg-card text-brand-700 text-base"
+            : "h-8 w-8 border-gray-200 bg-card text-gray-600 text-sm"
         }`}
       >
         {place}

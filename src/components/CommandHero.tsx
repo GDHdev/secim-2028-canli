@@ -98,7 +98,7 @@ export function CommandHero() {
           <span className="font-mono text-[12px] font-medium tabular-nums text-gray-500">
             14 Mart 2028 · 21:00 GMT+3
           </span>
-          <span className="ml-auto hidden items-center gap-1.5 rounded-md border border-white/[0.06] bg-white/[0.04] px-2.5 py-1 text-[11px] font-semibold text-gray-600 md:inline-flex">
+          <span className="ml-auto hidden items-center gap-1.5 rounded-md border border-white/[0.06] bg-card/[0.04] px-2.5 py-1 text-[11px] font-semibold text-gray-600 md:inline-flex">
             <Radio size={12} className="text-success-500" />
             Veri akışı stabil
           </span>
@@ -121,7 +121,7 @@ export function CommandHero() {
                 <span className="text-[12px] font-extrabold uppercase tracking-[0.2em] text-gray-500">
                   Önde
                 </span>
-                <span className="h-px w-10 bg-white/[0.1]" />
+                <span className="h-px w-10 bg-card/[0.1]" />
                 <span className="font-mono text-[11px] uppercase tracking-[0.22em] text-gray-500">
                   Sıra #1
                 </span>
@@ -172,7 +172,7 @@ export function CommandHero() {
             </div>
 
             {/* Count progress */}
-            <div className="mt-8 rounded-xl border border-white/[0.06] bg-white/[0.03] p-5">
+            <div className="mt-8 rounded-xl border border-white/[0.06] bg-card/[0.03] p-5">
               <div className="mb-2.5 flex items-center justify-between">
                 <span className="inline-flex items-center gap-2 text-[12px] font-extrabold uppercase tracking-[0.16em] text-gray-700">
                   <Vote size={14} className="text-brand-500" />
@@ -182,7 +182,7 @@ export function CommandHero() {
                   {fmtTR(COUNTED_VOTES)} / {fmtTR(TOTAL_VOTERS)}
                 </span>
               </div>
-              <div className="relative h-3 overflow-hidden rounded-full bg-white/[0.06]">
+              <div className="relative h-3 overflow-hidden rounded-full bg-card/[0.06]">
                 <motion.div
                   initial={{ width: 0 }}
                   animate={{ width: `${COUNT_PERCENT}%` }}
@@ -278,7 +278,7 @@ function SignalCard({
     brand:   { iconWrap: "bg-brand-700/30 text-brand-500 ring-brand-500/30", glow: "oklch(0.62 0.255 25 / 0.18)", valueColor: "text-brand-500" },
     success: { iconWrap: "bg-success-500/15 text-success-500 ring-success-500/30", glow: "oklch(0.70 0.18 152 / 0.18)", valueColor: "text-success-500" },
     indigo:  { iconWrap: "bg-indigo-700/20 text-indigo-700 ring-indigo-700/30", glow: "oklch(0.64 0.18 280 / 0.18)", valueColor: "text-indigo-700" },
-    gray:    { iconWrap: "bg-white/[0.06] text-gray-700 ring-white/[0.08]",  glow: "transparent", valueColor: "text-gray-900" },
+    gray:    { iconWrap: "bg-card/[0.06] text-gray-700 ring-white/[0.08]",  glow: "transparent", valueColor: "text-gray-900" },
   };
   const a = accents[accent];
 

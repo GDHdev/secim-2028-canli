@@ -90,7 +90,7 @@ export function AISummary() {
                   onClick={() => setIdx(i)}
                   aria-label={`Özet ${i + 1}`}
                   className={`h-1.5 rounded-full transition-all ${
-                    i === idx ? "w-7 bg-brand-500 shadow-[0_0_8px_oklch(0.68_0.25_25/0.6)]" : "w-1.5 bg-white/[0.15] hover:bg-white/[0.3]"
+                    i === idx ? "w-7 bg-brand-500 shadow-[0_0_8px_oklch(0.68_0.25_25/0.6)]" : "w-1.5 bg-card/[0.15] hover:bg-card/[0.3]"
                   }`}
                 />
               ))}

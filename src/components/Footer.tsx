@@ -48,7 +48,7 @@ export function Footer() {
           <div>
             <div className="flex items-center gap-3">
               <img src={gdhLogo} alt="GDH" className="h-10 w-auto" />
-              <span className="h-9 w-px bg-white/10" />
+              <span className="h-9 w-px bg-card/10" />
               <div className="flex flex-col leading-tight">
                 <span className="text-[11px] font-extrabold uppercase tracking-[0.18em] text-gray-500">
                   Seçim Merkezi

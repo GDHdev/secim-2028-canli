@@ -55,7 +55,7 @@ function SectionHeader({
       {cta && (
         <Link
           to={cta.to}
-          className="group inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 shadow-xs transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 md:self-end"
+          className="group inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-gray-200 bg-card px-3 py-1.5 text-sm font-semibold text-gray-700 shadow-xs transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 md:self-end"
         >
           {cta.label}
           <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />

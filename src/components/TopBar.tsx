@@ -40,7 +40,7 @@ export function TopBar() {
         {/* Brand */}
         <Link to="/" className="flex shrink-0 items-center gap-3">
           <img src={gdhLogo} alt="GDH" className="h-9 w-auto md:h-10" />
-          <span className="hidden h-9 w-px bg-white/10 md:block" />
+          <span className="hidden h-9 w-px bg-card/10 md:block" />
           <div className="hidden flex-col leading-tight md:flex">
             <span className="text-[11px] font-bold uppercase tracking-[0.18em] text-gray-500">
               Seçim Merkezi
@@ -63,8 +63,8 @@ export function TopBar() {
             <Link
               key={n.to}
               to={n.to}
-              activeProps={{ className: "text-gray-900 bg-white/[0.07] ring-1 ring-white/[0.08]" }}
-              inactiveProps={{ className: "text-gray-500 hover:text-gray-900 hover:bg-white/[0.04]" }}
+              activeProps={{ className: "text-gray-900 bg-card/[0.07] ring-1 ring-white/[0.08]" }}
+              inactiveProps={{ className: "text-gray-500 hover:text-gray-900 hover:bg-card/[0.04]" }}
               activeOptions={n.to === "/" ? { exact: true } : undefined}
               className="rounded-md px-3 py-2 text-sm font-semibold tracking-wide transition-colors"
             >
@@ -83,11 +83,11 @@ export function TopBar() {
               {fmtTR(COUNTED_VOTES)} / {fmtTR(TOTAL_VOTERS)}
             </span>
           </div>
-          <div className="flex items-center gap-2.5 rounded-lg border border-white/[0.08] bg-white/[0.04] px-3 py-1.5">
+          <div className="flex items-center gap-2.5 rounded-lg border border-white/[0.08] bg-card/[0.04] px-3 py-1.5">
             <span className="font-mono text-base font-bold leading-none tabular-nums text-brand-500">
               %{COUNT_PERCENT.toFixed(1)}
             </span>
-            <div className="h-1.5 w-24 overflow-hidden rounded-full bg-white/[0.08]">
+            <div className="h-1.5 w-24 overflow-hidden rounded-full bg-card/[0.08]">
               <motion.div
                 initial={{ width: 0 }}
                 animate={{ width: `${COUNT_PERCENT}%` }}
