@@ -391,12 +391,21 @@ export function ProvincePanelBody({ province, onClose }: { province: Province; o
         </table>
       </div>
 
-      <Link
-        to="/sonuclar"
-        className="mt-6 inline-block font-mono text-xs text-accent hover:underline"
-      >
-        Tüm sonuçlar tablosu →
-      </Link>
+      <div className="mt-6 flex flex-wrap items-center gap-3">
+        <Link
+          to="/il/$id"
+          params={{ id: province.id }}
+          className="inline-flex items-center gap-1.5 rounded-md bg-brand-600 px-3 py-1.5 text-xs font-bold text-white shadow-sm transition-colors hover:bg-brand-700"
+        >
+          {province.name} detay sayfası →
+        </Link>
+        <Link
+          to="/sonuclar"
+          className="font-mono text-xs text-accent hover:underline"
+        >
+          Tüm sonuçlar tablosu →
+        </Link>
+      </div>
     </>
   );
 }

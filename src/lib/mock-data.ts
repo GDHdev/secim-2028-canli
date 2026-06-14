@@ -446,3 +446,134 @@ export const REGION_SNAPSHOT = REGIONS.map((r) => {
   };
 });
 
+// ============================================================
+// YURT DIŞI & GÜMRÜK OYLARI (DIASPORA)
+// ============================================================
+
+export type DiasporaCountry = {
+  country: string;
+  flag: string;
+  voters: number;
+  turnout: number;
+  yilmaz: number;
+  kaya: number;
+  demir: number;
+};
+
+export const DIASPORA_TOTAL_VOTERS = 3_410_000;
+export const DIASPORA_VOTES_CAST = 1_982_000;
+export const CUSTOMS_VOTES = 78_400;
+
+export const DIASPORA: DiasporaCountry[] = [
+  { country: "Almanya",     flag: "🇩🇪", voters: 1_530_000, turnout: 51, yilmaz: 44, kaya: 33, demir: 19 },
+  { country: "Fransa",      flag: "🇫🇷", voters:   384_000, turnout: 49, yilmaz: 41, kaya: 36, demir: 20 },
+  { country: "Hollanda",    flag: "🇳🇱", voters:   265_000, turnout: 55, yilmaz: 48, kaya: 30, demir: 19 },
+  { country: "Belçika",     flag: "🇧🇪", voters:   161_000, turnout: 53, yilmaz: 47, kaya: 31, demir: 19 },
+  { country: "Avusturya",   flag: "🇦🇹", voters:   115_000, turnout: 58, yilmaz: 50, kaya: 28, demir: 19 },
+  { country: "ABD",         flag: "🇺🇸", voters:   124_000, turnout: 47, yilmaz: 24, kaya: 52, demir: 22 },
+  { country: "İngiltere",   flag: "🇬🇧", voters:   102_000, turnout: 50, yilmaz: 27, kaya: 49, demir: 22 },
+  { country: "İsviçre",     flag: "🇨🇭", voters:    98_000, turnout: 56, yilmaz: 42, kaya: 33, demir: 23 },
+  { country: "Azerbaycan",  flag: "🇦🇿", voters:    61_000, turnout: 62, yilmaz: 56, kaya: 22, demir: 19 },
+  { country: "KKTC",        flag: "🇨🇾", voters:    74_000, turnout: 68, yilmaz: 51, kaya: 27, demir: 19 },
+];
+
+export const DIASPORA_TOTALS = (() => {
+  const w = DIASPORA.reduce(
+    (acc, d) => {
+      const cast = Math.round((d.voters * d.turnout) / 100);
+      acc.cast += cast;
+      acc.y += (d.yilmaz * cast) / 100;
+      acc.k += (d.kaya * cast) / 100;
+      acc.de += (d.demir * cast) / 100;
+      return acc;
+    },
+    { cast: 0, y: 0, k: 0, de: 0 },
+  );
+  const sum = w.y + w.k + w.de;
+  return {
+    yilmaz: +((w.y / sum) * 100).toFixed(1),
+    kaya:   +((w.k / sum) * 100).toFixed(1),
+    demir:  +((w.de / sum) * 100).toFixed(1),
+  };
+})();
+
+// ============================================================
+// SAATLİK KATILIM (HOURLY TURNOUT)
+// ============================================================
+
+export type HourlyPoint = { hour: string; t2028: number; t2023: number };
+
+export const HOURLY_TURNOUT: HourlyPoint[] = [
+  { hour: "08:00", t2028:  6.4, t2023:  6.0 },
+  { hour: "09:00", t2028: 14.2, t2023: 13.5 },
+  { hour: "10:00", t2028: 24.8, t2023: 23.6 },
+  { hour: "11:00", t2028: 35.1, t2023: 33.4 },
+  { hour: "12:00", t2028: 43.7, t2023: 41.9 },
+  { hour: "13:00", t2028: 50.3, t2023: 48.7 },
+  { hour: "14:00", t2028: 58.6, t2023: 56.8 },
+  { hour: "15:00", t2028: 67.2, t2023: 65.4 },
+  { hour: "16:00", t2028: 75.8, t2023: 74.1 },
+  { hour: "17:00", t2028: 82.4, t2023: 80.9 },
+  { hour: "18:00", t2028: 86.2, t2023: 85.4 },
+];
+
+// ============================================================
+// SANDIK ŞEFFAFLIK (BALLOT TRANSPARENCY)
+// ============================================================
+
+export const BALLOT_TRANSPARENCY = {
+  totalBoxes: 198_460,
+  openedBoxes: 192_104,
+  uploadedRecords: 188_220,        // tutanak yüklenen
+  invalidVotes: 612_400,           // geçersiz oy
+  invalidRatio: 1.28,              // %
+  objections: 1_842,               // itiraz
+  resolvedObjections: 1_516,
+  observers: 412_900,              // gözlemci sayısı
+};
+
+// ============================================================
+// İLÇE BAZINDA SONUÇLAR (mock — il detay sayfası için)
+// ============================================================
+
+export type District = {
+  name: string;
+  population: number;
+  counted: number;
+  turnout: number;
+  yilmaz: number;
+  kaya: number;
+  demir: number;
+};
+
+const DISTRICT_NAMES: Record<string, string[]> = {
+  istanbul: ["Kadıköy", "Beşiktaş", "Şişli", "Beyoğlu", "Üsküdar", "Bakırköy", "Fatih", "Maltepe", "Pendik", "Sancaktepe", "Esenler", "Bağcılar"],
+  ankara:   ["Çankaya", "Yenimahalle", "Keçiören", "Mamak", "Etimesgut", "Sincan", "Altındağ", "Pursaklar", "Polatlı", "Gölbaşı"],
+  izmir:    ["Konak", "Karşıyaka", "Bornova", "Buca", "Karabağlar", "Çiğli", "Gaziemir", "Bayraklı", "Menemen", "Aliağa"],
+  default:  ["Merkez", "Yıldırım", "Osmangazi", "Nilüfer", "Karacabey", "Gemlik", "İnegöl", "Mudanya"],
+};
+
+export function getDistricts(province: Province): District[] {
+  const names = DISTRICT_NAMES[province.id] ?? DISTRICT_NAMES.default;
+  const base = province.results;
+  return names.map((n, i) => {
+    const seed = (province.id.length * (i + 1)) % 11;
+    const drift = (i - names.length / 2) * 2.4 + (seed - 5);
+    const y = clamp(base.yilmaz + drift, 5, 75);
+    const k = clamp(base.kaya - drift * 0.6 + (seed % 3 - 1), 5, 75);
+    const d = clamp(base.demir + drift * 0.2 - (seed % 4 - 2), 3, 75);
+    const sum = y + k + d;
+    return {
+      name: n,
+      population: Math.round(province.population * (0.04 + (seed + 3) * 0.012)),
+      counted: clamp(province.counted + (seed - 4), 60, 100),
+      turnout: clamp(province.turnout + (seed - 5) * 0.6, 55, 95),
+      yilmaz: +((y / sum) * 100).toFixed(1),
+      kaya:   +((k / sum) * 100).toFixed(1),
+      demir:  +((d / sum) * 100).toFixed(1),
+    };
+  });
+}
+function clamp(n: number, lo: number, hi: number) { return Math.max(lo, Math.min(hi, n)); }
+
+

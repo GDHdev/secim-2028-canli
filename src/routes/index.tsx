@@ -7,10 +7,15 @@ import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { MicroNews } from "@/components/MicroNews";
 import { ElectionCompare } from "@/components/ElectionCompare";
+import { AllianceBlocs } from "@/components/AllianceBlocs";
+import { DiasporaCard } from "@/components/DiasporaCard";
+import { HourlyTurnout } from "@/components/HourlyTurnout";
+import { BallotTransparency } from "@/components/BallotTransparency";
+import { ShareBar } from "@/components/ShareBar";
 import { GUIDES } from "@/lib/guides";
 import { POLLS, POLL_FIRMS, CANDIDATES } from "@/lib/mock-data";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, BarChart3, History, BookOpen, Clock, TrendingUp } from "lucide-react";
+import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, BarChart3, History, BookOpen, Clock, TrendingUp, Plane, Clock3, ShieldCheck, Handshake } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -79,17 +84,36 @@ function Index() {
 
       {/* Aday yarışı */}
       <section className="site-container py-10 md:py-14">
-        <SectionHeader
-          icon={Users}
-          tone="brand"
-          kicker="Cumhurbaşkanlığı · 1. Tur"
-          title="Adaylar arası yarış"
-          meta="Sandık verisi her 2 saniyede bir güncellenir. Aday kartına tıklayın, detaylı il bazlı analizi açın."
-        />
+        <div className="mb-6 flex flex-wrap items-end justify-between gap-4">
+          <div className="min-w-0 flex-1">
+            <SectionHeader
+              icon={Users}
+              tone="brand"
+              kicker="Cumhurbaşkanlığı · 1. Tur"
+              title="Adaylar arası yarış"
+              meta="Sandık verisi her 2 saniyede bir güncellenir. Aday kartına tıklayın, detaylı il bazlı analizi açın."
+            />
+          </div>
+          <div className="shrink-0">
+            <ShareBar />
+          </div>
+        </div>
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
           <PresidentRace />
           <SecondRoundGauge />
         </div>
+      </section>
+
+      {/* Sandık şeffaflığı */}
+      <section className="site-container pb-10 md:pb-14">
+        <SectionHeader
+          icon={ShieldCheck}
+          tone="gray"
+          kicker="YSK · Şeffaflık"
+          title="Sandık güvenliği ve sayım"
+          meta="Açılan sandık, dijital tutanak akışı, geçersiz oy ve itiraz sayıları — anlık güncellenir."
+        />
+        <BallotTransparency />
       </section>
 
       {/* 2023 vs 2028 karşılaştırması */}
@@ -116,33 +140,73 @@ function Index() {
             tone="indigo"
             kicker="81 il · Coğrafi dağılım"
             title="Türkiye haritası"
-            meta="Bir ilin üzerine gelin: lider parti, oy farkı, sayım yüzdesi ve katılım oranı görünür."
+            meta="Bir ile tıklayın, sandık ve ilçe bazlı detay sayfasına gidin. 2023 ile karşılaştırma dahil."
             cta={{ to: "/harita", label: "Detaylı harita" }}
           />
         </div>
         <TurkeyMap className="h-[560px] bg-white border-y border-gray-200" />
       </section>
 
-      {/* Meclis + Akış */}
+      {/* Saatlik katılım + Yurt dışı oyları */}
       <section className="site-container py-10 md:py-14">
-        <SectionHeader
-          icon={Landmark}
-          tone="warning"
-          kicker="Milletvekili · 600 sandalye"
-          title="Meclis dağılımı"
-          meta="7 parti yarışıyor. Çoğunluk için 301 sandalye gerekiyor; koalisyon senaryoları açılır."
-          cta={{ to: "/milletvekili", label: "Tüm sandalyeler" }}
-        />
-        <Parliament />
-        <div className="mt-10 md:mt-12">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+          <div>
+            <SectionHeader
+              icon={Clock3}
+              tone="success"
+              kicker="Katılım eğrisi · 08:00–18:00"
+              title="Sandığa gidiş saat saat"
+              meta="2028 birikimli katılımı 2023 ile yan yana — öğleden sonra ivme korundu mu?"
+            />
+            <HourlyTurnout />
+          </div>
+          <div>
+            <SectionHeader
+              icon={Plane}
+              tone="violet"
+              kicker="Yurt dışı · 10 ülke + gümrük"
+              title="Diaspora ne dedi?"
+              meta="3.4 milyon kayıtlı yurt dışı seçmen, 78 bin gümrük oyu — Almanya'da Yılmaz, Londra'da Kaya."
+            />
+            <DiasporaCard />
+          </div>
+        </div>
+      </section>
+
+      {/* Meclis + İttifak + Akış */}
+      <section className="bg-gray-50 border-y border-gray-200 py-10 md:py-14">
+        <div className="site-container">
           <SectionHeader
-            icon={Radio}
-            tone="success"
-            kicker="Canlı akış"
-            title="Anlık gelişmeler"
-            meta="Editörlerin doğruladığı son dakika bildirimleri."
+            icon={Landmark}
+            tone="warning"
+            kicker="Milletvekili · 600 sandalye"
+            title="Meclis dağılımı"
+            meta="7 parti yarışıyor. Çoğunluk için 301 sandalye gerekiyor; koalisyon senaryoları açılır."
+            cta={{ to: "/milletvekili", label: "Tüm sandalyeler" }}
           />
-          <LiveFeed />
+          <Parliament />
+
+          <div className="mt-10 md:mt-12">
+            <SectionHeader
+              icon={Handshake}
+              tone="indigo"
+              kicker="İttifak matematiği"
+              title="Hangi blok çoğunluğu kurabilir?"
+              meta="Türkiye'de meclis = ittifak. Her bloğun sandalyesi, çoğunluğa farkı ve olası koalisyon senaryosu."
+            />
+            <AllianceBlocs />
+          </div>
+
+          <div className="mt-10 md:mt-12">
+            <SectionHeader
+              icon={Radio}
+              tone="success"
+              kicker="Canlı akış"
+              title="Anlık gelişmeler"
+              meta="Editörlerin doğruladığı son dakika bildirimleri."
+            />
+            <LiveFeed />
+          </div>
         </div>
       </section>
 

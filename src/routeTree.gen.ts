@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as RehberIndexRouteImport } from './routes/rehber.index'
 import { Route as HaberlerIndexRouteImport } from './routes/haberler.index'
 import { Route as RehberSlugRouteImport } from './routes/rehber.$slug'
+import { Route as IlIdRouteImport } from './routes/il.$id'
 import { Route as HaberlerIdRouteImport } from './routes/haberler.$id'
 
 const Tur2Route = Tur2RouteImport.update({
@@ -65,6 +66,11 @@ const RehberSlugRoute = RehberSlugRouteImport.update({
   path: '/rehber/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const IlIdRoute = IlIdRouteImport.update({
+  id: '/il/$id',
+  path: '/il/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const HaberlerIdRoute = HaberlerIdRouteImport.update({
   id: '/haberler/$id',
   path: '/haberler/$id',
@@ -79,6 +85,7 @@ export interface FileRoutesByFullPath {
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
   '/haberler/$id': typeof HaberlerIdRoute
+  '/il/$id': typeof IlIdRoute
   '/rehber/$slug': typeof RehberSlugRoute
   '/haberler/': typeof HaberlerIndexRoute
   '/rehber/': typeof RehberIndexRoute
@@ -91,6 +98,7 @@ export interface FileRoutesByTo {
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
   '/haberler/$id': typeof HaberlerIdRoute
+  '/il/$id': typeof IlIdRoute
   '/rehber/$slug': typeof RehberSlugRoute
   '/haberler': typeof HaberlerIndexRoute
   '/rehber': typeof RehberIndexRoute
@@ -104,6 +112,7 @@ export interface FileRoutesById {
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
   '/haberler/$id': typeof HaberlerIdRoute
+  '/il/$id': typeof IlIdRoute
   '/rehber/$slug': typeof RehberSlugRoute
   '/haberler/': typeof HaberlerIndexRoute
   '/rehber/': typeof RehberIndexRoute
@@ -118,6 +127,7 @@ export interface FileRouteTypes {
     | '/sonuclar'
     | '/tur2'
     | '/haberler/$id'
+    | '/il/$id'
     | '/rehber/$slug'
     | '/haberler/'
     | '/rehber/'
@@ -130,6 +140,7 @@ export interface FileRouteTypes {
     | '/sonuclar'
     | '/tur2'
     | '/haberler/$id'
+    | '/il/$id'
     | '/rehber/$slug'
     | '/haberler'
     | '/rehber'
@@ -142,6 +153,7 @@ export interface FileRouteTypes {
     | '/sonuclar'
     | '/tur2'
     | '/haberler/$id'
+    | '/il/$id'
     | '/rehber/$slug'
     | '/haberler/'
     | '/rehber/'
@@ -155,6 +167,7 @@ export interface RootRouteChildren {
   SonuclarRoute: typeof SonuclarRoute
   Tur2Route: typeof Tur2Route
   HaberlerIdRoute: typeof HaberlerIdRoute
+  IlIdRoute: typeof IlIdRoute
   RehberSlugRoute: typeof RehberSlugRoute
   HaberlerIndexRoute: typeof HaberlerIndexRoute
   RehberIndexRoute: typeof RehberIndexRoute
@@ -225,6 +238,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RehberSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/il/$id': {
+      id: '/il/$id'
+      path: '/il/$id'
+      fullPath: '/il/$id'
+      preLoaderRoute: typeof IlIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/haberler/$id': {
       id: '/haberler/$id'
       path: '/haberler/$id'
@@ -243,6 +263,7 @@ const rootRouteChildren: RootRouteChildren = {
   SonuclarRoute: SonuclarRoute,
   Tur2Route: Tur2Route,
   HaberlerIdRoute: HaberlerIdRoute,
+  IlIdRoute: IlIdRoute,
   RehberSlugRoute: RehberSlugRoute,
   HaberlerIndexRoute: HaberlerIndexRoute,
   RehberIndexRoute: RehberIndexRoute,
