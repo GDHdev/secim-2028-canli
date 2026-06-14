@@ -121,6 +121,7 @@ function Index() {
 
       <section className="site-container pb-16">
         <SectionHeader
+          icon={Newspaper}
           kicker="Gündem"
           title="Son haberler"
           meta="Editöryel akış · son 24 saat"
