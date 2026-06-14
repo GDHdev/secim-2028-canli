@@ -6,7 +6,8 @@ import { Parliament } from "@/components/Parliament";
 import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { MicroNews } from "@/components/MicroNews";
-import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, BarChart3 } from "lucide-react";
+import { ElectionCompare } from "@/components/ElectionCompare";
+import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, BarChart3, History } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -88,8 +89,24 @@ function Index() {
         </div>
       </section>
 
+      {/* 2023 vs 2028 karşılaştırması */}
+      <section className="bg-gray-50 border-y border-gray-200 py-10 md:py-14">
+        <div className="site-container">
+          <SectionHeader
+            icon={History}
+            tone="gray"
+            kicker="Bir önceki seçim · 2023"
+            title="Geçen seçimde ne olmuştu?"
+            meta="2023 ve 2028 sonuçlarını yan yana koyarak hangi adayın yükseldiğini, hangi illerin el değiştirdiğini ve katılımın nasıl değiştiğini gösteriyoruz."
+            cta={{ to: "/sonuclar", label: "Tüm il karşılaştırması" }}
+          />
+          <ElectionCompare />
+        </div>
+      </section>
+
       {/* Harita */}
       <section className="bg-gray-50 border-y border-gray-200 py-10 md:py-14">
+
         <div className="site-container">
           <SectionHeader
             icon={Map}
