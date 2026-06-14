@@ -10,9 +10,9 @@
  */
 
 @theme inline {
-  --font-display: "Fraunces", Georgia, "Times New Roman", serif;
-  --font-serif: "Fraunces", Georgia, serif;
-  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Inter Tight", "Inter", system-ui, -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-serif: "Inter Tight", "Inter", system-ui, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
 
   --radius-sm: 4px;
