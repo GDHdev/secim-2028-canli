@@ -212,12 +212,12 @@ export function TurkeyMap({
                         style={{
                           fontFamily: "Inter, system-ui, sans-serif",
                           fontSize: isSmall ? 6 : 9,
-                          fontWeight: 600,
+                          fontWeight: 700,
                           letterSpacing: "0.01em",
-                          fill: "#FFFFFF",
+                          fill: "#0A0E14",
                           paintOrder: "stroke",
-                          stroke: "rgba(16,24,40,0.45)",
-                          strokeWidth: 0.7,
+                          stroke: "rgba(255,255,255,0.85)",
+                          strokeWidth: 1.6,
                         }}
                       >
                         {province.name}

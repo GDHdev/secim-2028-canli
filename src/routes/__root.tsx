@@ -8,16 +8,16 @@ function NotFoundComponent() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-background px-4">
       <div className="max-w-md text-center">
-        <h1 className="font-display text-9xl tracking-wider text-primary">404</h1>
-        <h2 className="mt-2 font-display text-2xl tracking-wider text-foreground">SAYFA BULUNAMADI</h2>
-        <p className="mt-2 text-sm text-muted-foreground">
+        <h1 className="font-display text-7xl tracking-tight text-brand-600">404</h1>
+        <h2 className="mt-3 text-2xl font-semibold text-gray-900">Sayfa bulunamadı</h2>
+        <p className="mt-2 text-base text-gray-500">
           Aradığınız sayfa mevcut değil veya taşınmış.
         </p>
         <Link
           to="/"
-          className="mt-6 inline-flex items-center justify-center rounded-sm bg-primary px-4 py-2 font-display text-sm tracking-wider text-primary-foreground transition-colors hover:bg-primary/90"
+          className="mt-6 inline-flex items-center justify-center rounded-lg bg-brand-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
         >
-          ANA SAYFAYA DÖN
+          Ana sayfaya dön
         </Link>
       </div>
     </div>
@@ -29,43 +29,34 @@ export const Route = createRootRoute({
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Seçim 2028 Sonuçları | Canlı Takip" },
-      { name: "description", content: "2028 Türkiye Cumhurbaşkanlığı ve Milletvekili Seçimleri canlı sonuçları, harita, anketler ve analizler." },
-      { name: "author", content: "Seçim2028" },
+      { title: "Seçim 2028 — Canlı Sonuçlar" },
+      { name: "description", content: "Türkiye 2028 Cumhurbaşkanlığı ve Milletvekili seçimleri canlı sonuçları, harita, meclis dağılımı ve haberler." },
+      { name: "author", content: "Seçim 2028" },
       { property: "og:type", content: "website" },
       { property: "og:site_name", content: "Seçim 2028" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "theme-color", content: "#0A0E1A" },
-      { property: "og:title", content: "Seçim 2028 Sonuçları | Canlı Takip" },
-      { name: "twitter:title", content: "Seçim 2028 Sonuçları | Canlı Takip" },
-      { property: "og:description", content: "2028 Türkiye Cumhurbaşkanlığı ve Milletvekili Seçimleri canlı sonuçları, harita, anketler ve analizler." },
-      { name: "twitter:description", content: "2028 Türkiye Cumhurbaşkanlığı ve Milletvekili Seçimleri canlı sonuçları, harita, anketler ve analizler." },
-      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/74e39b60-9853-4131-8d3a-74d9cd727b83/id-preview-768f05d0--eecdf373-7747-4ace-b267-096e238f25ce.lovable.app-1776511983641.png" },
-      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/74e39b60-9853-4131-8d3a-74d9cd727b83/id-preview-768f05d0--eecdf373-7747-4ace-b267-096e238f25ce.lovable.app-1776511983641.png" },
+      { name: "theme-color", content: "#FFFFFF" },
+      { property: "og:title", content: "Seçim 2028 — Canlı Sonuçlar" },
+      { name: "twitter:title", content: "Seçim 2028 — Canlı Sonuçlar" },
+      { property: "og:description", content: "Cumhurbaşkanlığı yarışı, 600 sandalye, 81 il sonuçları." },
+      { name: "twitter:description", content: "Cumhurbaşkanlığı yarışı, 600 sandalye, 81 il sonuçları." },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "icon", href: "/favicon.ico" },
+      { rel: "preconnect", href: "https://fonts.googleapis.com" },
+      { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
+      { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" },
     ],
     scripts: [
       {
         type: "application/ld+json",
         children: JSON.stringify({
           "@context": "https://schema.org",
-          "@graph": [
-            {
-              "@type": "WebSite",
-              name: "Seçim 2028",
-              url: "https://secim2028.example",
-              inLanguage: "tr-TR",
-            },
-            {
-              "@type": "NewsMediaOrganization",
-              name: "Seçim 2028",
-              url: "https://secim2028.example",
-              logo: "https://secim2028.example/logo.png",
-            },
-          ],
+          "@type": "WebSite",
+          name: "Seçim 2028",
+          url: "https://secim2028.example",
+          inLanguage: "tr-TR",
         }),
       },
     ],
@@ -77,7 +68,7 @@ export const Route = createRootRoute({
 
 function RootShell({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="tr" className="dark">
+    <html lang="tr">
       <head>
         <HeadContent />
       </head>

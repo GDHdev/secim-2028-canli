@@ -79,7 +79,7 @@ export function SecondRoundGauge() {
           <circle cx={cx} cy={cy} r="3" fill="var(--color-background)" />
         </svg>
 
-        <span className="-mt-2 font-display text-7xl leading-none text-accent">%{display}</span>
+        <span className="-mt-2 font-display text-7xl leading-none text-brand-600">%{display}</span>
         <p className="mt-1 text-center text-[11px] text-muted-foreground">
           ihtimalle ikinci tura gidiliyor
         </p>
@@ -109,7 +109,7 @@ export function SecondRoundGauge() {
 
             <Link
               to="/tur2"
-              className="mt-4 inline-flex w-full items-center justify-center gap-2 border border-accent bg-accent px-4 py-2.5 font-mono text-[11px] font-bold uppercase tracking-[0.18em] text-accent-foreground transition-colors hover:bg-accent/85"
+              className="mt-4 inline-flex w-full items-center justify-center gap-2 rounded-lg bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-brand-700"
             >
               Simülatörü Aç →
             </Link>
@@ -126,7 +126,7 @@ function ProgressArc({ cx, cy, r, value }: { cx: number; cy: number; r: number; 
   return (
     <motion.path
       d={`M ${cx - r} ${cy} A ${r} ${r} 0 0 1 ${cx + r} ${cy}`}
-      stroke="var(--color-accent)"
+      stroke="var(--color-brand-600)"
       strokeWidth="16"
       fill="none"
       strokeLinecap="butt"
