@@ -9,6 +9,9 @@ import { MicroNews } from "@/components/MicroNews";
 import { RegionStrip } from "@/components/RegionStrip";
 import { SwingProvinces } from "@/components/SwingProvinces";
 import { AISummary } from "@/components/AISummary";
+import { CommandHero } from "@/components/CommandHero";
+import { Reveal, RevealItem } from "@/components/Reveal";
+import { ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -22,23 +25,41 @@ export const Route = createFileRoute("/")({
   component: Index,
 });
 
-function SectionHeader({ kicker, title, meta }: { kicker?: React.ReactNode; title: string; meta?: React.ReactNode }) {
+function SectionHeader({
+  kicker,
+  title,
+  meta,
+  cta,
+}: {
+  kicker?: React.ReactNode;
+  title: string;
+  meta?: React.ReactNode;
+  cta?: { to: string; label: string };
+}) {
   return (
     <div className="mb-6 flex flex-col gap-3 md:mb-7 md:flex-row md:items-end md:justify-between">
       <div className="min-w-0">
         {kicker && (
-          <div className="mb-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-brand-700">
+          <div className="mb-1.5 inline-flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-[0.16em] text-brand-700">
+            <span className="h-1 w-1 rounded-full bg-brand-600" />
             {kicker}
           </div>
         )}
-        <h2 className="text-2xl font-semibold tracking-tight text-gray-900 md:text-3xl">
+        <h2 className="text-2xl font-semibold tracking-tight text-gray-900 md:text-[28px]">
           {title}
         </h2>
+        {meta && (
+          <div className="mt-1 text-sm text-gray-500">{meta}</div>
+        )}
       </div>
-      {meta && (
-        <div className="shrink-0 text-sm text-gray-500">
-          {meta}
-        </div>
+      {cta && (
+        <Link
+          to={cta.to}
+          className="group inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm font-semibold text-gray-700 shadow-xs transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 md:self-end"
+        >
+          {cta.label}
+          <ArrowRight size={14} className="transition-transform group-hover:translate-x-0.5" />
+        </Link>
       )}
     </div>
   );
@@ -47,88 +68,118 @@ function SectionHeader({ kicker, title, meta }: { kicker?: React.ReactNode; titl
 function Index() {
   return (
     <div className="bg-background">
-      {/* AI SUMMARY — Son 10 dk'nın özeti, şeffaf etiket */}
+      {/* 1 — AI ÖZET şeridi (özet & son durum) */}
       <AISummary />
 
-      {/* PRESIDENTIAL + GAUGE */}
-      <section className="site-container py-9">
-        <SectionHeader
-          kicker="Cumhurbaşkanlığı Seçimi"
-          title="Adaylar Arası Yarış"
-          meta={<>Sayım %74.6 · Önde: Yılmaz</>}
-        />
+      {/* 2 — KOMUTA HERO (lider + sinyaller + sayım) */}
+      <CommandHero />
+
+      {/* 3 — CUMHURBAŞKANLIĞI YARIŞI + 2.TUR PROJEKSİYONU */}
+      <Reveal as="section" className="site-container py-10 md:py-12">
+        <RevealItem>
+          <SectionHeader
+            kicker="Cumhurbaşkanlığı · 1. Tur"
+            title="Adaylar arası yarış"
+            meta="Sıralama her 2.2 sn yenilenir · sandık verisi ile"
+          />
+        </RevealItem>
         <div className="grid grid-cols-1 gap-5 lg:grid-cols-[1fr_360px]">
-          <PresidentRace />
-          <SecondRoundGauge />
+          <RevealItem><PresidentRace /></RevealItem>
+          <RevealItem><SecondRoundGauge /></RevealItem>
         </div>
-      </section>
+      </Reveal>
 
-      {/* REGION STRIP — 7 bölge anlık */}
-      <RegionStrip />
+      {/* 4 — BÖLGE RIBBONU (7 bölge anlık liderler) */}
+      <Reveal>
+        <RegionStrip />
+      </Reveal>
 
-      {/* MAP — full bleed */}
-      <section className="site-container pt-9 pb-3">
-        <SectionHeader
-          kicker="81 İl · Anlık Liderler"
-          title="Türkiye Haritası"
-          meta={<Link to="/harita" className="text-primary hover:underline">Detaylı harita →</Link>}
-        />
-      </section>
-      <section>
-        <TurkeyMap className="h-[640px] border-y border-border bg-card" />
-      </section>
+      {/* 5 — TÜRKİYE HARİTASI */}
+      <Reveal as="section" className="site-container pt-10 pb-4 md:pt-12">
+        <RevealItem>
+          <SectionHeader
+            kicker="81 İl · Coğrafi Dağılım"
+            title="Türkiye haritası"
+            meta="İl üzerine gelin · lider parti, fark ve sayım yüzdesi"
+            cta={{ to: "/harita", label: "Detaylı harita" }}
+          />
+        </RevealItem>
+      </Reveal>
+      <Reveal>
+        <RevealItem>
+          <section>
+            <TurkeyMap className="h-[640px] border-y border-gray-200 bg-card" />
+          </section>
+        </RevealItem>
+      </Reveal>
 
-      {/* PARLIAMENT */}
-      <section className="site-container py-9">
-        <SectionHeader
-          kicker="Milletvekili Seçimi"
-          title="Meclis Dağılımı"
-          meta={<>600 Sandalye · 7 Parti · <Link to="/milletvekili" className="text-primary hover:underline">Detay →</Link></>}
-        />
-        <Parliament />
-      </section>
-
-      {/* SWING PROVINCES + LIVE */}
-      <section className="site-container border-t border-border bg-surface-1 py-9">
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
+      {/* 6 — MECLİS + CANLI AKIŞ (yan yana) */}
+      <Reveal as="section" className="site-container py-10 md:py-12">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_360px]">
           <div>
-            <SectionHeader
-              kicker="Değişim"
-              title="En Çok Salınan İller"
-              meta={<>2023 → 2028</>}
-            />
-            <SwingProvinces />
+            <RevealItem>
+              <SectionHeader
+                kicker="Milletvekili · 600 Sandalye"
+                title="Meclis dağılımı"
+                meta="7 parti · koalisyon eşiği 301"
+                cta={{ to: "/milletvekili", label: "Tüm sandalyeler" }}
+              />
+            </RevealItem>
+            <RevealItem><Parliament /></RevealItem>
           </div>
           <div>
-            <SectionHeader
-              kicker={<><span className="live-pulse mr-1.5 inline-block h-1.5 w-1.5 rounded-full bg-primary align-middle" />Canlı</>}
-              title="Akış"
-              meta="Son dakika"
-            />
-            <LiveFeed />
+            <RevealItem>
+              <SectionHeader
+                kicker={<><span className="live-pulse mr-1 inline-block h-1.5 w-1.5 rounded-full bg-error-500 align-middle" />Canlı</>}
+                title="Akış"
+                meta="Son dakika gelişmeleri"
+              />
+            </RevealItem>
+            <RevealItem><LiveFeed /></RevealItem>
           </div>
         </div>
-      </section>
+      </Reveal>
 
-      {/* STATS */}
-      <section className="site-container border-t border-border py-9">
-        <SectionHeader
-          kicker="Veri"
-          title="İstatistikler"
-          meta="Veri özeti"
-        />
-        <StatsGrid />
-      </section>
+      {/* 7 — SWING İLLER + İSTATİSTİKLER (gri zemin, analitik blok) */}
+      <Reveal as="section" className="border-y border-gray-200 bg-gray-50">
+        <div className="site-container py-10 md:py-12">
+          <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1.1fr_1fr]">
+            <div>
+              <RevealItem>
+                <SectionHeader
+                  kicker="Değişim"
+                  title="En çok salınan iller"
+                  meta="2023 → 2028 · oy farkı analizi"
+                />
+              </RevealItem>
+              <RevealItem><SwingProvinces /></RevealItem>
+            </div>
+            <div>
+              <RevealItem>
+                <SectionHeader
+                  kicker="Veri"
+                  title="İstatistikler"
+                  meta="Sandık, katılım ve kesinleşen sonuçlar"
+                />
+              </RevealItem>
+              <RevealItem><StatsGrid /></RevealItem>
+            </div>
+          </div>
+        </div>
+      </Reveal>
 
-      {/* NEWS */}
-      <section className="site-container py-9">
-        <SectionHeader
-          kicker="Gündem"
-          title="Son Haberler"
-          meta={<Link to="/haberler" className="text-primary hover:underline">Tüm haberler →</Link>}
-        />
-        <MicroNews limit={6} />
-      </section>
+      {/* 8 — SON HABERLER */}
+      <Reveal as="section" className="site-container py-10 md:py-12">
+        <RevealItem>
+          <SectionHeader
+            kicker="Gündem"
+            title="Son haberler"
+            meta="Editöryel akış · son 24 saat"
+            cta={{ to: "/haberler", label: "Tüm haberler" }}
+          />
+        </RevealItem>
+        <RevealItem><MicroNews limit={6} /></RevealItem>
+      </Reveal>
     </div>
   );
 }
