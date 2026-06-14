@@ -1,8 +1,9 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Search, Menu, X, ChevronDown } from "lucide-react";
+import { Search, Menu, X, ChevronDown, ArrowUpRight, ArrowDownRight } from "lucide-react";
 import gdhLogo from "@/assets/gdh-logo.svg";
 import { GlobalSearch } from "./GlobalSearch";
+import { CANDIDATES, COUNT_PERCENT, SECOND_ROUND_PROBABILITY } from "@/lib/mock-data";
 
 type NavItem =
   | { to: string; label: string }
