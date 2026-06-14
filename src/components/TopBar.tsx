@@ -1,9 +1,8 @@
 import { Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
-import { Search, Menu, X, ChevronDown, ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { Search, Menu, X, ChevronDown, Sparkles } from "lucide-react";
 import gdhLogo from "@/assets/gdh-logo.svg";
 import { GlobalSearch } from "./GlobalSearch";
-import { CANDIDATES, COUNT_PERCENT, SECOND_ROUND_PROBABILITY } from "@/lib/mock-data";
 
 type NavItem =
   | { to: string; label: string }
@@ -34,35 +33,42 @@ export function TopBar() {
 
   useEffect(() => {
     setNow(new Date());
-    const t = setInterval(() => setNow(new Date()), 1000);
+    const t = setInterval(() => setNow(new Date()), 30_000);
     return () => clearInterval(t);
   }, []);
 
-  const leader = CANDIDATES[0];
-  const second = CANDIDATES[1];
-  const gap = (leader.percent - second.percent).toFixed(1);
-  const time = now
-    ? now.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
-    : "--:--:--";
   const dateStr = now
     ? now.toLocaleDateString("tr-TR", { day: "2-digit", month: "short" })
     : "--";
 
   return (
     <>
-      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white">
-        <div className="site-container flex h-[60px] items-center gap-6">
-          {/* Brand */}
+      {/* Slim announcement bar */}
+      <div className="border-b border-gray-200 bg-gray-50">
+        <div className="site-container flex h-9 items-center justify-between text-[12.5px] text-gray-600">
+          <div className="flex items-center gap-2">
+            <span className="inline-flex h-1.5 w-1.5 rounded-full bg-red-500 live-pulse" />
+            <span className="font-semibold text-gray-900">Canlı sayım sürüyor</span>
+            <span className="hidden sm:inline text-gray-500">· 14 Mart 2028 · {dateStr}</span>
+          </div>
+          <div className="hidden items-center gap-4 sm:flex">
+            <Link to="/anketler" className="hover:text-gray-900">Anketler</Link>
+            <Link to="/haberler" className="hover:text-gray-900">Haberler</Link>
+          </div>
+        </div>
+      </div>
+
+      <header className="sticky top-0 z-50 border-b border-gray-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
+        <div className="site-container flex h-[72px] items-center gap-6">
           <Link to="/" className="flex shrink-0 items-center gap-3" aria-label="Seçim 2028 anasayfa">
-            <img src={gdhLogo} alt="" className="h-7 w-auto" />
+            <img src={gdhLogo} alt="" className="h-8 w-auto" />
             <div className="hidden items-baseline gap-2 sm:flex">
-              <span className="font-display text-lg font-extrabold tracking-tight text-gray-900">SEÇİM</span>
-              <span className="font-mono text-sm font-semibold text-brand-600">2028</span>
+              <span className="font-display text-[20px] font-bold tracking-tight text-gray-900">Seçim</span>
+              <span className="rounded-md px-1.5 py-0.5 font-mono text-[14px] font-bold text-white" style={{ background: "var(--color-brand-600)" }}>2028</span>
             </div>
           </Link>
 
-          {/* Primary nav — desktop */}
-          <nav className="ml-2 hidden items-center gap-0.5 lg:flex" aria-label="Ana menü">
+          <nav className="ml-2 hidden items-center gap-1 lg:flex" aria-label="Ana menü">
             {NAV.map((n) =>
               "children" in n ? (
                 <NavDropdown key={n.label} item={n} />
@@ -70,10 +76,10 @@ export function TopBar() {
                 <Link
                   key={n.to}
                   to={n.to}
-                  activeProps={{ className: "text-gray-900 after:scale-x-100" }}
-                  inactiveProps={{ className: "text-gray-600 hover:text-gray-900 after:scale-x-0" }}
+                  activeProps={{ className: "text-gray-900 bg-gray-100" }}
+                  inactiveProps={{ className: "text-gray-700 hover:text-gray-900 hover:bg-gray-50" }}
                   activeOptions={n.to === "/" ? { exact: true } : undefined}
-                  className="relative px-3 py-2 text-[13.5px] font-semibold uppercase tracking-wide transition-colors after:absolute after:bottom-0 after:left-3 after:right-3 after:h-[2px] after:origin-left after:bg-brand-600 after:transition-transform"
+                  className="rounded-lg px-3.5 py-2 text-[15px] font-semibold transition-colors"
                 >
                   {n.label}
                 </Link>
@@ -81,52 +87,48 @@ export function TopBar() {
             )}
           </nav>
 
-          {/* Right: search + live indicator */}
-          <div className="ml-auto flex shrink-0 items-center gap-2 md:gap-3">
+          <div className="ml-auto flex shrink-0 items-center gap-2.5">
             <button
               type="button"
               onClick={() => setSearchOpen(true)}
-              className="flex items-center gap-2.5 rounded-sm border border-gray-300 bg-white px-3 py-1.5 text-[13px] text-gray-500 transition-colors hover:border-gray-900 hover:text-gray-900 md:min-w-[260px]"
+              className="hidden items-center gap-2.5 rounded-lg border border-gray-300 bg-white px-3.5 py-2 text-[14px] text-gray-500 transition-colors hover:border-gray-400 hover:text-gray-900 md:flex md:min-w-[260px]"
               aria-label="Ara"
             >
-              <Search size={14} />
-              <span className="hidden font-mono md:inline">İL · ADAY · PARTİ…</span>
-              <span className="md:hidden">Ara</span>
-              <kbd className="ml-auto hidden rounded-sm border border-gray-300 bg-gray-50 px-1.5 py-px font-mono text-[10px] text-gray-500 md:inline">⌘K</kbd>
+              <Search size={16} />
+              <span>İl, aday, parti…</span>
+              <kbd className="ml-auto rounded border border-gray-200 bg-gray-50 px-1.5 py-px font-mono text-[11px] text-gray-500">⌘K</kbd>
+            </button>
+            <button
+              type="button"
+              onClick={() => setSearchOpen(true)}
+              className="rounded-lg border border-gray-300 bg-white p-2.5 text-gray-700 md:hidden"
+              aria-label="Ara"
+            >
+              <Search size={18} />
+            </button>
+
+            <button
+              type="button"
+              onClick={() => document.dispatchEvent(new CustomEvent("open-ai-assistant"))}
+              className="hidden items-center gap-2 rounded-lg px-3.5 py-2 text-[14px] font-semibold text-white shadow-xs transition-colors md:inline-flex"
+              style={{ background: "var(--color-violet-600)" }}
+            >
+              <Sparkles size={15} />
+              AI Asistan
             </button>
 
             <button
               type="button"
               onClick={() => setMobileOpen(true)}
-              className="rounded-sm border border-gray-300 bg-white p-2 text-gray-700 lg:hidden"
+              className="rounded-lg border border-gray-300 bg-white p-2.5 text-gray-700 lg:hidden"
               aria-label="Menüyü aç"
             >
-              <Menu size={20} />
+              <Menu size={18} />
             </button>
-          </div>
-        </div>
-
-        {/* Bloomberg-style data sub-strip */}
-        <div className="term-strip overflow-x-auto">
-          <div className="site-container flex items-stretch text-[12px]">
-            <div className="col !pl-0">
-              <span className="term-tag term-tag-live">
-                <span className="live-pulse h-1.5 w-1.5 rounded-full bg-white" /> CANLI
-              </span>
-              <span className="term-label term-label-light">{dateStr} · {time}</span>
-            </div>
-            <DataCol label="SAYIM" value={`${COUNT_PERCENT.toFixed(1)}%`} delta="+0.3" up />
-            <DataCol label="KATILIM" value="86.2%" delta="+0.8 pt" up />
-            <DataCol label={`ÖNDE · ${leader.name.split(" ").slice(-1)[0].toUpperCase()}`} value={`${leader.percent.toFixed(1)}%`} color={leader.color} />
-            <DataCol label="FARK" value={`+${gap} pt`} amber />
-            <DataCol label="2.TUR" value={`${SECOND_ROUND_PROBABILITY}%`} amber />
-            <DataCol label="BARAJ AŞAN" value="7" />
           </div>
         </div>
       </header>
 
-
-      {/* Mobile sheet */}
       {mobileOpen && (
         <div className="fixed inset-0 z-[90] lg:hidden">
           <button
@@ -137,7 +139,7 @@ export function TopBar() {
           />
           <div className="absolute inset-y-0 right-0 w-[88%] max-w-sm overflow-y-auto bg-white shadow-xl">
             <div className="flex h-[72px] items-center justify-between border-b border-gray-200 px-5">
-              <span className="font-display text-xl font-semibold text-gray-900">Menü</span>
+              <span className="font-display text-xl font-bold text-gray-900">Menü</span>
               <button
                 type="button"
                 onClick={() => setMobileOpen(false)}
@@ -151,7 +153,7 @@ export function TopBar() {
               {NAV.flatMap((n) =>
                 "children" in n
                   ? [
-                      <div key={n.label} className="mt-3 px-3 pb-1 text-[11px] font-bold uppercase tracking-wider text-gray-500">
+                      <div key={n.label} className="mt-3 px-3 pb-1 text-[12px] font-bold uppercase tracking-wider text-gray-500">
                         {n.label}
                       </div>,
                       ...n.children.map((c) => (
@@ -207,7 +209,7 @@ function NavDropdown({
       <button
         type="button"
         onClick={() => setOpen((v) => !v)}
-        className="inline-flex items-center gap-1 rounded-lg px-3.5 py-2 text-[15px] font-semibold text-gray-700 transition-colors hover:bg-gray-100 hover:text-gray-900"
+        className="inline-flex items-center gap-1 rounded-lg px-3.5 py-2 text-[15px] font-semibold text-gray-700 transition-colors hover:bg-gray-50 hover:text-gray-900"
         aria-expanded={open}
         aria-haspopup="true"
       >
@@ -215,8 +217,8 @@ function NavDropdown({
         <ChevronDown size={14} className={`transition-transform ${open ? "rotate-180" : ""}`} />
       </button>
       {open && (
-        <div className="absolute left-0 top-full z-30 min-w-[260px] pt-2">
-          <div className="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-lg">
+        <div className="absolute left-0 top-full z-30 min-w-[280px] pt-2">
+          <div className="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-lg">
             {item.children.map((c) => (
               <Link
                 key={c.to}
@@ -224,56 +226,12 @@ function NavDropdown({
                 onClick={() => setOpen(false)}
                 className="flex flex-col gap-0.5 border-b border-gray-100 px-4 py-3 transition-colors last:border-0 hover:bg-gray-50"
               >
-                <span className="text-sm font-semibold text-gray-900">{c.label}</span>
-                {c.hint && <span className="text-xs text-gray-500">{c.hint}</span>}
+                <span className="text-[15px] font-semibold text-gray-900">{c.label}</span>
+                {c.hint && <span className="text-[13px] text-gray-500">{c.hint}</span>}
               </Link>
             ))}
           </div>
         </div>
-      )}
-    </div>
-  );
-}
-
-function DataCol({
-  label,
-  value,
-  delta,
-  up,
-  down,
-  amber,
-  color,
-}: {
-  label: string;
-  value: string;
-  delta?: string;
-  up?: boolean;
-  down?: boolean;
-  amber?: boolean;
-  color?: string;
-}) {
-  const valueClass = amber
-    ? "term-amber"
-    : up
-    ? "term-up"
-    : down
-    ? "term-down"
-    : "text-white";
-  return (
-    <div className="col">
-      <span className="term-label term-label-light">{label}</span>
-      <span
-        className={`term-num text-[13px] font-semibold ${color ? "" : valueClass}`}
-        style={color ? { color } : undefined}
-      >
-        {value}
-      </span>
-      {delta && (
-        <span className={`term-num text-[11px] ${up ? "term-up" : down ? "term-down" : "text-white/60"} inline-flex items-center gap-0.5`}>
-          {up && <ArrowUpRight size={10} />}
-          {down && <ArrowDownRight size={10} />}
-          {delta}
-        </span>
       )}
     </div>
   );

@@ -3,6 +3,7 @@ import { Outlet, Link, createRootRoute, HeadContent, Scripts } from "@tanstack/r
 import appCss from "../styles.css?url";
 import { TopBar } from "@/components/TopBar";
 import { Footer } from "@/components/Footer";
+import { AIAssistant } from "@/components/AIAssistant";
 
 function NotFoundComponent() {
   return (
@@ -88,6 +89,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <Footer />
+      <AIAssistant />
     </div>
   );
 }
