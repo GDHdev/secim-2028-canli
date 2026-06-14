@@ -1,5 +1,4 @@
 import { Link } from "@tanstack/react-router";
-import { Shield, GitBranch, Mail } from "lucide-react";
 import gdhLogo from "@/assets/gdh-logo.svg";
 
 const SECTIONS = [
@@ -35,7 +34,7 @@ export function Footer() {
   return (
     <footer className="mt-16 border-t border-gray-200 bg-white">
       <div className="site-container">
-        <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-[1.6fr_1fr_1fr_1fr]">
+        <div className="grid grid-cols-1 gap-10 py-12 md:grid-cols-[1.8fr_1fr_1fr_1fr]">
           <div>
             <div className="flex items-center gap-3">
               <img src={gdhLogo} alt="" className="h-9 w-auto" />
@@ -71,28 +70,6 @@ export function Footer() {
               </ul>
             </div>
           ))}
-
-          <div>
-            <h3 className="text-[11px] font-bold uppercase tracking-[0.14em] text-gray-500">
-              Şeffaflık
-            </h3>
-            <ul className="mt-4 space-y-3 text-[14px] text-gray-600">
-              <li className="flex items-start gap-2">
-                <Shield size={14} className="mt-0.5 shrink-0 text-gray-500" />
-                <span>YSK resmi verisi — sandık doğrulama</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <GitBranch size={14} className="mt-0.5 shrink-0 text-gray-500" />
-                <span>Otomatik özetler model çıktısı olarak işaretlenir</span>
-              </li>
-              <li className="flex items-start gap-2">
-                <Mail size={14} className="mt-0.5 shrink-0 text-gray-500" />
-                <a href="mailto:iletisim@gdh.com.tr" className="hover:text-brand-600">
-                  iletisim@gdh.com.tr
-                </a>
-              </li>
-            </ul>
-          </div>
         </div>
 
         <div className="flex flex-col gap-2 border-t border-gray-200 py-5 text-[12px] text-gray-500 md:flex-row md:items-center md:justify-between">
