@@ -76,12 +76,9 @@ function Index() {
         <SectionHeader
           kicker="81 İl · Coğrafi dağılım"
           title="Türkiye haritası"
-          meta="İlin üzerine gelin · lider parti, fark ve sayım yüzdesi"
+          meta="(geçici olarak devre dışı)"
           cta={{ to: "/harita", label: "Detaylı harita" }}
         />
-      </section>
-      <section>
-        <TurkeyMap className="h-[640px] border-y border-gray-200 bg-gray-50" />
       </section>
 
       <section className="site-container py-12 md:py-16">
