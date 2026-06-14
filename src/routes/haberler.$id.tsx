@@ -21,10 +21,10 @@ export const Route = createFileRoute("/haberler/$id")({
   }),
   component: NewsArticle,
   notFoundComponent: () => (
-    <div className="site-container py-12 text-center">
-      <h1 className="display-xl text-foreground">HABER BULUNAMADI</h1>
-      <Link to="/haberler" className="mt-4 inline-block font-mono text-sm text-accent hover:underline">
-        ← Tüm haberler
+    <div className="site-container py-16 text-center">
+      <h1 className="uui-sec-title">Haber bulunamadı</h1>
+      <Link to="/haberler" className="mt-6 inline-flex uui-btn uui-btn-secondary">
+        <ArrowLeft size={16} /> Tüm haberler
       </Link>
     </div>
   ),
@@ -34,37 +34,38 @@ function NewsArticle() {
   const { item } = Route.useLoaderData();
   return (
     <article className="bg-background">
-      {/* Article header */}
-      <header className="site-container border-b border-border pt-8 pb-10">
-        <div className="mx-auto max-w-4xl">
-          <Link to="/haberler" className="inline-flex items-center gap-1.5 font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-foreground">
-            <ArrowLeft size={12} /> Tüm haberler
-          </Link>
+      <header className="border-b border-gray-200 bg-white">
+        <div className="site-container py-8 md:py-10">
+          <div className="mx-auto max-w-3xl">
+            <Link
+              to="/haberler"
+              className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-gray-500 transition-colors hover:text-gray-900"
+            >
+              <ArrowLeft size={14} /> Tüm haberler
+            </Link>
 
-          <div className="mt-6 flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em]">
-            <span className="bg-primary px-2 py-0.5 font-bold text-primary-foreground">{item.category}</span>
-            <span className="text-muted-foreground">{item.source}</span>
-            <span className="text-muted-foreground">·</span>
-            <span className="text-muted-foreground">{item.time}</span>
+            <div className="mt-5 flex flex-wrap items-center gap-2">
+              <span className="uui-badge uui-badge-brand">{item.category}</span>
+              <span className="text-[13px] text-gray-500">{item.source} · {item.time}</span>
+            </div>
+
+            <h1 className="font-display mt-4 text-balance text-[32px] font-bold leading-[1.1] tracking-tight text-gray-900 md:text-[44px] lg:text-[52px]">
+              {item.title}
+            </h1>
           </div>
-
-          <h1 className="font-serif mt-5 text-balance text-4xl font-bold leading-[1.05] text-foreground md:text-5xl lg:text-6xl">
-            {item.title}
-          </h1>
         </div>
       </header>
 
-      {/* Body */}
       <section className="site-container py-10">
-        <div className="mx-auto max-w-3xl space-y-5 font-serif text-lg leading-relaxed text-foreground/90">
+        <div className="mx-auto max-w-3xl space-y-4 text-[17px] leading-relaxed text-gray-700">
           {item.body.split(". ").filter(Boolean).map((p: string, i: number) => (
             <p key={i}>{p.trim()}{p.endsWith(".") ? "" : "."}</p>
           ))}
         </div>
 
-        <div className="mx-auto mt-12 max-w-3xl border-t border-border pt-6">
-          <Link to="/haberler" className="font-mono text-[11px] font-bold uppercase tracking-[0.16em] text-accent hover:underline">
-            ← Tüm haberlere dön
+        <div className="mx-auto mt-10 max-w-3xl border-t border-gray-200 pt-6">
+          <Link to="/haberler" className="uui-btn uui-btn-secondary">
+            <ArrowLeft size={16} /> Tüm haberlere dön
           </Link>
         </div>
       </section>
