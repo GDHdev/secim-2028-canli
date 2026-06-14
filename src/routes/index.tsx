@@ -1,11 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
+import { NewsroomHero } from "@/components/NewsroomHero";
 import { PresidentRace } from "@/components/PresidentRace";
 import { SecondRoundGauge } from "@/components/SecondRoundGauge";
 import { Parliament } from "@/components/Parliament";
 import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { MicroNews } from "@/components/MicroNews";
-import { AISummary } from "@/components/AISummary";
 import { ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -58,7 +58,9 @@ function SectionHeader({
 function Index() {
   return (
     <div className="bg-background">
-      <AISummary />
+      <NewsroomHero />
+
+
 
       <section className="site-container py-10 md:py-14">
         <SectionHeader
