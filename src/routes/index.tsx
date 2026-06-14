@@ -72,45 +72,9 @@ function Index() {
         </div>
       </section>
 
-      <section className="site-container pb-4">
-        <SectionHeader
-          kicker="81 İl · Coğrafi dağılım"
-          title="Türkiye haritası"
-          meta="(geçici olarak devre dışı)"
-          cta={{ to: "/harita", label: "Detaylı harita" }}
-        />
-      </section>
-
-      <section className="site-container py-12 md:py-16">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px]">
-          <div>
-            <SectionHeader
-              kicker="Milletvekili · 600 sandalye"
-              title="Meclis dağılımı"
-              meta="7 parti · koalisyon eşiği 301 sandalye"
-              cta={{ to: "/milletvekili", label: "Tüm sandalyeler" }}
-            />
-            <Parliament />
-          </div>
-          <div>
-            <SectionHeader
-              kicker="Canlı"
-              title="Akış"
-              meta="Son dakika gelişmeleri"
-            />
-            <LiveFeed />
-          </div>
-        </div>
-      </section>
-
-      <section className="site-container pb-16">
-        <SectionHeader
-          kicker="Gündem"
-          title="Son haberler"
-          meta="Editöryel akış · son 24 saat"
-          cta={{ to: "/haberler", label: "Tüm haberler" }}
-        />
-        <MicroNews limit={6} />
+      <section className="site-container py-10 border-t-4 border-red-500 bg-yellow-100">
+        <h2 className="text-3xl font-bold">TEST: Bu bölüm görünüyor mu?</h2>
+        <p>If you see this, sections below PresidentRace work.</p>
       </section>
     </div>
   );
