@@ -138,7 +138,9 @@ function CandidateRow({ candidate, place, max }: { candidate: Row; place: number
         {place}
       </div>
 
-      {isOther ? null : candidate.photo ? (
+      {isOther ? (
+        <div className="h-12 w-12 shrink-0" />
+      ) : candidate.photo ? (
         <img
           src={candidate.photo}
           alt={candidate.name}
