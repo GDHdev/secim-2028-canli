@@ -24,12 +24,22 @@ export const Route = createFileRoute("/")({
 
 function SectionHeader({ kicker, title, meta }: { kicker?: React.ReactNode; title: string; meta?: React.ReactNode }) {
   return (
-    <div className="mb-5 border-b border-foreground pb-2">
-      {kicker && <div className="eyebrow-accent mb-1">{kicker}</div>}
-      <div className="flex items-baseline justify-between gap-4">
-        <h2 className="display-lg text-foreground">{title}</h2>
-        {meta && <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground">{meta}</div>}
+    <div className="mb-6 flex flex-col gap-3 md:mb-7 md:flex-row md:items-end md:justify-between">
+      <div className="min-w-0">
+        {kicker && (
+          <div className="mb-1.5 text-xs font-semibold uppercase tracking-[0.14em] text-brand-700">
+            {kicker}
+          </div>
+        )}
+        <h2 className="text-2xl font-semibold tracking-tight text-gray-900 md:text-3xl">
+          {title}
+        </h2>
       </div>
+      {meta && (
+        <div className="shrink-0 text-sm text-gray-500">
+          {meta}
+        </div>
+      )}
     </div>
   );
 }
