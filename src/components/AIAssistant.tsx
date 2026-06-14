@@ -29,6 +29,12 @@ export function AIAssistant() {
     if (open) setTimeout(() => inputRef.current?.focus(), 150);
   }, [open]);
 
+  useEffect(() => {
+    const handler = () => setOpen(true);
+    document.addEventListener("open-ai-assistant", handler);
+    return () => document.removeEventListener("open-ai-assistant", handler);
+  }, []);
+
   const submit = async (text: string) => {
     const t = text.trim();
     if (!t || loading) return;
