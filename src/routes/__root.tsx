@@ -89,6 +89,7 @@ function RootComponent() {
         <Outlet />
       </main>
       <Footer />
+      <AIAssistant />
     </div>
   );
 }
