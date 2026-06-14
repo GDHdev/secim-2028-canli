@@ -204,7 +204,7 @@
 @layer utilities {
   .site-container {
     width: 100%;
-    max-width: 1440px; /* 1392px content + 24px padding x2 */
+    max-width: 1440px;
     margin-left: auto;
     margin-right: auto;
     padding-left: 24px;
@@ -216,6 +216,91 @@
     grid-template-columns: repeat(12, minmax(0, 1fr));
     column-gap: 24px;
     row-gap: 24px;
+  }
+
+  /* =====================================================================
+   * BLOOMBERG-TERMINAL TOKENS (hibrit tema — data sections dark)
+   * ===================================================================== */
+  .terminal-section { background: #0A0D12; color: #E6EAF0; }
+  .terminal-section .term-rule { border-color: #232A35; }
+
+  .term-label {
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 600;
+    letter-spacing: 0.18em; text-transform: uppercase;
+    color: #5E6775;
+  }
+  .term-label-light { color: #9BA4B2; }
+  .term-tag {
+    display: inline-flex; align-items: center; gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 10px; font-weight: 700; letter-spacing: 0.16em; text-transform: uppercase;
+    padding: 4px 8px;
+    border: 1px solid #2E3744;
+    border-radius: 2px;
+    color: #FFB000;
+    background: rgba(255,176,0,0.06);
+  }
+  .term-tag-mute { color: #9BA4B2; background: rgba(255,255,255,0.04); border-color: #232A35; }
+  .term-tag-live { color: #fff; background: var(--color-brand-600); border-color: var(--color-brand-600); }
+
+  .term-cell {
+    background: #11161D;
+    border: 1px solid #232A35;
+    border-radius: 2px;
+  }
+  .term-cell-flat { background: transparent; border: 1px solid #232A35; border-radius: 0; }
+
+  .term-num {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: "tnum" 1, "zero" 1;
+    letter-spacing: -0.02em;
+  }
+  .term-up   { color: #22C55E; }
+  .term-down { color: #EF4444; }
+  .term-amber{ color: #FFB000; }
+
+  .term-strip {
+    background: #0A0D12; color: #E6EAF0;
+    border-top: 1px solid #232A35;
+    border-bottom: 1px solid #232A35;
+  }
+  .term-strip .col {
+    border-right: 1px solid #232A35;
+    padding: 8px 16px;
+    display: flex; align-items: baseline; gap: 8px;
+    white-space: nowrap;
+  }
+  .term-strip .col:last-child { border-right: none; }
+
+  /* Section header (light, terminal-coded) */
+  .term-sec-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 600; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--color-gray-500);
+  }
+  .term-sec-label .idx {
+    color: var(--color-brand-600);
+    border: 1px solid var(--color-brand-600);
+    padding: 2px 6px;
+    border-radius: 2px;
+    font-size: 10px;
+    line-height: 1;
+  }
+  .term-sec-title {
+    font-family: var(--font-display);
+    font-size: clamp(1.75rem, 2.4vw, 2.375rem);
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    line-height: 1.08;
+    color: var(--color-gray-900);
+  }
+  .term-sec-rule {
+    height: 2px;
+    background: linear-gradient(to right, var(--color-gray-900) 0 64px, var(--color-gray-200) 64px 100%);
   }
 
   .font-display {
