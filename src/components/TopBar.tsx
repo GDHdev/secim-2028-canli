@@ -60,10 +60,6 @@ export function TopBar() {
             <span className="font-semibold text-gray-900">Canlı sayım sürüyor</span>
             <span className="hidden sm:inline text-gray-500">· 14 Mart 2028 · {dateStr}</span>
           </div>
-          <div className="hidden items-center gap-4 sm:flex">
-            <Link to="/rehber" className="hover:text-gray-900">Rehber</Link>
-            <Link to="/haberler" className="hover:text-gray-900">Haberler</Link>
-          </div>
         </div>
       </div>
 
