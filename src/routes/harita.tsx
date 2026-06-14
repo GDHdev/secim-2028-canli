@@ -1,8 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { TurkeyMap, ProvincePanelBody } from "@/components/TurkeyMap";
 import { PROVINCES, CANDIDATES } from "@/lib/mock-data";
-import { Map as MapIcon, MapPin } from "lucide-react";
+import { Map as MapIcon, X } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 
 export const Route = createFileRoute("/harita")({
