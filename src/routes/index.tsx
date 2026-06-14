@@ -105,28 +105,24 @@ function Index() {
 
       {/* Meclis + Akış */}
       <section className="site-container py-10 md:py-14">
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px]">
-          <div>
-            <SectionHeader
-              icon={Landmark}
-              tone="warning"
-              kicker="Milletvekili · 600 sandalye"
-              title="Meclis dağılımı"
-              meta="7 parti yarışıyor. Çoğunluk için 301 sandalye gerekiyor; koalisyon senaryoları açılır."
-              cta={{ to: "/milletvekili", label: "Tüm sandalyeler" }}
-            />
-            <Parliament />
-          </div>
-          <div>
-            <SectionHeader
-              icon={Radio}
-              tone="success"
-              kicker="Canlı akış"
-              title="Anlık gelişmeler"
-              meta="Editörlerin doğruladığı son dakika bildirimleri."
-            />
-            <LiveFeed />
-          </div>
+        <SectionHeader
+          icon={Landmark}
+          tone="warning"
+          kicker="Milletvekili · 600 sandalye"
+          title="Meclis dağılımı"
+          meta="7 parti yarışıyor. Çoğunluk için 301 sandalye gerekiyor; koalisyon senaryoları açılır."
+          cta={{ to: "/milletvekili", label: "Tüm sandalyeler" }}
+        />
+        <Parliament />
+        <div className="mt-10 md:mt-12">
+          <SectionHeader
+            icon={Radio}
+            tone="success"
+            kicker="Canlı akış"
+            title="Anlık gelişmeler"
+            meta="Editörlerin doğruladığı son dakika bildirimleri."
+          />
+          <LiveFeed />
         </div>
       </section>
 
