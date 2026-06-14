@@ -4,6 +4,7 @@ import appCss from "../styles.css?url";
 import { TopBar } from "@/components/TopBar";
 import { Footer } from "@/components/Footer";
 import { AIAssistant } from "@/components/AIAssistant";
+import { MobileLeaderBar } from "@/components/MobileLeaderBar";
 
 function NotFoundComponent() {
   return (
@@ -83,13 +84,14 @@ function RootShell({ children }: { children: React.ReactNode }) {
 
 function RootComponent() {
   return (
-    <div className="min-h-screen bg-background text-foreground">
+    <div className="min-h-screen bg-background pb-16 text-foreground md:pb-0">
       <TopBar />
       <main>
         <Outlet />
       </main>
       <Footer />
       <AIAssistant />
+      <MobileLeaderBar />
     </div>
   );
 }
