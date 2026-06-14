@@ -7,10 +7,15 @@ import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { MicroNews } from "@/components/MicroNews";
 import { ElectionCompare } from "@/components/ElectionCompare";
+import { AllianceBlocs } from "@/components/AllianceBlocs";
+import { DiasporaCard } from "@/components/DiasporaCard";
+import { HourlyTurnout } from "@/components/HourlyTurnout";
+import { BallotTransparency } from "@/components/BallotTransparency";
+import { ShareBar } from "@/components/ShareBar";
 import { GUIDES } from "@/lib/guides";
 import { POLLS, POLL_FIRMS, CANDIDATES } from "@/lib/mock-data";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, BarChart3, History, BookOpen, Clock, TrendingUp } from "lucide-react";
+import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, BarChart3, History, BookOpen, Clock, TrendingUp, Plane, Clock3, ShieldCheck, Handshake } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
