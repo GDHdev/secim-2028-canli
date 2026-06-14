@@ -104,7 +104,7 @@ export function PresidentRace() {
       {/* Candidate rows (lider hero'da, diğer satırı hariç) */}
       <ul className="flex flex-col gap-3 p-3 md:p-4">
         <AnimatePresence initial={false}>
-          {rows.slice(1).filter((c) => c.id !== "other").map((c, i) => (
+          {rows.slice(1).map((c, i) => (
             <motion.li
               key={c.id}
               layout
