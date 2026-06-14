@@ -25,27 +25,34 @@ function SectionHeader({
   title,
   meta,
   cta,
+  icon: Icon,
 }: {
   kicker?: string;
   title: string;
   meta?: string;
   cta?: { to: string; label: string };
+  icon?: LucideIcon;
 }) {
   return (
-    <div className="mb-6 flex flex-col gap-2 md:mb-7 md:flex-row md:items-end md:justify-between">
+    <div className="mb-8 flex flex-col gap-3 border-b border-gray-200 pb-6 md:mb-10 md:flex-row md:items-end md:justify-between">
       <div className="min-w-0">
         {kicker && (
-          <p className="text-[12px] font-bold uppercase tracking-[0.14em] text-brand-600">{kicker}</p>
+          <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-brand-200 bg-brand-50 px-3 py-1">
+            {Icon && <Icon size={14} className="text-brand-700" strokeWidth={2.5} />}
+            <span className="text-[11px] font-bold uppercase tracking-[0.16em] text-brand-700">
+              {kicker}
+            </span>
+          </div>
         )}
-        <h2 className="mt-1 font-display text-[28px] font-semibold tracking-tight text-gray-900 md:text-[34px]">
+        <h2 className="font-display text-[40px] font-extrabold tracking-[-0.03em] text-gray-900 md:text-[56px]">
           {title}
         </h2>
-        {meta && <p className="mt-1 text-[15px] text-gray-500">{meta}</p>}
+        {meta && <p className="mt-2 text-[15px] font-medium text-gray-500 md:text-[16px]">{meta}</p>}
       </div>
       {cta && (
         <Link
           to={cta.to}
-          className="group inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-gray-200 bg-white px-3.5 py-2 text-sm font-semibold text-gray-700 transition-colors hover:border-gray-300 hover:bg-gray-50 hover:text-gray-900 md:self-end"
+          className="group inline-flex shrink-0 items-center gap-1.5 self-start rounded-lg border border-gray-900 bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-gray-700 md:self-end"
         >
           {cta.label}
           <ArrowRight size={15} className="transition-transform group-hover:translate-x-0.5" />
