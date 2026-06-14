@@ -71,6 +71,7 @@ function Index() {
 
       <section className="site-container py-10 md:py-14">
         <SectionHeader
+          icon={Users}
           kicker="Cumhurbaşkanlığı · 1. Tur"
           title="Adaylar arası yarış"
           meta="Sandık verisi · sıralama 2,2 sn'de bir güncellenir"
