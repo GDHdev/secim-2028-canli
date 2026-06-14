@@ -17,7 +17,6 @@ const SECTIONS = [
     links: [
       { to: "/tur2", label: "2. tur simülatörü" },
       { to: "/anketler", label: "Anketler" },
-      { to: "/oylama", label: "Site anketi" },
       { to: "/haberler", label: "Haberler" },
     ],
   },

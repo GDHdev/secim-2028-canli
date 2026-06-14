@@ -32,7 +32,6 @@ const NAV: NavItem[] = [
       { to: "/rehber/sss", label: "Sıkça Sorulanlar", hint: "Telefon, kıyafet, sayım" },
     ],
   },
-  { to: "/oylama", label: "Site Anketi" },
   { to: "/haberler", label: "Haberler" },
 ];
 
@@ -63,7 +62,6 @@ export function TopBar() {
           </div>
           <div className="hidden items-center gap-4 sm:flex">
             <Link to="/rehber" className="hover:text-gray-900">Rehber</Link>
-            <Link to="/oylama" className="hover:text-gray-900">Site Anketi</Link>
             <Link to="/haberler" className="hover:text-gray-900">Haberler</Link>
           </div>
         </div>
