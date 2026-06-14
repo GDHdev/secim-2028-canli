@@ -17,7 +17,17 @@ const SECTIONS = [
     links: [
       { to: "/tur2", label: "2. tur simülatörü" },
       { to: "/anketler", label: "Anketler" },
+      { to: "/oylama", label: "Site anketi" },
       { to: "/haberler", label: "Haberler" },
+    ],
+  },
+  {
+    title: "Rehber",
+    links: [
+      { to: "/rehber", label: "Seçmen rehberi" },
+      { to: "/rehber/secim-takvimi", label: "Seçim takvimi" },
+      { to: "/rehber/yurt-disi-secmen", label: "Yurt dışı oy" },
+      { to: "/rehber/sss", label: "Sıkça sorulanlar" },
     ],
   },
 ] as const;
