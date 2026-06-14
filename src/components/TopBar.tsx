@@ -41,6 +41,9 @@ export function TopBar() {
   const leader = CANDIDATES[0];
   const second = CANDIDATES[1];
   const gap = (leader.percent - second.percent).toFixed(1);
+  const time = now
+    ? now.toLocaleTimeString("tr-TR", { hour: "2-digit", minute: "2-digit", second: "2-digit" })
+    : "--:--:--";
   const dateStr = now
     ? now.toLocaleDateString("tr-TR", { day: "2-digit", month: "short" })
     : "--";
