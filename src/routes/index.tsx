@@ -175,15 +175,15 @@ function FeatureCard({
 }) {
   const toneClass = { brand: "", indigo: "uui-feat-icon-indigo", violet: "uui-feat-icon-violet" }[tone];
   return (
-    <Link to={to} className="uui-card uui-card-hover group flex items-center gap-4 p-5">
-      <span className={`uui-feat-icon uui-feat-icon-lg ${toneClass}`}>
-        <Icon size={22} />
+    <Link to={to} className="uui-card uui-card-hover group flex items-center gap-3 p-4">
+      <span className={`uui-feat-icon ${toneClass}`}>
+        <Icon size={20} />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="font-display text-[18px] font-semibold text-gray-900">{title}</p>
-        <p className="text-[14px] text-gray-500">{desc}</p>
+        <p className="font-display text-[16px] font-semibold text-gray-900">{title}</p>
+        <p className="text-[13px] text-gray-500">{desc}</p>
       </div>
-      <ArrowRight size={18} className="text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-gray-900" />
+      <ArrowRight size={16} className="text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-gray-900" />
     </Link>
   );
 }
