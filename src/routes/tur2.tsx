@@ -2,6 +2,8 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { CANDIDATES } from "@/lib/mock-data";
+import { Swords, SlidersHorizontal, Trophy } from "lucide-react";
+import { PageHero, SubSectionHeader } from "@/components/PageHero";
 
 export const Route = createFileRoute("/tur2")({
   head: () => ({
@@ -47,126 +49,111 @@ function Tur2Page() {
 
   return (
     <div className="bg-background">
-      {/* Hero */}
-      <section className="site-container border-b border-border pt-10 pb-8">
-        <div className="flex flex-wrap items-end justify-between gap-4">
-          <div>
-            <div className="flex items-center gap-2">
-              <span className="bg-primary px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-primary-foreground">
-                ● Kesinleşti
-              </span>
-              <span className="eyebrow">14 Nisan 2028</span>
-            </div>
-            <h1 className="display-mega mt-2 text-foreground">
-              İKİNCİ <span className="text-accent">TUR</span>
-            </h1>
-            <p className="mt-3 max-w-xl font-serif text-lg text-muted-foreground">
-              Üçüncü sıradaki <span className="text-foreground">Can Demir</span> seçmenleri kararı belirleyecek.
-              Aşağıdaki sliderlarla farklı senaryoları test edin.
-            </p>
-          </div>
-        </div>
-      </section>
+      <PageHero
+        icon={Swords}
+        tone="violet"
+        kicker="14 Nisan 2028 · Kesinleşti"
+        title="İkinci tur simülatörü"
+        description="Üçüncü sıradaki Can Demir seçmenleri kararı belirleyecek. Sliderlarla farklı senaryoları test edin."
+        actions={<span className="uui-badge uui-badge-brand">● Canlı projeksiyon</span>}
+      />
 
-      {/* Battle visualization */}
       <section className="site-container py-10">
-        <div className="grid grid-cols-1 items-stretch gap-0 border border-border md:grid-cols-[1fr_auto_1fr]">
-          <CandSide candidate={yilmaz} percent={projection.yPct} winner={projection.winner === "yilmaz"} side="left" />
-          <div className="flex items-center justify-center border-y border-border px-6 py-4 md:border-x md:border-y-0">
-            <span className="font-display text-5xl text-muted-foreground">VS</span>
+        <div className="uui-card overflow-hidden">
+          <div className="grid grid-cols-1 items-stretch md:grid-cols-[1fr_auto_1fr]">
+            <CandSide candidate={yilmaz} percent={projection.yPct} winner={projection.winner === "yilmaz"} side="left" />
+            <div className="flex items-center justify-center border-y border-gray-200 px-6 py-4 md:border-x md:border-y-0">
+              <span className="font-display text-3xl font-bold text-gray-400">VS</span>
+            </div>
+            <CandSide candidate={kaya} percent={projection.kPct} winner={projection.winner === "kaya"} side="right" />
           </div>
-          <CandSide candidate={kaya} percent={projection.kPct} winner={projection.winner === "kaya"} side="right" />
         </div>
 
-        {/* Combined bar */}
-        <div className="mt-6 flex h-6 overflow-hidden border border-border">
-          <motion.div
-            animate={{ width: `${projection.yPct}%` }}
-            transition={{ type: "spring", damping: 24 }}
-            style={{ backgroundColor: yilmaz.color }}
-          />
-          <motion.div
-            animate={{ width: `${projection.kPct}%` }}
-            transition={{ type: "spring", damping: 24 }}
-            style={{ backgroundColor: kaya.color }}
-          />
+        <div className="mt-5 flex h-3 overflow-hidden rounded-full border border-gray-200">
+          <motion.div animate={{ width: `${projection.yPct}%` }} transition={{ type: "spring", damping: 24 }} style={{ backgroundColor: yilmaz.color }} />
+          <motion.div animate={{ width: `${projection.kPct}%` }} transition={{ type: "spring", damping: 24 }} style={{ backgroundColor: kaya.color }} />
         </div>
       </section>
 
-      {/* Controls */}
-      <section className="site-container pb-10">
+      <section className="site-container pb-12">
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_400px]">
-          <div className="panel p-6 md:p-8">
-            <span className="eyebrow-accent">Demir Seçmen Davranışı</span>
-            <h2 className="display-lg mt-1 mb-6 text-foreground">SENARYO PARAMETRELERİ</h2>
+          <div className="uui-card p-6 md:p-7">
+            <SubSectionHeader
+              icon={SlidersHorizontal}
+              tone="indigo"
+              kicker="Senaryo parametreleri"
+              title="Demir seçmen davranışı"
+              meta="Demir'in seçmenleri farklı oranlarda iki adaya dağıldığında ne olur?"
+            />
 
-            <div className="space-y-8">
+            <div className="space-y-7">
               <div>
                 <div className="mb-2 flex items-baseline justify-between">
-                  <label className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-foreground">
-                    Demir oyları nereye?
-                  </label>
-                  <span className="tabular-nums font-mono text-xs text-muted-foreground">
+                  <label className="text-[14px] font-semibold text-gray-900">Demir oyları nereye?</label>
+                  <span className="tabular-nums text-[13px] text-gray-500">
                     %{100 - toKaya} Yılmaz · %{toKaya} Kaya
                   </span>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="font-display text-lg" style={{ color: yilmaz.color }}>YILMAZ</span>
+                  <span className="font-display text-[15px] font-bold" style={{ color: yilmaz.color }}>YILMAZ</span>
                   <input
                     type="range" min={0} max={100} value={toKaya}
                     onChange={(e) => setToKaya(+e.target.value)}
-                    className="h-2 flex-1 accent-accent"
+                    className="h-2 flex-1 accent-brand-600"
                   />
-                  <span className="font-display text-lg" style={{ color: kaya.color }}>KAYA</span>
+                  <span className="font-display text-[15px] font-bold" style={{ color: kaya.color }}>KAYA</span>
                 </div>
               </div>
 
               <div>
                 <div className="mb-2 flex items-baseline justify-between">
-                  <label className="font-mono text-xs font-bold uppercase tracking-[0.16em] text-foreground">
-                    Sandığa gitmeme oranı
-                  </label>
-                  <span className="tabular-nums font-display text-2xl text-accent">%{abstain}</span>
+                  <label className="text-[14px] font-semibold text-gray-900">Sandığa gitmeme oranı</label>
+                  <span className="tabular-nums font-display text-[22px] font-bold text-brand-600">%{abstain}</span>
                 </div>
                 <input
                   type="range" min={0} max={50} value={abstain}
                   onChange={(e) => setAbstain(+e.target.value)}
-                  className="h-2 w-full accent-accent"
+                  className="h-2 w-full accent-brand-600"
                 />
               </div>
             </div>
           </div>
 
-          {/* Winner card */}
           <motion.div
             key={projection.winner}
             initial={{ opacity: 0, y: 12 }}
             animate={{ opacity: 1, y: 0 }}
-            className="relative overflow-hidden border border-accent bg-card p-8"
+            className="uui-card relative overflow-hidden p-7"
           >
-            <div className="absolute inset-x-0 top-0 h-1 stripes-warning" />
-            <span className="eyebrow-accent">Projeksiyon Kazananı</span>
-            <p className="mt-3 font-display text-7xl tracking-tight" style={{ color: winnerCand.color }}>
-              {winnerCand.name.split(" ")[1].toUpperCase()}
+            <div className="flex items-center gap-3">
+              <span className="uui-feat-icon uui-feat-icon-warning">
+                <Trophy size={20} />
+              </span>
+              <p className="uui-sec-eyebrow">Projeksiyon kazananı</p>
+            </div>
+            <p className="mt-4 font-display text-[44px] font-bold tracking-tight" style={{ color: winnerCand.color }}>
+              {winnerCand.name.split(" ")[1]}
             </p>
-            <p className="mt-1 font-mono text-xs text-muted-foreground">{winnerCand.party}</p>
+            <p className="mt-0.5 text-[13px] text-gray-500">{winnerCand.party}</p>
 
-            <div className="mt-6 hr-rule" />
-            <div className="mt-4 grid grid-cols-2 gap-4">
-              <div>
-                <span className="eyebrow">Oy oranı</span>
-                <p className="font-display text-4xl text-foreground">
-                  %{(projection.winner === "yilmaz" ? projection.yPct : projection.kPct).toFixed(1)}
-                </p>
-              </div>
-              <div>
-                <span className="eyebrow">Fark</span>
-                <p className="font-display text-4xl text-accent">
-                  +{margin.toFixed(1)}
-                </p>
+            <div className="mt-5 border-t border-gray-200 pt-4">
+              <div className="grid grid-cols-2 gap-4">
+                <div>
+                  <p className="text-[12px] font-semibold uppercase tracking-wide text-gray-500">Oy oranı</p>
+                  <p className="mt-1 font-display text-[28px] font-bold tabular-nums text-gray-900">
+                    %{(projection.winner === "yilmaz" ? projection.yPct : projection.kPct).toFixed(1)}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-[12px] font-semibold uppercase tracking-wide text-gray-500">Fark</p>
+                  <p className="mt-1 font-display text-[28px] font-bold tabular-nums text-brand-600">
+                    +{margin.toFixed(1)}
+                  </p>
+                </div>
               </div>
             </div>
-            <p className="mt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
+
+            <p className="mt-5 text-[12px] text-gray-400">
               Bu bir simülasyondur · Gerçek sonuçları temsil etmez
             </p>
           </motion.div>
@@ -180,21 +167,17 @@ function CandSide({ candidate, percent, winner, side }: {
   candidate: typeof CANDIDATES[number]; percent: number; winner: boolean; side: "left" | "right";
 }) {
   return (
-    <div className={`flex flex-col gap-3 p-8 ${winner ? "bg-accent/[0.06]" : "bg-card"} ${side === "right" ? "items-end text-right" : "items-start"}`}>
-      {winner && (
-        <span className="bg-accent px-2 py-0.5 font-mono text-[10px] font-bold uppercase tracking-[0.18em] text-accent-foreground">
-          ★ Kazanıyor
-        </span>
-      )}
-      <p className="font-display text-5xl tracking-tight text-foreground md:text-6xl">
-        {candidate.name.split(" ")[1].toUpperCase()}
+    <div className={`flex flex-col gap-2 p-7 ${winner ? "bg-brand-50" : "bg-white"} ${side === "right" ? "items-end text-right" : "items-start"}`}>
+      {winner && <span className="uui-badge uui-badge-brand">★ Kazanıyor</span>}
+      <p className="font-display text-[28px] font-bold tracking-tight text-gray-900 md:text-[32px]">
+        {candidate.name.split(" ")[1]}
       </p>
-      <p className="font-mono text-xs text-muted-foreground">{candidate.party}</p>
+      <p className="text-[13px] text-gray-500">{candidate.party}</p>
       <motion.span
         key={percent.toFixed(1)}
         initial={{ scale: 0.92, opacity: 0.5 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="font-display text-7xl leading-none md:text-8xl"
+        className="font-display text-[60px] font-bold leading-none tabular-nums md:text-[72px]"
         style={{ color: candidate.color }}
       >
         %{percent.toFixed(1)}
