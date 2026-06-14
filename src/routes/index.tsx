@@ -45,20 +45,20 @@ function SectionHeader({
   }[tone];
 
   return (
-    <div className="mb-8 md:mb-10">
-      <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-        <div className="flex items-start gap-4">
-          <span className={`uui-feat-icon uui-feat-icon-lg ${toneClass}`}>
-            <Icon size={22} />
+    <div className="mb-6 md:mb-7">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex items-start gap-3">
+          <span className={`uui-feat-icon ${toneClass}`}>
+            <Icon size={20} />
           </span>
           <div className="min-w-0">
             <p className="uui-sec-eyebrow">{kicker}</p>
-            <h2 className="mt-1 uui-sec-title">{title}</h2>
-            {meta && <p className="mt-2 uui-sec-desc">{meta}</p>}
+            <h2 className="mt-0.5 uui-sec-title">{title}</h2>
+            {meta && <p className="mt-1.5 uui-sec-desc">{meta}</p>}
           </div>
         </div>
         {cta && (
-          <Link to={cta.to} className="uui-btn uui-btn-lg uui-btn-secondary self-start sm:self-end">
+          <Link to={cta.to} className="uui-btn uui-btn-secondary self-start sm:self-end">
             {cta.label}
             <ArrowRight size={16} />
           </Link>
@@ -74,7 +74,7 @@ function Index() {
       <ElectionSummary />
 
       {/* Aday yarışı */}
-      <section className="site-container py-14 md:py-20">
+      <section className="site-container py-10 md:py-14">
         <SectionHeader
           icon={Users}
           tone="brand"
@@ -82,14 +82,14 @@ function Index() {
           title="Adaylar arası yarış"
           meta="Sandık verisi her 2 saniyede bir güncellenir. Aday kartına tıklayın, detaylı il bazlı analizi açın."
         />
-        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_400px]">
+        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_380px]">
           <PresidentRace />
           <SecondRoundGauge />
         </div>
       </section>
 
       {/* Harita */}
-      <section className="bg-gray-50 border-y border-gray-200 py-14 md:py-20">
+      <section className="bg-gray-50 border-y border-gray-200 py-10 md:py-14">
         <div className="site-container">
           <SectionHeader
             icon={Map}
@@ -100,12 +100,12 @@ function Index() {
             cta={{ to: "/harita", label: "Detaylı harita" }}
           />
         </div>
-        <TurkeyMap className="h-[640px] bg-white border-y border-gray-200" />
+        <TurkeyMap className="h-[560px] bg-white border-y border-gray-200" />
       </section>
 
       {/* Meclis + Akış */}
-      <section className="site-container py-14 md:py-20">
-        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_400px]">
+      <section className="site-container py-10 md:py-14">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_380px]">
           <div>
             <SectionHeader
               icon={Landmark}
@@ -131,7 +131,7 @@ function Index() {
       </section>
 
       {/* Haberler */}
-      <section className="bg-gray-50 border-t border-gray-200 py-14 md:py-20">
+      <section className="bg-gray-50 border-t border-gray-200 py-10 md:py-14">
         <div className="site-container">
           <SectionHeader
             icon={Newspaper}
@@ -146,7 +146,7 @@ function Index() {
       </section>
 
       {/* Ek navigasyon kartları */}
-      <section className="site-container py-14">
+      <section className="site-container py-10 md:py-12">
         <SectionHeader
           icon={BarChart3}
           tone="gray"
@@ -154,7 +154,7 @@ function Index() {
           title="Veri merkezi"
           meta="Anketleri karşılaştırın, 2. tur senaryolarını simüle edin."
         />
-        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-3">
           <FeatureCard to="/anketler" tone="indigo" icon={BarChart3} title="Anket karşılaştırması" desc="10 anket şirketi · 18 ay trend" />
           <FeatureCard to="/tur2" tone="violet" icon={Users} title="2. tur simülatörü" desc="Olası tüm eşleşmeler" />
           <FeatureCard to="/harita" tone="brand" icon={Map} title="İl bazlı keşif" desc="81 il · katılım & farklar" />
@@ -175,15 +175,15 @@ function FeatureCard({
 }) {
   const toneClass = { brand: "", indigo: "uui-feat-icon-indigo", violet: "uui-feat-icon-violet" }[tone];
   return (
-    <Link to={to} className="uui-card uui-card-hover group flex items-center gap-4 p-5">
-      <span className={`uui-feat-icon uui-feat-icon-lg ${toneClass}`}>
-        <Icon size={22} />
+    <Link to={to} className="uui-card uui-card-hover group flex items-center gap-3 p-4">
+      <span className={`uui-feat-icon ${toneClass}`}>
+        <Icon size={20} />
       </span>
       <div className="min-w-0 flex-1">
-        <p className="font-display text-[18px] font-semibold text-gray-900">{title}</p>
-        <p className="text-[14px] text-gray-500">{desc}</p>
+        <p className="font-display text-[16px] font-semibold text-gray-900">{title}</p>
+        <p className="text-[13px] text-gray-500">{desc}</p>
       </div>
-      <ArrowRight size={18} className="text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-gray-900" />
+      <ArrowRight size={16} className="text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-gray-900" />
     </Link>
   );
 }
