@@ -1,7 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { PROVINCES, REGIONS, CANDIDATES } from "@/lib/mock-data";
-import { Search, ChevronUp, ChevronDown, Table2 } from "lucide-react";
+import { PROVINCES, REGIONS, CANDIDATES, province2023 } from "@/lib/mock-data";
+import { Search, ChevronUp, ChevronDown, Table2, ArrowRight, Minus } from "lucide-react";
 import { PageHero } from "@/components/PageHero";
 
 export const Route = createFileRoute("/sonuclar")({
