@@ -45,20 +45,20 @@ function SectionHeader({
   }[tone];
 
   return (
-    <div className="mb-8 md:mb-10">
-      <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
-        <div className="flex items-start gap-4">
-          <span className={`uui-feat-icon uui-feat-icon-lg ${toneClass}`}>
-            <Icon size={22} />
+    <div className="mb-6 md:mb-7">
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex items-start gap-3">
+          <span className={`uui-feat-icon ${toneClass}`}>
+            <Icon size={20} />
           </span>
           <div className="min-w-0">
             <p className="uui-sec-eyebrow">{kicker}</p>
-            <h2 className="mt-1 uui-sec-title">{title}</h2>
-            {meta && <p className="mt-2 uui-sec-desc">{meta}</p>}
+            <h2 className="mt-0.5 uui-sec-title">{title}</h2>
+            {meta && <p className="mt-1.5 uui-sec-desc">{meta}</p>}
           </div>
         </div>
         {cta && (
-          <Link to={cta.to} className="uui-btn uui-btn-lg uui-btn-secondary self-start sm:self-end">
+          <Link to={cta.to} className="uui-btn uui-btn-secondary self-start sm:self-end">
             {cta.label}
             <ArrowRight size={16} />
           </Link>
