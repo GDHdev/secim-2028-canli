@@ -146,30 +146,20 @@ function Index() {
         </div>
       </section>
 
-      {/* Site anketi + Rehber */}
+      {/* Anket trendi + Rehber */}
       <section className="bg-gray-50 border-y border-gray-200 py-10 md:py-14">
         <div className="site-container">
           <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr]">
             <div>
               <SectionHeader
-                icon={Vote}
-                tone="violet"
-                kicker="Site anketi · Sen ne diyorsun?"
-                title="Okurlar 2. turda kimi görüyor?"
-                meta="Anket şirketlerinden bağımsız, sitemizi takip eden okurların nabzı. Oyunuzu hemen verin."
-                cta={{ to: "/oylama", label: "Tüm anketler" }}
+                icon={TrendingUp}
+                tone="indigo"
+                kicker="Anket şirketleri · 18 ay"
+                title="Adayların oy oranı nasıl değişti?"
+                meta="10 büyük anket şirketinin aylık ortalamaları. Yılmaz'ın yükselişi ve Kaya'nın stabil seyri net görünüyor."
+                cta={{ to: "/anketler", label: "Tüm anketler" }}
               />
-              {(() => {
-                const featured = getPoll("2tur-kim") ?? SITE_POLLS[0];
-                return (
-                  <SitePoll
-                    id={featured.id}
-                    question={featured.question}
-                    kicker={featured.kicker}
-                    options={featured.options}
-                  />
-                );
-              })()}
+              <PollTrendCard />
             </div>
 
             <div>
