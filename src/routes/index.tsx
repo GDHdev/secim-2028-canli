@@ -1,64 +1,69 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { NewsroomHero } from "@/components/NewsroomHero";
+import { ElectionSummary } from "@/components/ElectionSummary";
 import { PresidentRace } from "@/components/PresidentRace";
 import { SecondRoundGauge } from "@/components/SecondRoundGauge";
 import { Parliament } from "@/components/Parliament";
 import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { MicroNews } from "@/components/MicroNews";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, BarChart3 } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "Seçim 2028 — Cumhurbaşkanlığı & Milletvekili Canlı Sonuçları" },
-      { name: "description", content: "14 Mart 2028 Türkiye Cumhurbaşkanlığı ve Milletvekili Seçimleri canlı sonuçları, harita, parlamento dağılımı." },
+      { name: "description", content: "14 Mart 2028 Türkiye Cumhurbaşkanlığı ve Milletvekili Seçimleri canlı sonuçları, harita, parlamento dağılımı, AI destekli özet." },
       { property: "og:title", content: "Seçim 2028 — Canlı Sonuçlar" },
-      { property: "og:description", content: "Cumhurbaşkanlığı yarışı, 600 sandalye, 81 il sonuçları, 2. tur projeksiyonu." },
+      { property: "og:description", content: "Cumhurbaşkanlığı yarışı, 600 sandalye, 81 il sonuçları, AI asistan." },
     ],
   }),
   component: Index,
 });
 
 function SectionHeader({
-  idx,
+  icon: Icon,
   kicker,
   title,
   meta,
   cta,
+  tone = "brand",
 }: {
-  idx: string;
+  icon: typeof Users;
   kicker: string;
   title: string;
   meta?: string;
   cta?: { to: string; label: string };
+  tone?: "brand" | "indigo" | "violet" | "warning" | "success" | "gray";
 }) {
+  const toneClass = {
+    brand: "",
+    indigo: "uui-feat-icon-indigo",
+    violet: "uui-feat-icon-violet",
+    warning: "uui-feat-icon-warning",
+    success: "uui-feat-icon-success",
+    gray: "uui-feat-icon-gray",
+  }[tone];
+
   return (
-    <div className="mb-6 md:mb-8">
-      <div className="term-sec-label">
-        <span className="idx">{idx}</span>
-        <span>{kicker}</span>
-      </div>
-      <div className="mt-3 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
-        <div className="min-w-0">
-          <h2 className="term-sec-title">{title}</h2>
-          {meta && (
-            <p className="mt-1.5 font-mono text-[12px] uppercase tracking-[0.12em] text-gray-500">
-              {meta}
-            </p>
-          )}
+    <div className="mb-8 md:mb-10">
+      <div className="flex flex-col gap-5 sm:flex-row sm:items-end sm:justify-between">
+        <div className="flex items-start gap-4">
+          <span className={`uui-feat-icon uui-feat-icon-lg ${toneClass}`}>
+            <Icon size={22} />
+          </span>
+          <div className="min-w-0">
+            <p className="uui-sec-eyebrow">{kicker}</p>
+            <h2 className="mt-1 uui-sec-title">{title}</h2>
+            {meta && <p className="mt-2 uui-sec-desc">{meta}</p>}
+          </div>
         </div>
         {cta && (
-          <Link
-            to={cta.to}
-            className="group inline-flex shrink-0 items-center gap-1.5 self-start border border-gray-900 bg-white px-3.5 py-2 font-mono text-[12px] font-bold uppercase tracking-[0.12em] text-gray-900 transition-colors hover:bg-gray-900 hover:text-white sm:self-end"
-          >
+          <Link to={cta.to} className="uui-btn uui-btn-lg uui-btn-secondary self-start sm:self-end">
             {cta.label}
-            <ArrowRight size={13} className="transition-transform group-hover:translate-x-0.5" />
+            <ArrowRight size={16} />
           </Link>
         )}
       </div>
-      <div className="term-sec-rule mt-4" />
     </div>
   );
 }
@@ -66,72 +71,119 @@ function SectionHeader({
 function Index() {
   return (
     <div className="bg-background">
-      <NewsroomHero />
+      <ElectionSummary />
 
-      {/* 02 — Adaylar yarışı */}
-      <section className="site-container py-10 md:py-14">
+      {/* Aday yarışı */}
+      <section className="site-container py-14 md:py-20">
         <SectionHeader
-          idx="02"
+          icon={Users}
+          tone="brand"
           kicker="Cumhurbaşkanlığı · 1. Tur"
           title="Adaylar arası yarış"
-          meta="Sandık verisi · sıralama 2.2 sn'de bir güncellenir"
+          meta="Sandık verisi her 2 saniyede bir güncellenir. Aday kartına tıklayın, detaylı il bazlı analizi açın."
         />
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_360px]">
+        <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_400px]">
           <PresidentRace />
           <SecondRoundGauge />
         </div>
       </section>
 
-      {/* 03 — Harita */}
-      <section className="site-container">
-        <SectionHeader
-          idx="03"
-          kicker="81 İl · Coğrafi dağılım"
-          title="Türkiye haritası"
-          meta="İl üzerine gelin · lider parti, fark ve sayım yüzdesi"
-          cta={{ to: "/harita", label: "Detaylı harita" }}
-        />
-      </section>
-      <section>
-        <TurkeyMap className="h-[640px] border-y border-gray-200 bg-gray-50" />
+      {/* Harita */}
+      <section className="bg-gray-50 border-y border-gray-200 py-14 md:py-20">
+        <div className="site-container">
+          <SectionHeader
+            icon={Map}
+            tone="indigo"
+            kicker="81 il · Coğrafi dağılım"
+            title="Türkiye haritası"
+            meta="Bir ilin üzerine gelin: lider parti, oy farkı, sayım yüzdesi ve katılım oranı görünür."
+            cta={{ to: "/harita", label: "Detaylı harita" }}
+          />
+        </div>
+        <TurkeyMap className="h-[640px] bg-white border-y border-gray-200" />
       </section>
 
-      {/* 04 — Meclis + Akış */}
-      <section className="site-container py-12 md:py-16">
-        <div className="grid grid-cols-1 gap-10 lg:grid-cols-[1fr_380px]">
+      {/* Meclis + Akış */}
+      <section className="site-container py-14 md:py-20">
+        <div className="grid grid-cols-1 gap-12 lg:grid-cols-[1fr_400px]">
           <div>
             <SectionHeader
-              idx="04"
+              icon={Landmark}
+              tone="warning"
               kicker="Milletvekili · 600 sandalye"
               title="Meclis dağılımı"
-              meta="7 parti · koalisyon eşiği 301 sandalye"
+              meta="7 parti yarışıyor. Çoğunluk için 301 sandalye gerekiyor; koalisyon senaryoları açılır."
               cta={{ to: "/milletvekili", label: "Tüm sandalyeler" }}
             />
             <Parliament />
           </div>
           <div>
             <SectionHeader
-              idx="05"
+              icon={Radio}
+              tone="success"
               kicker="Canlı akış"
               title="Anlık gelişmeler"
-              meta="Son dakika · editöryel akış"
+              meta="Editörlerin doğruladığı son dakika bildirimleri."
             />
             <LiveFeed />
           </div>
         </div>
       </section>
 
-      {/* 06 — Haberler */}
-      <section className="site-container pb-16">
+      {/* Haberler */}
+      <section className="bg-gray-50 border-t border-gray-200 py-14 md:py-20">
+        <div className="site-container">
+          <SectionHeader
+            icon={Newspaper}
+            tone="violet"
+            kicker="Gündem"
+            title="Son haberler"
+            meta="Son 24 saatin öne çıkan başlıkları, kaynak ve kategori etiketleriyle."
+            cta={{ to: "/haberler", label: "Tüm haberler" }}
+          />
+          <MicroNews limit={6} />
+        </div>
+      </section>
+
+      {/* Ek navigasyon kartları */}
+      <section className="site-container py-14">
         <SectionHeader
-          idx="06"
-          kicker="Gündem"
-          title="Son haberler"
-          meta="Editöryel akış · son 24 saat"
-          cta={{ to: "/haberler", label: "Tüm haberler" }}
+          icon={BarChart3}
+          tone="gray"
+          kicker="Daha fazla"
+          title="Veri merkezi"
+          meta="Anketleri karşılaştırın, 2. tur senaryolarını simüle edin."
         />
-        <MicroNews limit={6} />
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-3">
+          <FeatureCard to="/anketler" tone="indigo" icon={BarChart3} title="Anket karşılaştırması" desc="10 anket şirketi · 18 ay trend" />
+          <FeatureCard to="/tur2" tone="violet" icon={Users} title="2. tur simülatörü" desc="Olası tüm eşleşmeler" />
+          <FeatureCard to="/harita" tone="brand" icon={Map} title="İl bazlı keşif" desc="81 il · katılım & farklar" />
+        </div>
       </section>
     </div>
+  );
+}
+
+function FeatureCard({
+  to, tone, icon: Icon, title, desc,
+}: {
+  to: string;
+  tone: "brand" | "indigo" | "violet";
+  icon: typeof Users;
+  title: string;
+  desc: string;
+}) {
+  const toneClass = { brand: "", indigo: "uui-feat-icon-indigo", violet: "uui-feat-icon-violet" }[tone];
+  return (
+    <Link to={to} className="uui-card uui-card-hover group flex items-center gap-4 p-5">
+      <span className={`uui-feat-icon uui-feat-icon-lg ${toneClass}`}>
+        <Icon size={22} />
+      </span>
+      <div className="min-w-0 flex-1">
+        <p className="font-display text-[18px] font-semibold text-gray-900">{title}</p>
+        <p className="text-[14px] text-gray-500">{desc}</p>
+      </div>
+      <ArrowRight size={18} className="text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-gray-900" />
+    </Link>
   );
 }
