@@ -180,19 +180,19 @@ export function Parliament() {
           </svg>
 
           {/* Coalition mini-bars */}
-          <div className="mt-2 grid gap-2.5 md:grid-cols-3">
+          <div className="mt-4 grid gap-3 md:grid-cols-3">
             {COALITIONS.map((cn) => {
               const pct = (cn.seats / TOTAL_SEATS) * 100;
               const reachesMajority = cn.seats >= MAJORITY_THRESHOLD;
               return (
-                <div key={cn.id} className="rounded-lg border border-gray-200 bg-gray-50 p-3">
-                  <div className="flex items-baseline justify-between">
-                    <span className="text-[11px] font-medium text-gray-600">{cn.name}</span>
-                    <span className="text-base font-semibold tabular-nums text-gray-900">
+                <div key={cn.id} className="rounded-lg border border-gray-200 bg-gray-50 p-4">
+                  <div className="flex items-baseline justify-between gap-2">
+                    <span className="truncate text-[12px] font-semibold text-gray-700">{cn.name}</span>
+                    <span className="font-display text-2xl font-semibold tabular-nums text-gray-900">
                       {cn.seats}
                     </span>
                   </div>
-                  <div className="relative mt-2 h-1.5 w-full overflow-hidden rounded-full bg-card">
+                  <div className="relative mt-2.5 h-2 w-full overflow-hidden rounded-full bg-card">
                     <motion.div
                       initial={{ width: 0 }}
                       animate={{ width: `${pct}%` }}
@@ -201,7 +201,7 @@ export function Parliament() {
                       style={{ backgroundColor: cn.color }}
                     />
                   </div>
-                  <p className="mt-1 text-[10px] text-gray-500">
+                  <p className="mt-2 text-[11px] text-gray-500">
                     {reachesMajority ? (
                       <span className="font-medium text-success-600">Çoğunluk ✓</span>
                     ) : (
