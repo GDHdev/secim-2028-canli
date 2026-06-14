@@ -251,11 +251,43 @@ export const TURNOUT_BY_REGION = REGIONS.map((r) => {
 
 // Historical comparison 2023 vs 2028 (mock)
 export const HISTORICAL = [
-  { name: "Yılmaz",  y2023: 35.2, y2028: 38.2 },
-  { name: "Kaya",    y2023: 33.1, y2028: 31.7 },
-  { name: "Demir",   y2023: 18.5, y2028: 22.4 },
-  { name: "Diğer",   y2023: 13.2, y2028: 7.7 },
+  { id: "yilmaz", name: "Yılmaz", color: "#F4C20D", y2023: 35.2, y2028: 38.2 },
+  { id: "kaya",   name: "Kaya",   color: "#E11D2B", y2023: 33.1, y2028: 31.7 },
+  { id: "demir",  name: "Demir",  color: "#0891B2", y2023: 18.5, y2028: 22.4 },
+  { id: "other",  name: "Diğer",  color: "#6B7280", y2023: 13.2, y2028: 7.7 },
 ];
+
+export const NATIONAL_TURNOUT_2023 = 87.0;
+export const NATIONAL_TURNOUT_2028 = 86.2;
+
+// Per-candidate national 2023→2028 delta
+const NATIONAL_DELTA = {
+  yilmaz: HISTORICAL[0].y2028 - HISTORICAL[0].y2023,
+  kaya:   HISTORICAL[1].y2028 - HISTORICAL[1].y2023,
+  demir:  HISTORICAL[2].y2028 - HISTORICAL[2].y2023,
+  other:  HISTORICAL[3].y2028 - HISTORICAL[3].y2023,
+};
+
+// Uniform-swing tahmini ile bir ilin 2023 sonucu
+export function province2023(p: Province) {
+  const y = Math.max(0, +(p.results.yilmaz - NATIONAL_DELTA.yilmaz).toFixed(1));
+  const k = Math.max(0, +(p.results.kaya   - NATIONAL_DELTA.kaya  ).toFixed(1));
+  const d = Math.max(0, +(p.results.demir  - NATIONAL_DELTA.demir ).toFixed(1));
+  const o = Math.max(0, +(100 - y - k - d).toFixed(1));
+  const leader: "yilmaz" | "kaya" | "demir" =
+    y >= k && y >= d ? "yilmaz" : k >= d ? "kaya" : "demir";
+  return { yilmaz: y, kaya: k, demir: d, other: o, leader, turnout: p.turnout2023 };
+}
+
+// Lider değişimi olan iller (swing)
+export const FLIPPED_PROVINCES = PROVINCES
+  .map((p) => ({ p, prev: province2023(p) }))
+  .filter(({ p, prev }) => p.leader !== prev.leader)
+  .map(({ p, prev }) => ({
+    id: p.id, name: p.name, region: p.region,
+    from: prev.leader, to: p.leader,
+    gap: +(p.results[p.leader] - p.results[prev.leader]).toFixed(1),
+  }));
 
 // Top 5 cities
 export const TOP_CITIES = ["istanbul", "ankara", "izmir", "bursa", "antalya"]
