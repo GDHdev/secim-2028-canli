@@ -8,6 +8,7 @@ import { StatsGrid } from "@/components/StatsGrid";
 import { MicroNews } from "@/components/MicroNews";
 import { RegionStrip } from "@/components/RegionStrip";
 import { SwingProvinces } from "@/components/SwingProvinces";
+import { AISummary } from "@/components/AISummary";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -36,6 +37,9 @@ function SectionHeader({ kicker, title, meta }: { kicker?: React.ReactNode; titl
 function Index() {
   return (
     <div className="bg-background">
+      {/* AI SUMMARY — Son 10 dk'nın özeti, şeffaf etiket */}
+      <AISummary />
+
       {/* PRESIDENTIAL + GAUGE */}
       <section className="site-container py-9">
         <SectionHeader

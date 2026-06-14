@@ -28,7 +28,12 @@ export function SecondRoundGauge() {
   return (
     <div className="panel flex flex-col">
       <div className="flex items-center justify-between border-b border-border px-6 py-3">
-        <span className="eyebrow-accent">2. Tur Projeksiyonu</span>
+        <div className="flex items-center gap-2">
+          <span className="eyebrow-accent">2. Tur Projeksiyonu</span>
+          <span className="rounded-md border border-gray-200 bg-gray-50 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-gray-600">
+            Model
+          </span>
+        </div>
         <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground">
           14 Nis · 2028
         </span>
