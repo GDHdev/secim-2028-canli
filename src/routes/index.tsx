@@ -6,7 +6,7 @@ import { Parliament } from "@/components/Parliament";
 import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { MicroNews } from "@/components/MicroNews";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, type LucideIcon } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
