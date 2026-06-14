@@ -146,6 +146,80 @@ function Index() {
         </div>
       </section>
 
+      {/* Site anketi + Rehber */}
+      <section className="bg-gray-50 border-y border-gray-200 py-10 md:py-14">
+        <div className="site-container">
+          <div className="grid grid-cols-1 gap-6 lg:grid-cols-[1fr_1fr]">
+            <div>
+              <SectionHeader
+                icon={Vote}
+                tone="violet"
+                kicker="Site anketi · Sen ne diyorsun?"
+                title="Okurlar 2. turda kimi görüyor?"
+                meta="Anket şirketlerinden bağımsız, sitemizi takip eden okurların nabzı. Oyunuzu hemen verin."
+                cta={{ to: "/oylama", label: "Tüm anketler" }}
+              />
+              {(() => {
+                const featured = getPoll("2tur-kim") ?? SITE_POLLS[0];
+                return (
+                  <SitePoll
+                    id={featured.id}
+                    question={featured.question}
+                    kicker={featured.kicker}
+                    options={featured.options}
+                  />
+                );
+              })()}
+            </div>
+
+            <div>
+              <SectionHeader
+                icon={BookOpen}
+                tone="indigo"
+                kicker="Seçmen rehberi · 8 konu"
+                title="Sandığa hazır mısın?"
+                meta="Kimlik, takvim, yurt dışı oy, engelli seçmen hakları ve itiraz süreci."
+                cta={{ to: "/rehber", label: "Tüm rehber" }}
+              />
+              <ul className="grid grid-cols-1 gap-2.5 sm:grid-cols-2">
+                {GUIDES.slice(0, 6).map((g) => {
+                  const Icon = g.icon;
+                  const toneClass = {
+                    brand: "",
+                    indigo: "uui-feat-icon-indigo",
+                    violet: "uui-feat-icon-violet",
+                    warning: "uui-feat-icon-warning",
+                    success: "uui-feat-icon-success",
+                    gray: "uui-feat-icon-gray",
+                  }[g.tone];
+                  return (
+                    <li key={g.slug}>
+                      <Link
+                        to="/rehber/$slug"
+                        params={{ slug: g.slug }}
+                        className="uui-card uui-card-hover group flex h-full items-start gap-3 p-3.5"
+                      >
+                        <span className={`uui-feat-icon ${toneClass}`}>
+                          <Icon size={18} />
+                        </span>
+                        <div className="min-w-0 flex-1">
+                          <p className="font-display text-[14.5px] font-semibold leading-tight text-gray-900 group-hover:text-brand-700">
+                            {g.title}
+                          </p>
+                          <p className="mt-0.5 inline-flex items-center gap-1 text-[12px] text-gray-500">
+                            <Clock size={11} /> {g.readMinutes} dk
+                          </p>
+                        </div>
+                      </Link>
+                    </li>
+                  );
+                })}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Haberler */}
       <section className="bg-gray-50 border-t border-gray-200 py-10 md:py-14">
         <div className="site-container">
