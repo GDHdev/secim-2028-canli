@@ -17,6 +17,7 @@ import { Route as AnketlerRouteImport } from './routes/anketler'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as HaberlerIndexRouteImport } from './routes/haberler.index'
 import { Route as HaberlerIdRouteImport } from './routes/haberler.$id'
+import { Route as ApiChatRouteImport } from './routes/api/chat'
 
 const Tur2Route = Tur2RouteImport.update({
   id: '/tur2',
@@ -58,6 +59,11 @@ const HaberlerIdRoute = HaberlerIdRouteImport.update({
   path: '/haberler/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiChatRoute = ApiChatRouteImport.update({
+  id: '/api/chat',
+  path: '/api/chat',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -66,6 +72,7 @@ export interface FileRoutesByFullPath {
   '/milletvekili': typeof MilletvekiliRoute
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
+  '/api/chat': typeof ApiChatRoute
   '/haberler/$id': typeof HaberlerIdRoute
   '/haberler/': typeof HaberlerIndexRoute
 }
@@ -76,6 +83,7 @@ export interface FileRoutesByTo {
   '/milletvekili': typeof MilletvekiliRoute
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
+  '/api/chat': typeof ApiChatRoute
   '/haberler/$id': typeof HaberlerIdRoute
   '/haberler': typeof HaberlerIndexRoute
 }
@@ -87,6 +95,7 @@ export interface FileRoutesById {
   '/milletvekili': typeof MilletvekiliRoute
   '/sonuclar': typeof SonuclarRoute
   '/tur2': typeof Tur2Route
+  '/api/chat': typeof ApiChatRoute
   '/haberler/$id': typeof HaberlerIdRoute
   '/haberler/': typeof HaberlerIndexRoute
 }
@@ -99,6 +108,7 @@ export interface FileRouteTypes {
     | '/milletvekili'
     | '/sonuclar'
     | '/tur2'
+    | '/api/chat'
     | '/haberler/$id'
     | '/haberler/'
   fileRoutesByTo: FileRoutesByTo
@@ -109,6 +119,7 @@ export interface FileRouteTypes {
     | '/milletvekili'
     | '/sonuclar'
     | '/tur2'
+    | '/api/chat'
     | '/haberler/$id'
     | '/haberler'
   id:
@@ -119,6 +130,7 @@ export interface FileRouteTypes {
     | '/milletvekili'
     | '/sonuclar'
     | '/tur2'
+    | '/api/chat'
     | '/haberler/$id'
     | '/haberler/'
   fileRoutesById: FileRoutesById
@@ -130,6 +142,7 @@ export interface RootRouteChildren {
   MilletvekiliRoute: typeof MilletvekiliRoute
   SonuclarRoute: typeof SonuclarRoute
   Tur2Route: typeof Tur2Route
+  ApiChatRoute: typeof ApiChatRoute
   HaberlerIdRoute: typeof HaberlerIdRoute
   HaberlerIndexRoute: typeof HaberlerIndexRoute
 }
@@ -192,6 +205,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HaberlerIdRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/chat': {
+      id: '/api/chat'
+      path: '/api/chat'
+      fullPath: '/api/chat'
+      preLoaderRoute: typeof ApiChatRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -202,6 +222,7 @@ const rootRouteChildren: RootRouteChildren = {
   MilletvekiliRoute: MilletvekiliRoute,
   SonuclarRoute: SonuclarRoute,
   Tur2Route: Tur2Route,
+  ApiChatRoute: ApiChatRoute,
   HaberlerIdRoute: HaberlerIdRoute,
   HaberlerIndexRoute: HaberlerIndexRoute,
 }
