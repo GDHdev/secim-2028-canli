@@ -267,3 +267,55 @@ function FeatureCard({
     </Link>
   );
 }
+
+function PollTrendCard() {
+  const yilmaz = CANDIDATES.find((c) => c.id === "yilmaz")!;
+  const kaya = CANDIDATES.find((c) => c.id === "kaya")!;
+  const demir = CANDIDATES.find((c) => c.id === "demir")!;
+  const latest = POLL_FIRMS[0];
+  const candidates = [
+    { name: "Yılmaz", value: latest.yilmaz, color: yilmaz.color, key: "yilmaz" as const },
+    { name: "Kaya", value: latest.kaya, color: kaya.color, key: "kaya" as const },
+    { name: "Demir", value: latest.demir, color: demir.color, key: "demir" as const },
+  ];
+  return (
+    <div className="uui-card overflow-hidden">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-gray-100 px-5 py-3">
+        <div className="flex items-center gap-4">
+          {candidates.map((c) => (
+            <div key={c.key} className="flex items-center gap-1.5">
+              <span className="h-2.5 w-2.5 rounded-full" style={{ background: c.color }} />
+              <span className="text-[12.5px] font-semibold text-gray-700">{c.name}</span>
+              <span className="tabular-nums text-[12.5px] font-bold" style={{ color: c.color }}>%{c.value}</span>
+            </div>
+          ))}
+        </div>
+        <span className="text-[11.5px] text-gray-500">
+          Son: <strong className="text-gray-700">{latest.firm}</strong> · {latest.date}
+        </span>
+      </div>
+      <div className="h-[260px] w-full p-3">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={POLLS} margin={{ top: 8, right: 12, left: -8, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 6" stroke="var(--color-gray-200)" />
+            <XAxis dataKey="date" stroke="var(--color-gray-500)" fontSize={11} />
+            <YAxis stroke="var(--color-gray-500)" fontSize={11} domain={[10, 50]} unit="%" />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "#fff",
+                border: "1px solid var(--color-gray-200)",
+                borderRadius: "10px",
+                fontSize: "12.5px",
+                boxShadow: "var(--shadow-md)",
+              }}
+            />
+            <Line type="monotone" dataKey="yilmaz" name="Yılmaz" stroke={yilmaz.color} strokeWidth={2.5} dot={false} />
+            <Line type="monotone" dataKey="kaya" name="Kaya" stroke={kaya.color} strokeWidth={2.5} dot={false} />
+            <Line type="monotone" dataKey="demir" name="Demir" stroke={demir.color} strokeWidth={2.5} dot={false} />
+            <Line type="monotone" dataKey="undecided" name="Kararsız" stroke="var(--color-gray-400)" strokeDasharray="4 4" strokeWidth={1.5} dot={false} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+    </div>
+  );
+}
