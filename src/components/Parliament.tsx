@@ -115,9 +115,9 @@ export function Parliament() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 gap-0 lg:grid-cols-[1.4fr_1fr]">
+      <div className="grid grid-cols-1 gap-0 lg:grid-cols-[1.8fr_1fr]">
         {/* Hemicycle */}
-        <div className="relative border-b border-gray-200 p-5 lg:border-b-0 lg:border-r">
+        <div className="relative border-b border-gray-200 p-6 lg:border-b-0 lg:border-r">
           <svg viewBox="0 0 1000 410" className="w-full">
             {/* Center majority line */}
             <line
