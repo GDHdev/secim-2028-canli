@@ -6,7 +6,8 @@ import { Parliament } from "@/components/Parliament";
 import { TurkeyMap } from "@/components/TurkeyMap";
 import { LiveFeed } from "@/components/LiveFeed";
 import { MicroNews } from "@/components/MicroNews";
-import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, BarChart3 } from "lucide-react";
+import { ElectionCompare } from "@/components/ElectionCompare";
+import { ArrowRight, Users, Map, Landmark, Radio, Newspaper, BarChart3, History } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
