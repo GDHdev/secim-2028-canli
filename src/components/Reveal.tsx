@@ -2,26 +2,16 @@ import { motion, useReducedMotion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
 
 /**
- * Reveal — küçük bir scroll-triggered fade-up + stagger wrapper.
- * Dashboard sayfasında her section'a sarılarak sıralı görünüm sağlar.
- * Animasyon dozu 3: balanced (subtle entrance, no parallax).
+ * Reveal — opacity-only scroll fade. Seçim gecesi hızlı tarama için
+ * transform / parallax YOK.
  */
-
 const container: Variants = {
   hidden: { opacity: 0 },
-  show: {
-    opacity: 1,
-    transition: { staggerChildren: 0.09, delayChildren: 0.04 },
-  },
+  show: { opacity: 1, transition: { staggerChildren: 0.04 } },
 };
-
 const itemV: Variants = {
-  hidden: { opacity: 0, y: 18 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
-  },
+  hidden: { opacity: 0 },
+  show: { opacity: 1, transition: { duration: 0.25, ease: "easeOut" } },
 };
 
 export function Reveal({
@@ -40,14 +30,14 @@ export function Reveal({
     const Tag = As as "div";
     return <Tag className={className}>{children}</Tag>;
   }
-  const MotionTag = (As === "section" ? motion.section : motion.div);
+  const MotionTag = As === "section" ? motion.section : motion.div;
   return (
     <MotionTag
       className={className}
       variants={container}
       initial="hidden"
       whileInView="show"
-      viewport={{ once: true, amount: 0, margin: "0px 0px -10% 0px" }}
+      viewport={{ once: true, amount: 0.05 }}
       transition={{ delayChildren: delay }}
     >
       {children}
@@ -55,13 +45,7 @@ export function Reveal({
   );
 }
 
-export function RevealItem({
-  children,
-  className,
-}: {
-  children: ReactNode;
-  className?: string;
-}) {
+export function RevealItem({ children, className }: { children: ReactNode; className?: string }) {
   return (
     <motion.div variants={itemV} className={className}>
       {children}
